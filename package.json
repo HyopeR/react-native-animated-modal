@@ -5,6 +5,7 @@
   "author": "hyoper <tolcelik11@gmail.com> (https://github.com/hyoper)",
   "main": "lib/commonjs/index.js",
   "types": "lib/typescript/index.d.ts",
+  "source": "src/index",
   "files": [
     "src",
     "lib"

@@ -1,2 +1,2 @@
 export * from './components/Modal';
-export type {AnimationNs, SwipeNs} from './types';
+export type {AnimationNs, SwipeNs, BackdropNs} from './types';

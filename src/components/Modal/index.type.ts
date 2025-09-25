@@ -8,12 +8,16 @@ import {
 import {BackdropProps} from '../Backdrop';
 import {AnimationNs, SwipeNs} from '../../types';
 
-type ModalIosProps = Pick<ModalPropsIOS, 'onOrientationChange' | 'supportedOrientations'>;
+type ModalIosProps = Pick<
+  ModalPropsIOS,
+  'onOrientationChange' | 'supportedOrientations'
+>;
 type ModalAndroidProps = ModalPropsAndroid;
 
 export interface ModalRequiredProps {
-    visible: boolean;
+  visible: boolean;
   statusBarTranslucent: boolean;
+  navigationBarTranslucent: boolean;
   onShow: () => void;
   onHide: () => void;
   onBackdropPress: () => void;

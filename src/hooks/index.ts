@@ -1,7 +1,12 @@
+// logics
 export {useAnimation} from './useAnimation';
-export {useAnimationConfig} from './useAnimationConfig';
-export {useAnimationValues} from './useAnimationValues';
-export {useDimensionEffect} from './useDimensionEffect';
-export {useEvent} from './useEvent';
 export {useGesture} from './useGesture';
+
+// configurations
+export {useAnimationValues} from './useAnimationValues';
+export {useAnimationConfig} from './useAnimationConfig';
+export {useBackdropConfig} from './useBackdropConfig';
 export {useSwipeConfig} from './useSwipeConfig';
+
+// helpers
+export {useEvent} from './useEvent';

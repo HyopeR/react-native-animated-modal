@@ -5,30 +5,21 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import {useModalContext} from '../../context';
-import {getSafeProps} from '../../utils';
 import {
   ContentProps,
   ContentPrivateProps,
   ContentPrivateStrictProps,
-  ContentRequiredProps,
 } from './index.type';
 
 export type {ContentProps, ContentPrivateProps};
 
-const ContentDefaultProps: ContentRequiredProps = {};
-
-export const Content = (props: ContentPrivateProps) => {
-  const safeProps = getSafeProps(
-    props,
-    ContentDefaultProps,
-  ) as ContentPrivateStrictProps;
-
-  const {style, children} = safeProps;
+export const Content = (props: ContentPrivateStrictProps) => {
+  const {style, children} = props;
 
   const {opacity, translateX, translateY, scale} = useModalContext();
 
   const containerSx = useMemo<AnimatedStyle<ViewStyle>>(() => {
-    return StyleSheet.flatten([style, {flex: 1, justifyContent: 'center'}]);
+    return StyleSheet.flatten([styles.root, style]);
   }, [style]);
 
   const containerSxAnimated = useAnimatedStyle(() => {
@@ -50,3 +41,11 @@ export const Content = (props: ContentPrivateProps) => {
     </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

@@ -47,12 +47,22 @@ export namespace AnimationNs {
 export namespace SwipeNs {
   export type Direction = IDirection;
 
-  export type Config = {
-    enabled?: boolean;
-    directions?: Direction[];
-    distance?: number;
-    velocity?: number;
+  export type ConfigPrivate = {
+    enabled: boolean;
+    directions: Direction[];
+    distance: number;
+    velocity: number;
   };
 
-  export type ConfigPrivate = Required<Config>;
+  export type Config = Partial<ConfigPrivate>;
+}
+
+export namespace BackdropNs {
+  export type ConfigPrivate = {
+    enabled: boolean;
+    backgroundColor: string;
+    opacity: number;
+  };
+
+  export type Config = Partial<ConfigPrivate>;
 }

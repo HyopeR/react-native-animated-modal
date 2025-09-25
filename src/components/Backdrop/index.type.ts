@@ -1,10 +1,7 @@
 import {TouchableOpacityProps} from 'react-native';
+import {BackdropNs} from '../../types';
 
-export interface BackdropRequiredProps {
-  enabled: boolean;
-  backgroundColor: string;
-  opacity: number;
-}
+export interface BackdropRequiredProps extends BackdropNs.ConfigPrivate {}
 
 export interface BackdropPartialProps {
   touch?: TouchableOpacityProps;

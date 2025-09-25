@@ -11,7 +11,8 @@ export const ModalProvider = ({value, children}: ModalProviderProps) => {
 
 export const useModalContext = () => {
   const ctx = React.useContext(ModalContext);
-  if (!ctx)
+  if (!ctx) {
     throw new Error('useModalContext must be used inside ModalProvider');
+  }
   return ctx;
 };

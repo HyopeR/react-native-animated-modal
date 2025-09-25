@@ -10,7 +10,7 @@ import {
   useAnimation,
   useAnimationConfig,
   useAnimationValues,
-  useDimensionEffect,
+  useBackdropConfig,
   useEvent,
   useGesture,
   useSwipeConfig,
@@ -29,6 +29,7 @@ export type {ModalProps, ModalPrivateProps};
 const ModalDefaultProps: ModalRequiredProps = {
   visible: false,
   statusBarTranslucent: true,
+  navigationBarTranslucent: true,
   onShow: () => {},
   onHide: () => {},
   onBackdropPress: () => {},
@@ -60,13 +61,15 @@ export const Modal = (props: ModalPrivateProps) => {
   const animationValues = useAnimationValues();
   const animationConfig = useAnimationConfig(animation);
   const swipeConfig = useSwipeConfig(swipe);
+  const backdropConfig = useBackdropConfig(backdrop);
   const store = useMemo(() => {
     return {
       swipe: swipeConfig,
       animation: animationConfig,
+      backdrop: backdropConfig,
       ...animationValues,
     };
-  }, [animationConfig, animationValues, swipeConfig]);
+  }, [animationConfig, animationValues, backdropConfig, swipeConfig]);
 
   const mount = useRef(false);
   const [_visible, _setVisible] = useState(visible);
@@ -136,10 +139,6 @@ export const Modal = (props: ModalPrivateProps) => {
     events: eventsGesture,
   });
 
-  useDimensionEffect(size => {
-    store.size.value = {width: size.width, height: size.height};
-  }, []);
-
   return (
     <ModalNative
       visible={_visible}
@@ -149,7 +148,11 @@ export const Modal = (props: ModalPrivateProps) => {
       {...rest}>
       <GestureHandlerRootView style={styles.root}>
         <ModalProvider value={store}>
-          <Backdrop {...backdrop} touch={{onPress: onBackdropPressEvent}} />
+          <Backdrop
+            {...backdropConfig}
+            touch={{onPress: onBackdropPressEvent}}
+          />
+
           <GestureDetector gesture={gesture}>
             <Content style={style}>{children}</Content>
           </GestureDetector>
