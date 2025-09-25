@@ -12,9 +12,8 @@ export const Main = () => {
   const [visibleSwipe, setVisibleSwipe] = useState(false);
 
   return (
-    <Screen>
+    <Screen style={styles.screen}>
       <Screen.Header title={'Examples'} titleProps={{style: styles.title}} />
-
       <Screen.Content>
         <View style={styles.root}>
           <Card
@@ -37,6 +36,9 @@ export const Main = () => {
 };
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+  },
   title: {
     fontSize: 18,
     fontWeight: 700,
