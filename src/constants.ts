@@ -1,10 +1,16 @@
 import {Dimensions} from 'react-native';
+import {Easing} from 'react-native-reanimated';
 import {AnimationNs, BackdropNs, SwipeNs} from './types';
 
 const {width, height} = Dimensions.get('window');
 
 export const SIZE = {width, height};
 export const DURATION = 500;
+export const EASING = {
+  fade: Easing.out(Easing.cubic),
+  slide: Easing.inOut(Easing.ease),
+  scale: Easing.inOut(Easing.ease),
+};
 
 export const ANIMATION_FADE_CONFIG: AnimationNs.FadeAnimationConfig = {
   type: 'fade',

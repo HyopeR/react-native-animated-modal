@@ -9,8 +9,6 @@ export const useBackdropConfig = (config?: BackdropNs.Config) => {
   const configDefault = BACKDROP_BASE_CONFIG;
   const configNew = getSafeProps(configSafe, configDefault);
 
-  console.log(configNew);
-
   if (configRef?.current && isObjectEqual(configSafe, configRef.current)) {
     return configRef.current!;
   } else {

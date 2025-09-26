@@ -1,5 +1,11 @@
 import {useCallback, useMemo} from 'react';
-import {runOnJS, SharedValue, withTiming} from 'react-native-reanimated';
+import {
+  runOnJS,
+  SharedValue,
+  withTiming,
+  WithTimingConfig,
+} from 'react-native-reanimated';
+import {EASING} from '../constants';
 import {Movement} from '../utils';
 import {AnimationNs, ISize} from '../types';
 
@@ -31,10 +37,12 @@ export const useAnimation = ({
   opacity,
   events,
 }: UseAnimationProps) => {
-  const config = useMemo(
-    () => ({duration: animation.duration}),
-    [animation.duration],
-  );
+  const config = useMemo<WithTimingConfig>(() => {
+    return {
+      duration: animation.duration,
+      easing: EASING[animation.type],
+    };
+  }, [animation.duration, animation.type]);
 
   const handler = useCallback(
     (event: keyof UseAnimationEvents) => {

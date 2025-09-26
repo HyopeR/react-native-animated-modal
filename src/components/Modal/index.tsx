@@ -110,6 +110,14 @@ export const Modal = (props: ModalPrivateProps) => {
     };
   }, [handleSwipeComplete]);
 
+  const eventsBackdrop = useMemo(() => {
+    return {
+      touch: {
+        onPress: onBackdropPressEvent,
+      },
+    };
+  }, [onBackdropPressEvent]);
+
   const {init, enter, exit} = useAnimation({...store, events: eventsAnimation});
 
   useEffect(() => {
@@ -148,11 +156,7 @@ export const Modal = (props: ModalPrivateProps) => {
       {...rest}>
       <GestureHandlerRootView style={styles.root}>
         <ModalProvider value={store}>
-          <Backdrop
-            {...backdropConfig}
-            touch={{onPress: onBackdropPressEvent}}
-          />
-
+          <Backdrop {...eventsBackdrop} {...backdropConfig} />
           <GestureDetector gesture={gesture}>
             <Content style={style}>{children}</Content>
           </GestureDetector>

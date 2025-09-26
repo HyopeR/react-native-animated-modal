@@ -18,10 +18,7 @@ export const Content = (props: ContentPrivateStrictProps) => {
 
   const {opacity, translateX, translateY, scale} = useModalContext();
 
-  const containerSx = useMemo<AnimatedStyle<ViewStyle>>(() => {
-    return StyleSheet.flatten([styles.root, style]);
-  }, [style]);
-
+  const containerSx = StyleSheet.flatten([styles.root, style]);
   const containerSxAnimated = useAnimatedStyle(() => {
     return {
       opacity: opacity.value,

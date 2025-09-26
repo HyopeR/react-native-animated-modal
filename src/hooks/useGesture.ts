@@ -142,5 +142,5 @@ export const useGesture = ({
     } else {
       return Gesture.Simultaneous(gestureScroll, gesturePan);
     }
-  }, [gesturePan, gestureScroll, swipe]);
+  }, [gesturePan, gestureScroll, swipe.directions.length, swipe.enabled]);
 };

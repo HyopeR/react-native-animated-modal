@@ -12,7 +12,9 @@ export type ContentProps = Partial<ContentRequiredProps> & ContentPartialProps;
 
 export type ContentDevelopmentProps = {};
 
-export type ContentPrivateProps = ContentDevelopmentProps & ContentProps;
+export type ContentPrivateProps = ContentDevelopmentProps &
+  Partial<ContentRequiredProps> &
+  ContentPartialProps;
 
 export type ContentPrivateStrictProps = ContentDevelopmentProps &
   ContentRequiredProps &

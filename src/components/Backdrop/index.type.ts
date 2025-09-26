@@ -1,7 +1,6 @@
 import {TouchableOpacityProps} from 'react-native';
-import {BackdropNs} from '../../types';
 
-export interface BackdropRequiredProps extends BackdropNs.ConfigPrivate {}
+export interface BackdropRequiredProps {}
 
 export interface BackdropPartialProps {
   touch?: TouchableOpacityProps;
@@ -12,7 +11,9 @@ export type BackdropProps = Partial<BackdropRequiredProps> &
 
 export type BackdropDevelopmentProps = {};
 
-export type BackdropPrivateProps = BackdropDevelopmentProps & BackdropProps;
+export type BackdropPrivateProps = BackdropDevelopmentProps &
+  Partial<BackdropRequiredProps> &
+  BackdropPartialProps;
 
 export type BackdropPrivateStrictProps = BackdropDevelopmentProps &
   BackdropRequiredProps &
