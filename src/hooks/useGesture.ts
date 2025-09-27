@@ -67,10 +67,12 @@ export const useGesture = ({
   const gesturePan = Gesture.Pan()
     .simultaneousWithExternalGesture(gestureScroll)
     .onStart(() => {
+      'worklet';
       direction.value = null;
       axis.value = null;
     })
     .onUpdate(event => {
+      'worklet';
       if (direction.value === null) {
         const absX = Math.abs(event.translationX);
         const absY = Math.abs(event.translationY);
@@ -107,6 +109,7 @@ export const useGesture = ({
       }
     })
     .onEnd(event => {
+      'worklet';
       const {translationX, velocityX, translationY, velocityY} = event;
 
       let dismiss = false;
