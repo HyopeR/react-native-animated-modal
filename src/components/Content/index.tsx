@@ -1,9 +1,6 @@
-import React, {useMemo} from 'react';
-import {StyleSheet, ViewStyle} from 'react-native';
-import Animated, {
-  AnimatedStyle,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import Animated, {useAnimatedStyle} from 'react-native-reanimated';
 import {useModalContext} from '../../context';
 import {
   ContentProps,
