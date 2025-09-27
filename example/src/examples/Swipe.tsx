@@ -14,6 +14,7 @@ export const SwipeModal = ({visible, setVisible}: ModalExampleProps) => {
       onBackPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
       animation={{type: 'slide', direction: {start: 'up', end: 'down'}}}
+      supportedOrientations={['portrait', 'landscape']}
       swipe={{enabled: true, directions: ['up', 'down', 'left', 'right']}}>
       <View style={styles.container}>
         <Text style={styles.title}>Swipe Example</Text>

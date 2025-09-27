@@ -25,12 +25,12 @@ export const Card = ({title, style, ...props}: CardProps) => {
 
 const styles = StyleSheet.create({
   root: {
-    width: 100,
-    height: 100,
     backgroundColor: '#FFF',
+    borderRadius: 8,
+    borderColor: '#EFEFEF',
     borderWidth: 2,
-    borderColor: '#EEE',
-    borderRadius: 10,
+    margin: 8,
+    paddingVertical: 50,
   },
   container: {
     flex: 1,

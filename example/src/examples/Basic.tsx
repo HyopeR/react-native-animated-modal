@@ -7,7 +7,10 @@ import {ModalExampleProps} from './types';
 
 export const BasicModal = ({visible, setVisible}: ModalExampleProps) => {
   return (
-    <Modal visible={visible} onHide={() => setVisible(false)}>
+    <Modal
+      visible={visible}
+      onHide={() => setVisible(false)}
+      supportedOrientations={['portrait', 'landscape']}>
       <View style={styles.container}>
         <Text style={styles.title}>Basic Example</Text>
         <Text style={styles.description}>
