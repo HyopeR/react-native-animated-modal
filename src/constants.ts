@@ -5,7 +5,7 @@ import {AnimationNs, BackdropNs, SwipeNs} from './types';
 const {width, height} = Dimensions.get('window');
 
 export const SIZE = {width, height};
-export const DURATION = 500;
+export const DURATION = 350;
 export const EASING = {
   fade: Easing.out(Easing.cubic),
   slide: Easing.inOut(Easing.ease),

@@ -127,8 +127,13 @@ export const Modal = (props: ModalPrivateProps) => {
 
   useEffect(() => {
     if (!visible && !mount.current) return;
-    if (visible) enter();
-    else exit();
+    const timeout = setTimeout(() => {
+      if (visible) enter();
+      else exit();
+    }, 10);
+    return () => {
+      timeout && clearTimeout(timeout);
+    };
   }, [enter, exit, visible]);
 
   useEffect(() => {
