@@ -127,7 +127,7 @@ export const useGesture = ({
         toX = dismiss ? size.value.width : 0;
       }
 
-      if (dismiss && axis.value) {
+      if (dismiss && axis.value && swipe.closable) {
         translateX.value = withTiming(toX, config, f => cb(f, 'x', 'complete'));
         translateY.value = withTiming(toY, config, f => cb(f, 'y', 'complete'));
       } else {

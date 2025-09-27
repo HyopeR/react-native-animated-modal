@@ -37,11 +37,13 @@ export const SWIPE_ENABLED_CONFIG: SwipeNs.ConfigPrivate = {
   ...SWIPE_BASE_CONFIG,
   enabled: true,
   directions: ['up', 'down', 'left', 'right'],
+  closable: true,
 };
 export const SWIPE_DISABLED_CONFIG: SwipeNs.ConfigPrivate = {
   ...SWIPE_BASE_CONFIG,
   enabled: false,
   directions: [],
+  closable: false,
 };
 
 export const BACKDROP_BASE_CONFIG: BackdropNs.ConfigPrivate = {

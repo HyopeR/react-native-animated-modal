@@ -35,6 +35,7 @@ const ModalDefaultProps: ModalRequiredProps = {
   onBackdropPress: () => {},
   onBackPress: () => {},
   onSwipeComplete: () => {},
+  onSwipeCancel: () => {},
 };
 
 export const Modal = (props: ModalPrivateProps) => {
@@ -53,6 +54,7 @@ export const Modal = (props: ModalPrivateProps) => {
     onBackdropPress,
     onBackPress,
     onSwipeComplete,
+    onSwipeCancel,
     style,
     children,
     ...rest
@@ -79,6 +81,7 @@ export const Modal = (props: ModalPrivateProps) => {
   const onBackdropPressEvent = useEvent(onBackdropPress);
   const onBackPressEvent = useEvent(onBackPress);
   const onSwipeCompleteEvent = useEvent(onSwipeComplete);
+  const onSwipeCancelEvent = useEvent(onSwipeCancel);
 
   const handleShow = useCallback(() => {
     if (_visible) return;
@@ -97,6 +100,10 @@ export const Modal = (props: ModalPrivateProps) => {
     _setVisible(false);
   }, [onSwipeCompleteEvent]);
 
+  const handleSwipeCancel = useCallback(() => {
+    onSwipeCancelEvent();
+  }, [onSwipeCancelEvent]);
+
   const eventsAnimation = useMemo(() => {
     return {
       onEnterStart: handleShow,
@@ -107,8 +114,9 @@ export const Modal = (props: ModalPrivateProps) => {
   const eventsGesture = useMemo(() => {
     return {
       onSwipeComplete: handleSwipeComplete,
+      onSwipeCancel: handleSwipeCancel,
     };
-  }, [handleSwipeComplete]);
+  }, [handleSwipeCancel, handleSwipeComplete]);
 
   const eventsBackdrop = useMemo(() => {
     return {

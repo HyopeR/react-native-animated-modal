@@ -52,6 +52,7 @@ export namespace SwipeNs {
     directions: Direction[];
     distance: number;
     velocity: number;
+    closable: boolean;
   };
 
   export type Config = Partial<ConfigPrivate>;

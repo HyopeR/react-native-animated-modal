@@ -22,6 +22,7 @@ export interface ModalRequiredProps {
   onBackdropPress: () => void;
   onBackPress: () => void;
   onSwipeComplete: () => void;
+  onSwipeCancel: () => void;
 }
 
 export interface ModalPartialProps extends ModalIosProps, ModalAndroidProps {
