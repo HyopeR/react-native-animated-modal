@@ -9,7 +9,7 @@ import {SwipeNs} from '../types';
  * Applies enabled/disabled defaults and prevents re-renders if unchanged.
  */
 export const useSwipeConfig = (config?: SwipeNs.Config) => {
-  const configRef = useRef<SwipeNs.ConfigPrivate | null>(null);
+  const configRef = useRef<SwipeNs.ConfigStrict | null>(null);
   const configSafe = config || ({} as SwipeNs.Config);
   const configDefault = configSafe?.enabled
     ? SWIPE_ENABLED_CONFIG

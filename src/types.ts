@@ -1,11 +1,5 @@
 /**
  * @internal
- * Animation direction type.
- */
-export type IDirection = 'up' | 'down' | 'left' | 'right';
-
-/**
- * @internal
  * Device orientation type.
  */
 export type IOrientation = 'portrait' | 'landscape';
@@ -28,26 +22,41 @@ export namespace AnimationNs {
     | SlideAnimationConfig
     | ScaleAnimationConfig;
 
-  /** @internal */
-  export type ConfigPrivate =
+  /**
+   * Animation strict configuration.
+   */
+  export type ConfigStrict =
     | (FadeAnimationConfig & {duration: number})
     | (SlideAnimationConfig & {duration: number})
     | (ScaleAnimationConfig & {duration: number});
 
-  /** @internal */
+  /**
+   * Animation motion axis.
+   */
   export type Axis = 'x' | 'y';
 
-  export type Direction = IDirection;
+  /**
+   * Animation direction type.
+   */
+  export type Direction = 'up' | 'down' | 'left' | 'right';
 
   /**
    * Direction with customizable start and end.
    */
   export type DirectionExtend = {
-    start: IDirection;
-    end: IDirection;
+    /**
+     * The animation start direction.
+     */
+    start: Direction;
+    /**
+     * The animation end direction.
+     */
+    end: Direction;
   };
 
-  /** @internal */
+  /**
+   * Type of animation.
+   */
   export type Animation = 'fade' | 'slide' | 'scale';
 
   export interface BaseAnimationConfig {
@@ -86,15 +95,20 @@ export namespace AnimationNs {
 }
 
 export namespace SwipeNs {
-  export type Direction = IDirection;
+  /**
+   * Animation direction type.
+   */
+  export type Direction = 'up' | 'down' | 'left' | 'right';
 
   /**
    * Swipe configuration.
    */
-  export type Config = Partial<ConfigPrivate>;
+  export type Config = Partial<ConfigStrict>;
 
-  /** @internal */
-  export type ConfigPrivate = {
+  /**
+   * Swipe strict configuration.
+   */
+  export type ConfigStrict = {
     /**
      * Whether swipe gestures are enabled.
      * @default false
@@ -127,10 +141,12 @@ export namespace BackdropNs {
   /**
    * Backdrop configuration.
    */
-  export type Config = Partial<ConfigPrivate>;
+  export type Config = Partial<ConfigStrict>;
 
-  /** @internal */
-  export type ConfigPrivate = {
+  /**
+   * Backdrop strict configuration.
+   */
+  export type ConfigStrict = {
     /**
      * Whether the backdrop is enabled.
      * @default true

@@ -3,9 +3,9 @@ import {SharedValue} from 'react-native-reanimated';
 import {AnimationNs, BackdropNs, ISize, SwipeNs} from '../types';
 
 export type ModalContextType = {
-  swipe: SwipeNs.ConfigPrivate;
-  animation: AnimationNs.ConfigPrivate;
-  backdrop: BackdropNs.ConfigPrivate;
+  swipe: SwipeNs.ConfigStrict;
+  animation: AnimationNs.ConfigStrict;
+  backdrop: BackdropNs.ConfigStrict;
   size: SharedValue<ISize>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;

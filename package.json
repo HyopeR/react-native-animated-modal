@@ -31,7 +31,8 @@
     "test:ts": "tsc --noEmit",
     "test:lint": "eslint --ext ts,tsx src/",
     "build": "bob build",
-    "clean": "del-cli lib"
+    "clean": "del-cli lib",
+    "docs": "typedoc --out docs src/index.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -53,6 +54,7 @@
     "react-native-builder-bob": "~0.39.1",
     "react-native-gesture-handler": "~2.27.2",
     "react-native-reanimated": "~3.19.1",
+    "typedoc": "^0.28.13",
     "typescript": "5.0.4"
   },
   "peerDependencies": {
@@ -66,7 +68,12 @@
     "output": "lib",
     "targets": [
       "commonjs",
-      ["typescript", { "project": "tsconfig.build.json" }]
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
     ]
   }
 }

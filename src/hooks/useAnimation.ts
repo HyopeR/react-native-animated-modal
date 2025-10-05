@@ -19,7 +19,7 @@ export type UseAnimationEvents = {
 };
 
 export type UseAnimationProps = {
-  animation: AnimationNs.ConfigPrivate;
+  animation: AnimationNs.ConfigStrict;
   size: SharedValue<ISize>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;

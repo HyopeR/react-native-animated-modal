@@ -9,7 +9,7 @@ import {BackdropNs} from '../types';
  * Merges user config with defaults and prevents re-renders if unchanged.
  */
 export const useBackdropConfig = (config?: BackdropNs.Config) => {
-  const configRef = useRef<BackdropNs.ConfigPrivate | null>(null);
+  const configRef = useRef<BackdropNs.ConfigStrict | null>(null);
   const configSafe = config || ({} as BackdropNs.Config);
   const configDefault = BACKDROP_BASE_CONFIG;
   const configNew = getSafeProps(configSafe, configDefault);

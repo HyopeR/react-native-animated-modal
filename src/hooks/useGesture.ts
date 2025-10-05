@@ -15,8 +15,8 @@ export type UseGestureEvents = {
 };
 
 export type UseGestureProps = {
-  swipe: SwipeNs.ConfigPrivate;
-  animation: AnimationNs.ConfigPrivate;
+  swipe: SwipeNs.ConfigStrict;
+  animation: AnimationNs.ConfigStrict;
   size: SharedValue<ISize>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;

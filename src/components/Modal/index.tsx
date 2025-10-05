@@ -17,14 +17,9 @@ import {
 } from '../../hooks';
 import {Backdrop} from '../Backdrop';
 import {Content} from '../Content';
-import {
-  ModalProps,
-  ModalPrivateProps,
-  ModalPrivateStrictProps,
-  ModalRequiredProps,
-} from './index.type';
+import {ModalProps, ModalRequiredProps, ModalStrictProps} from './index.type';
 
-export type {ModalProps, ModalPrivateProps};
+export type {ModalProps};
 
 const ModalDefaultProps: ModalRequiredProps = {
   visible: false,
@@ -38,12 +33,9 @@ const ModalDefaultProps: ModalRequiredProps = {
   onSwipeCancel: () => {},
 };
 
-export const Modal = (props: ModalPrivateProps) => {
+export const Modal = (props: ModalProps) => {
   // Merge user props with defaults.
-  const propsSafe = getSafeProps(
-    props,
-    ModalDefaultProps,
-  ) as ModalPrivateStrictProps;
+  const propsSafe = getSafeProps(props, ModalDefaultProps) as ModalStrictProps;
 
   const {
     visible,

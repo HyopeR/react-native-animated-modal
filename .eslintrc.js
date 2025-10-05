@@ -7,7 +7,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   plugins: ['prettier', '@typescript-eslint'],
-  ignorePatterns: ['lib/', '*.js'],
+  ignorePatterns: ['lib', "docs", '*.js'],
   rules: {
     curly: ['error', 'multi-line'],
     'react-native/no-inline-styles': 'off',
