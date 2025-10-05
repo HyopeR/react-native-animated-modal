@@ -1,4 +1,3 @@
-# react-native-animated-modal
 A highly customizable React Native modal component supporting animations, swipe gestures, and backdrop interactions. Designed for mobile applications to enhance modal interactions with smooth animations and user-friendly gestures.
 For full API documentation and examples, see the [online docs](https://hyoper.github.io/react-native-animated-modal/).
 
@@ -11,7 +10,7 @@ This package relies on specific versions of its peer dependencies to function co
  - "react-native-gesture-handler": ">=2.26.0",
  - "react-native-reanimated": ">=3.19.0"
 
-## Usage
+## Example
 A simple example of the component's usage is provided below. You can customize it according to your needs. For more complete examples and real-world use cases, see the [example folder](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
 
 ```typescript jsx
@@ -63,15 +62,15 @@ The following table lists all props available for the Modal component. They allo
 | onBackPress              | Function               | —       | Callback fired when the back button is pressed.             |
 | onSwipeComplete          | Function               | —       | Callback fired when a swipe gesture completes successfully. |
 | onSwipeCancel            | Function               | —       | Callback fired when a swipe gesture is canceled.            |
-| animation                | `AnimationNs.Config`   | -       | Animation configuration for the modal.                      |
-| swipe                    | `SwipeNs.Config`       | -       | Swipe gesture configuration.                                |
-| backdrop                 | `BackdropNs.Config`    | -       | Backdrop configuration.                                     |
+| animation                | `AnimationNs.Config`   | —       | Animation configuration for the modal.                      |
+| swipe                    | `SwipeNs.Config`       | —       | Swipe gesture configuration.                                |
+| backdrop                 | `BackdropNs.Config`    | —       | Backdrop configuration.                                     |
 | style                    | `StyleProp<ViewStyle>` | —       | Style for the modal content container.                      |
 | children                 | `ReactNode`            | —       | Modal children.                                             |
 | hardwareAccelerated      | boolean                | —       | Forces hardware acceleration for the modal on Android.      |
 | statusBarTranslucent     | boolean                | true    | Determines if the status bar is translucent on Android.     |
 | navigationBarTranslucent | boolean                | true    | Determines if the navigation bar is translucent on Android. |
-| supportedOrientations    | Array                  |         | Supported orientations on iOS.                              |
+| supportedOrientations    | Array                  | —       | Supported orientations on iOS.                              |
 | onOrientationChange      | Function               | —       | Callback when orientation changes on iOS.                   |
 
 ### AnimationNs.Config
