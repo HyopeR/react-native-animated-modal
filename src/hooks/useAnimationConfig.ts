@@ -14,8 +14,13 @@ const DICT = {
   default: ANIMATION_FADE_CONFIG,
 };
 
+/**
+ * @internal
+ * Returns a cached animation config.
+ * Merges user config with defaults and prevents re-renders if unchanged.
+ */
 export const useAnimationConfig = (config?: AnimationNs.Config) => {
-  const configRef = useRef<AnimationNs.ConfigPrivate | null>(null);
+  const configRef = useRef<AnimationNs.ConfigStrict | null>(null);
   const configSafe = config || ({} as AnimationNs.Config);
   const configDefault = DICT[configSafe.type] || DICT.default;
   const configNew = getSafeProps(configSafe, configDefault);

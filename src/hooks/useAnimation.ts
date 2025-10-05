@@ -19,7 +19,7 @@ export type UseAnimationEvents = {
 };
 
 export type UseAnimationProps = {
-  animation: AnimationNs.ConfigPrivate;
+  animation: AnimationNs.ConfigStrict;
   size: SharedValue<ISize>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
@@ -28,6 +28,12 @@ export type UseAnimationProps = {
   events?: Partial<UseAnimationEvents>;
 };
 
+/**
+ * @internal
+ * Hook that maps animation config to fade, slide or scale animations.
+ * Provides `init`, `enter`, and `exit` methods with optional lifecycle
+ * event callbacks.
+ */
 export const useAnimation = ({
   size,
   animation,
@@ -61,6 +67,9 @@ export const useAnimation = ({
     [handler],
   );
 
+  /**
+   * Prepare initial animated values (before component mounts).
+   */
   const init = useCallback(() => {
     handler('onInitStart');
     switch (animation.type) {
@@ -108,6 +117,9 @@ export const useAnimation = ({
     handler('onInitEnd');
   }, [animation, handler, opacity, scale, size, translateX, translateY]);
 
+  /**
+   * Run enter animation (on mount).
+   */
   const enter = useCallback(() => {
     handler('onEnterStart');
     switch (animation.type) {
@@ -141,6 +153,9 @@ export const useAnimation = ({
     }
   }, [animation, cb, config, handler, opacity, scale, translateX, translateY]);
 
+  /**
+   * Run exit animation (on unmount).
+   */
   const exit = useCallback(() => {
     handler('onExitStart');
     switch (animation.type) {

@@ -15,14 +15,23 @@ export type UseGestureEvents = {
 };
 
 export type UseGestureProps = {
-  swipe: SwipeNs.ConfigPrivate;
-  animation: AnimationNs.ConfigPrivate;
+  swipe: SwipeNs.ConfigStrict;
+  animation: AnimationNs.ConfigStrict;
   size: SharedValue<ISize>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
   events?: Partial<UseGestureEvents>;
 };
 
+/**
+ * @internal
+ * Hook to handle swipe gestures for dismissing or moving the view.
+ *
+ * Updates translation shared values (X/Y) based on gesture input.
+ * Determines direction (up, down, left, right) with lock threshold.
+ * Applies user-defined swipe config (distance, velocity, closable).
+ * Calls lifecycle events: `onSwipeComplete` or `onSwipeCancel`.
+ */
 export const useGesture = ({
   size,
   swipe,

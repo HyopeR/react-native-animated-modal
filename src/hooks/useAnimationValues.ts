@@ -4,6 +4,10 @@ import {useSharedValue} from 'react-native-reanimated';
 import {SIZE} from '../constants';
 import {ISize} from '../types';
 
+/**
+ * @internal
+ * Initializes and provides shared animation values.
+ */
 export const useAnimationValues = () => {
   const size = useSharedValue<ISize>(SIZE);
   const translateX = useSharedValue(0);

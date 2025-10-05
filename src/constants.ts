@@ -33,20 +33,20 @@ export const SWIPE_BASE_CONFIG = {
   distance: 120,
   velocity: 800,
 };
-export const SWIPE_ENABLED_CONFIG: SwipeNs.ConfigPrivate = {
+export const SWIPE_ENABLED_CONFIG: SwipeNs.ConfigStrict = {
   ...SWIPE_BASE_CONFIG,
   enabled: true,
   directions: ['up', 'down', 'left', 'right'],
   closable: true,
 };
-export const SWIPE_DISABLED_CONFIG: SwipeNs.ConfigPrivate = {
+export const SWIPE_DISABLED_CONFIG: SwipeNs.ConfigStrict = {
   ...SWIPE_BASE_CONFIG,
   enabled: false,
   directions: [],
   closable: false,
 };
 
-export const BACKDROP_BASE_CONFIG: BackdropNs.ConfigPrivate = {
+export const BACKDROP_BASE_CONFIG: BackdropNs.ConfigStrict = {
   enabled: true,
   opacity: 0.6,
   backgroundColor: 'black',

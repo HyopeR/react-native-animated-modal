@@ -17,14 +17,9 @@ import {
 } from '../../hooks';
 import {Backdrop} from '../Backdrop';
 import {Content} from '../Content';
-import {
-  ModalProps,
-  ModalPrivateProps,
-  ModalPrivateStrictProps,
-  ModalRequiredProps,
-} from './index.type';
+import {ModalProps, ModalRequiredProps, ModalStrictProps} from './index.type';
 
-export type {ModalProps, ModalPrivateProps};
+export type {ModalProps};
 
 const ModalDefaultProps: ModalRequiredProps = {
   visible: false,
@@ -38,11 +33,9 @@ const ModalDefaultProps: ModalRequiredProps = {
   onSwipeCancel: () => {},
 };
 
-export const Modal = (props: ModalPrivateProps) => {
-  const propsSafe = getSafeProps(
-    props,
-    ModalDefaultProps,
-  ) as ModalPrivateStrictProps;
+export const Modal = (props: ModalProps) => {
+  // Merge user props with defaults.
+  const propsSafe = getSafeProps(props, ModalDefaultProps) as ModalStrictProps;
 
   const {
     visible,
@@ -60,6 +53,7 @@ export const Modal = (props: ModalPrivateProps) => {
     ...rest
   } = propsSafe;
 
+  // Cache all configs and shared values into a single store for context usage.
   const animationValues = useAnimationValues();
   const animationConfig = useAnimationConfig(animation);
   const swipeConfig = useSwipeConfig(swipe);
@@ -76,6 +70,7 @@ export const Modal = (props: ModalPrivateProps) => {
   const mount = useRef(false);
   const [_visible, _setVisible] = useState(visible);
 
+  // Cache user-provided callbacks to avoid unnecessary re-renders.
   const onShowEvent = useEvent(onShow);
   const onHideEvent = useEvent(onHide);
   const onBackdropPressEvent = useEvent(onBackdropPress);
@@ -128,11 +123,13 @@ export const Modal = (props: ModalPrivateProps) => {
 
   const {init, enter, exit} = useAnimation({...store, events: eventsAnimation});
 
+  // Reset animation values when modal becomes visible.
   useEffect(() => {
     if (!visible) return;
     init();
   }, [init, visible]);
 
+  // Control enter/exit animations when visibility changes.
   useEffect(() => {
     if (!visible && !mount.current) return;
     const timeout = setTimeout(() => {
