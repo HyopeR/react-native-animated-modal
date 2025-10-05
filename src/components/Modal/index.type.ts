@@ -114,6 +114,7 @@ export type ModalRequiredProps = Required<
     | 'onSwipeCancel'
   >
 >;
+
 /**
  * Props that can be optionally provided by the user and are later filled with default values if missing.
  */
