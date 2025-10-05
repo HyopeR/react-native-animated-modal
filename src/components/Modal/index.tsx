@@ -39,6 +39,7 @@ const ModalDefaultProps: ModalRequiredProps = {
 };
 
 export const Modal = (props: ModalPrivateProps) => {
+  // Merge user props with defaults.
   const propsSafe = getSafeProps(
     props,
     ModalDefaultProps,
@@ -60,6 +61,7 @@ export const Modal = (props: ModalPrivateProps) => {
     ...rest
   } = propsSafe;
 
+  // Cache all configs and shared values into a single store for context usage.
   const animationValues = useAnimationValues();
   const animationConfig = useAnimationConfig(animation);
   const swipeConfig = useSwipeConfig(swipe);
@@ -76,6 +78,7 @@ export const Modal = (props: ModalPrivateProps) => {
   const mount = useRef(false);
   const [_visible, _setVisible] = useState(visible);
 
+  // Cache user-provided callbacks to avoid unnecessary re-renders.
   const onShowEvent = useEvent(onShow);
   const onHideEvent = useEvent(onHide);
   const onBackdropPressEvent = useEvent(onBackdropPress);
@@ -128,11 +131,13 @@ export const Modal = (props: ModalPrivateProps) => {
 
   const {init, enter, exit} = useAnimation({...store, events: eventsAnimation});
 
+  // Reset animation values when modal becomes visible.
   useEffect(() => {
     if (!visible) return;
     init();
   }, [init, visible]);
 
+  // Control enter/exit animations when visibility changes.
   useEffect(() => {
     if (!visible && !mount.current) return;
     const timeout = setTimeout(() => {

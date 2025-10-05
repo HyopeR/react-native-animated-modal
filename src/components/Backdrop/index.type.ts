@@ -1,13 +1,13 @@
 import {TouchableOpacityProps} from 'react-native';
 
+export type BackdropProps = Partial<BackdropRequiredProps> &
+  BackdropPartialProps;
+
 export interface BackdropRequiredProps {}
 
 export interface BackdropPartialProps {
   touch?: TouchableOpacityProps;
 }
-
-export type BackdropProps = Partial<BackdropRequiredProps> &
-  BackdropPartialProps;
 
 export type BackdropDevelopmentProps = {};
 

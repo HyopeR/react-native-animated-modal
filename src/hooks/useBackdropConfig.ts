@@ -3,6 +3,11 @@ import {getSafeProps, isObjectEqual} from '../utils';
 import {BACKDROP_BASE_CONFIG} from '../constants';
 import {BackdropNs} from '../types';
 
+/**
+ * @internal
+ * Returns a cached backdrop config.
+ * Merges user config with defaults and prevents re-renders if unchanged.
+ */
 export const useBackdropConfig = (config?: BackdropNs.Config) => {
   const configRef = useRef<BackdropNs.ConfigPrivate | null>(null);
   const configSafe = config || ({} as BackdropNs.Config);

@@ -23,6 +23,15 @@ export type UseGestureProps = {
   events?: Partial<UseGestureEvents>;
 };
 
+/**
+ * @internal
+ * Hook to handle swipe gestures for dismissing or moving the view.
+ *
+ * Updates translation shared values (X/Y) based on gesture input.
+ * Determines direction (up, down, left, right) with lock threshold.
+ * Applies user-defined swipe config (distance, velocity, closable).
+ * Calls lifecycle events: `onSwipeComplete` or `onSwipeCancel`.
+ */
 export const useGesture = ({
   size,
   swipe,
