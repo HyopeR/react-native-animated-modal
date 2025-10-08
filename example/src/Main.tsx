@@ -12,6 +12,7 @@ import {Card} from './commons/Card';
 // Examples
 import {BasicModal} from './examples/Basic';
 import {SwipeModal} from './examples/Swipe';
+import {ListModal} from './examples/List';
 
 type Item = {
   title: string;
@@ -26,10 +27,12 @@ export const Main = () => {
 
   const [visibleBasic, setVisibleBasic] = useState(false);
   const [visibleSwipe, setVisibleSwipe] = useState(false);
+  const [visibleList, setVisibleList] = useState(false);
 
   const items: Item[] = [
     {title: 'Basic', onPress: setVisibleBasic},
     {title: 'Swipe', onPress: setVisibleSwipe},
+    {title: 'List', onPress: setVisibleList},
   ];
 
   const renderItem = useCallback<ListRenderItem<Item>>(
@@ -63,6 +66,7 @@ export const Main = () => {
 
         <BasicModal visible={visibleBasic} setVisible={setVisibleBasic} />
         <SwipeModal visible={visibleSwipe} setVisible={setVisibleSwipe} />
+        <ListModal visible={visibleList} setVisible={setVisibleList} />
       </Screen.Content>
     </Screen>
   );

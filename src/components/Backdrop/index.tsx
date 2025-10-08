@@ -1,5 +1,5 @@
 import React from 'react';
-import {useModalContext} from '../../context';
+import {useConfigContext} from '../../context';
 import {BackdropSimple} from './BackdropSimple';
 import {BackdropNone} from './BackdropNone';
 import {
@@ -11,7 +11,7 @@ import {
 export type {BackdropProps, BackdropPrivateProps};
 
 export const Backdrop = (props: BackdropPrivateStrictProps) => {
-  const {backdrop} = useModalContext();
+  const {backdrop} = useConfigContext();
 
   if (backdrop.enabled) {
     return <BackdropSimple {...props} {...backdrop} />;

@@ -9,11 +9,15 @@ import {ISize} from '../types';
  * Initializes and provides shared animation values.
  */
 export const useAnimationValues = () => {
+  // animation management.
   const size = useSharedValue<ISize>(SIZE);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0);
+
+  // children management.
+  const scrolling = useSharedValue(1);
 
   useEffect(() => {
     const sub = Dimensions.addEventListener('change', ({window}) => {
@@ -31,6 +35,7 @@ export const useAnimationValues = () => {
       translateY,
       opacity,
       scale,
+      scrolling,
     };
-  }, [opacity, scale, size, translateX, translateY]);
+  }, [opacity, scale, scrolling, size, translateX, translateY]);
 };

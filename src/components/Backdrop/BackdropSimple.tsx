@@ -5,21 +5,20 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
 } from 'react-native-reanimated';
-import {useModalContext} from '../../context';
+import {useConfigContext, useShareContext} from '../../context';
 import {BackdropPrivateStrictProps} from './index.type';
 
 export const BackdropSimple = (props: BackdropPrivateStrictProps) => {
   const {style: touchStyle, ...touchProps} = props?.touch || {};
 
+  const {animation, backdrop} = useConfigContext();
   const {
     size,
-    animation,
-    backdrop,
     translateX: x,
     translateY: y,
     opacity: o,
     scale: s,
-  } = useModalContext();
+  } = useShareContext();
 
   const {type} = animation;
   const {opacity, backgroundColor} = backdrop;

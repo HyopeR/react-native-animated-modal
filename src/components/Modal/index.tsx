@@ -4,7 +4,7 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
-import {ModalProvider} from '../../context';
+import {ConfigProvider, ShareProvider} from '../../context';
 import {getSafeProps} from '../../utils';
 import {
   useAnimation,
@@ -53,19 +53,19 @@ export const Modal = (props: ModalProps) => {
     ...rest
   } = propsSafe;
 
+  const values = useAnimationValues();
+
   // Cache all configs and shared values into a single store for context usage.
-  const animationValues = useAnimationValues();
   const animationConfig = useAnimationConfig(animation);
   const swipeConfig = useSwipeConfig(swipe);
   const backdropConfig = useBackdropConfig(backdrop);
-  const store = useMemo(() => {
+  const config = useMemo(() => {
     return {
       swipe: swipeConfig,
       animation: animationConfig,
       backdrop: backdropConfig,
-      ...animationValues,
     };
-  }, [animationConfig, animationValues, backdropConfig, swipeConfig]);
+  }, [animationConfig, backdropConfig, swipeConfig]);
 
   const mount = useRef(false);
   const [_visible, _setVisible] = useState(visible);
@@ -121,7 +121,31 @@ export const Modal = (props: ModalProps) => {
     };
   }, [onBackdropPressEvent]);
 
-  const {init, enter, exit} = useAnimation({...store, events: eventsAnimation});
+  const {init, enter, exit} = useAnimation({
+    animation: config.animation,
+    size: values.size,
+    translateX: values.translateX,
+    translateY: values.translateY,
+    opacity: values.opacity,
+    scale: values.scale,
+    scrolling: values.scrolling,
+    events: eventsAnimation,
+  });
+
+  const {native, pan} = useGesture({
+    swipe: config.swipe,
+    animation: config.animation,
+    size: values.size,
+    translateX: values.translateX,
+    translateY: values.translateY,
+    scrolling: values.scrolling,
+    events: eventsGesture,
+  });
+
+  const share = useMemo(
+    () => ({...values, native, pan}),
+    [values, native, pan],
+  );
 
   // Reset animation values when modal becomes visible.
   useEffect(() => {
@@ -148,15 +172,6 @@ export const Modal = (props: ModalProps) => {
     };
   }, []);
 
-  const gesture = useGesture({
-    size: store.size,
-    swipe: store.swipe,
-    animation: store.animation,
-    translateX: store.translateX,
-    translateY: store.translateY,
-    events: eventsGesture,
-  });
-
   return (
     <ModalNative
       visible={_visible}
@@ -165,12 +180,14 @@ export const Modal = (props: ModalProps) => {
       onRequestClose={onBackPressEvent}
       {...rest}>
       <GestureHandlerRootView style={styles.root}>
-        <ModalProvider value={store}>
-          <Backdrop {...eventsBackdrop} {...backdropConfig} />
-          <GestureDetector gesture={gesture}>
-            <Content style={style}>{children}</Content>
-          </GestureDetector>
-        </ModalProvider>
+        <ConfigProvider value={config}>
+          <ShareProvider value={share}>
+            <Backdrop {...eventsBackdrop} {...backdropConfig} />
+            <GestureDetector gesture={pan}>
+              <Content style={style}>{children}</Content>
+            </GestureDetector>
+          </ShareProvider>
+        </ConfigProvider>
       </GestureHandlerRootView>
     </ModalNative>
   );

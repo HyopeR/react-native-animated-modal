@@ -25,6 +25,7 @@ export type UseAnimationProps = {
   translateY: SharedValue<number>;
   opacity: SharedValue<number>;
   scale: SharedValue<number>;
+  scrolling: SharedValue<number>;
   events?: Partial<UseAnimationEvents>;
 };
 
@@ -35,12 +36,13 @@ export type UseAnimationProps = {
  * event callbacks.
  */
 export const useAnimation = ({
-  size,
   animation,
+  size,
   translateX,
   translateY,
-  scale,
   opacity,
+  scale,
+  scrolling,
   events,
 }: UseAnimationProps) => {
   const config = useMemo<WithTimingConfig>(() => {
@@ -78,6 +80,7 @@ export const useAnimation = ({
         translateY.value = 0;
         opacity.value = 0;
         scale.value = 1;
+        // scrolling.value = 0;
         break;
 
       case 'slide':
@@ -103,6 +106,7 @@ export const useAnimation = ({
         };
         opacity.value = 1;
         scale.value = 1;
+        // scrolling.value = 0;
         if (typeof direction === 'string') dict[direction]();
         else dict[direction.start]();
         break;
@@ -112,10 +116,20 @@ export const useAnimation = ({
         translateY.value = 0;
         opacity.value = 1;
         scale.value = 0;
+        // scrolling.value = 0;
         break;
     }
     handler('onInitEnd');
-  }, [animation, handler, opacity, scale, size, translateX, translateY]);
+  }, [
+    animation,
+    handler,
+    opacity,
+    scale,
+    scrolling,
+    size,
+    translateX,
+    translateY,
+  ]);
 
   /**
    * Run enter animation (on mount).
