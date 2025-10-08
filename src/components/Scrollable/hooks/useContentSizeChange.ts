@@ -4,8 +4,8 @@ import {Size} from '../../../types';
 
 export type UseContentSizeChangeProps = {
   orientation: 'vertical' | 'horizontal';
-  scrolling: SharedValue<number>;
-  scrollingInitial: SharedValue<number>;
+  scrolling: SharedValue<string>;
+  scrollingInitial: SharedValue<string>;
   scrollingLayout: RefObject<Size>;
 };
 
@@ -18,11 +18,11 @@ export const useContentSizeChange = ({
   const onContentSizeChange = useCallback(
     (width: number, height: number) => {
       if (orientation === 'vertical') {
-        const value = Number(height > scrollingLayout.current.height);
+        const value = height > scrollingLayout.current.height ? 'down' : 'none';
         scrollingInitial.value = value;
         scrolling.value = value;
       } else {
-        const value = Number(width > scrollingLayout.current.width);
+        const value = width > scrollingLayout.current.width ? 'right' : 'none';
         scrollingInitial.value = value;
         scrolling.value = value;
       }

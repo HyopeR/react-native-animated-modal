@@ -20,8 +20,8 @@ export type UseGestureProps = {
   size: SharedValue<Size>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
-  scrolling: SharedValue<number>;
-  scrollingInitial: SharedValue<number>;
+  scrolling: SharedValue<string>;
+  scrollingInitial: SharedValue<string>;
   scrollingOffset: SharedValue<Offset>;
   events?: Partial<UseGestureEvents>;
 };
@@ -86,23 +86,17 @@ export const useGesture = ({
   return useMemo(() => {
     const gestureNative = Gesture.Native();
     const gesturePan = Gesture.Pan()
-      .enabled(enabled)
+      .enabled(false)
       .simultaneousWithExternalGesture(gestureNative)
       .onStart(e => {
         ('worklet');
-        if (scrolling.value) {
-          scrollingOffset.value = {x: e.translationX, y: e.translationY};
-          return;
-        }
-
         direction.value = null;
         axis.value = null;
       })
       .onUpdate(e => {
         ('worklet');
-        if (scrolling.value) {
+        if (scrolling.value === 'idle') {
           scrollingOffset.value = {x: e.translationX, y: e.translationY};
-          return;
         }
 
         const translationX = e.translationX - scrollingOffset.value.x;
@@ -129,24 +123,23 @@ export const useGesture = ({
           }
         }
 
-        if (direction.value === 'up') {
+        if (direction.value === 'up' && scrolling.value !== 'down') {
           translateX.value = 0;
           translateY.value = Math.min(0, translationY);
-        } else if (direction.value === 'down') {
+        } else if (direction.value === 'down' && scrolling.value !== 'up') {
           translateX.value = 0;
           translateY.value = Math.max(0, translationY);
-        } else if (direction.value === 'left') {
+        } else if (direction.value === 'left' && scrolling.value !== 'right') {
           translateX.value = Math.min(0, translationX);
           translateY.value = 0;
-        } else if (direction.value === 'right') {
+        } else if (direction.value === 'right' && scrolling.value !== 'left') {
           translateX.value = Math.max(0, translationX);
           translateY.value = 0;
         }
       })
       .onEnd(e => {
         ('worklet');
-        if (scrolling.value) {
-          scrollingOffset.value = {x: e.translationX, y: e.translationY};
+        if (scrolling.value === 'idle') {
           return;
         }
 
@@ -187,7 +180,6 @@ export const useGesture = ({
         }
       })
       .onFinalize(() => {
-        scrolling.value = scrollingInitial.value;
         scrollingOffset.value = {x: 0, y: 0};
       });
 
@@ -199,7 +191,6 @@ export const useGesture = ({
     direction,
     enabled,
     scrolling,
-    scrollingInitial,
     scrollingOffset,
     size,
     swipe.closable,

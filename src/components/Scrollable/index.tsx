@@ -2,7 +2,7 @@ import React, {useImperativeHandle, useRef} from 'react';
 import {GestureDetector} from 'react-native-gesture-handler';
 import {useShareContext} from '../../context';
 import {getSafeProps} from '../../utils';
-import {useLayout, useContentSizeChange, useScrollable} from './hooks';
+import {useLayout, useContentSizeChange, useScroll} from './hooks';
 import {
   ScrollableRef,
   ScrollableProps,
@@ -34,7 +34,7 @@ export const Scrollable = React.forwardRef<ScrollableRef, ScrollableProps>(
       scrollingInitial,
       scrollingLayout,
     });
-    const {onScroll} = useScrollable({orientation, scrolling});
+    const {onScroll} = useScroll({orientation, scrolling});
 
     useImperativeHandle(
       ref,

@@ -1,17 +1,17 @@
 import {useCallback} from 'react';
 import {NativeScrollEvent, NativeSyntheticEvent} from 'react-native';
 import {SharedValue} from 'react-native-reanimated';
-import {useVerticalScrollable} from './useVerticalScrollable';
-import {useHorizontalScrollable} from './useHorizontalScrollable';
+import {useScrollVertical} from './useScrollVertical';
+import {useScrollHorizontal} from './useScrollHorizontal';
 
 export type UseScrollableProps = {
   orientation: 'vertical' | 'horizontal';
-  scrolling: SharedValue<number>;
+  scrolling: SharedValue<string>;
 };
 
-export const useScrollable = ({orientation, scrolling}: UseScrollableProps) => {
-  const {onScroll: onScrollVertical} = useVerticalScrollable(scrolling);
-  const {onScroll: onScrollHorizontal} = useHorizontalScrollable(scrolling);
+export const useScroll = ({orientation, scrolling}: UseScrollableProps) => {
+  const {onScroll: onScrollVertical} = useScrollVertical(scrolling);
+  const {onScroll: onScrollHorizontal} = useScrollHorizontal(scrolling);
 
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {

@@ -12,8 +12,8 @@ export type ShareContextState = {
   scale: SharedValue<number>;
 
   // Children management values.
-  scrolling: SharedValue<number>;
-  scrollingInitial: SharedValue<number>;
+  scrolling: SharedValue<string>;
+  scrollingInitial: SharedValue<string>;
   scrollingOffset: SharedValue<Offset>;
 
   // Children management gestures.
