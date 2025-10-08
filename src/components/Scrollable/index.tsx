@@ -1,39 +1,47 @@
-import React, {useEffect} from 'react';
+import React, {useImperativeHandle, useRef} from 'react';
 import {GestureDetector} from 'react-native-gesture-handler';
 import {useShareContext} from '../../context';
 import {getSafeProps} from '../../utils';
-import {useEvent} from '../../hooks';
-import {useScrollable} from './hooks';
+import {useLayout, useContentSizeChange, useScrollable} from './hooks';
 import {
+  ScrollableRef,
   ScrollableProps,
   ScrollableRequiredProps,
   ScrollableStrictProps,
 } from './index.type';
 
-export type {ScrollableProps};
+export type {ScrollableProps, ScrollableRef};
 
 const ScrollableDefaultProps: ScrollableRequiredProps = {
   orientation: 'vertical',
-  onReady: () => {},
 };
 
-export const Scrollable = (props: ScrollableProps) => {
-  const {orientation, onReady, children} = getSafeProps(
-    props,
-    ScrollableDefaultProps,
-  ) as ScrollableStrictProps;
+export const Scrollable = React.forwardRef<ScrollableRef, ScrollableProps>(
+  (props: ScrollableProps, ref) => {
+    const {orientation, children} = getSafeProps(
+      props,
+      ScrollableDefaultProps,
+    ) as ScrollableStrictProps;
 
-  const {native, scrolling} = useShareContext();
+    const {native, scrolling, scrollingInitial} = useShareContext();
 
-  const onReadyEvent = useEvent(onReady);
+    const scrollingLayout = useRef({width: 0, height: 0});
 
-  const {onScroll} = useScrollable({orientation, scrolling});
+    const {onLayout} = useLayout({scrollingLayout});
+    const {onContentSizeChange} = useContentSizeChange({
+      orientation,
+      scrolling,
+      scrollingInitial,
+      scrollingLayout,
+    });
+    const {onScroll} = useScrollable({orientation, scrolling});
 
-  useEffect(() => {
-    onReadyEvent(onScroll);
-  }, [onReadyEvent, onScroll]);
+    useImperativeHandle(
+      ref,
+      () => ({onLayout, onContentSizeChange, onScroll}),
+      [onContentSizeChange, onLayout, onScroll],
+    );
 
-  return <GestureDetector gesture={native}>{children}</GestureDetector>;
-};
-
-export {useScrollable};
+    return <GestureDetector gesture={native}>{children}</GestureDetector>;
+  },
+);

@@ -1,12 +1,12 @@
 import React, {useRef} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {Modal, Scrollable} from 'react-native-animated-modal';
+import {Modal, Scrollable, ScrollableRef} from 'react-native-animated-modal';
 import {Button} from '../commons/Button';
 import {styles} from './styles';
 import {ModalExampleProps} from './types';
 
 export const ListModal = ({visible, setVisible}: ModalExampleProps) => {
-  const scroll = useRef<any>(null);
+  const scroll = useRef<ScrollableRef>(null);
 
   return (
     <Modal
@@ -19,13 +19,14 @@ export const ListModal = ({visible, setVisible}: ModalExampleProps) => {
       supportedOrientations={['portrait', 'landscape']}
       swipe={{enabled: true, directions: ['up', 'down', 'left', 'right']}}>
       <View style={{...styles.container, height: 500}}>
-        <Scrollable
-          orientation={'vertical'}
-          onReady={e => (scroll.current = e)}>
+        <Scrollable ref={scroll} orientation={'vertical'}>
           <FlatList
-            onScroll={e => {
-              scroll?.current && scroll.current(e);
-            }}
+            scrollEventThrottle={16}
+            onLayout={e => scroll.current?.onLayout?.(e)}
+            onContentSizeChange={(w, h) =>
+              scroll.current?.onContentSizeChange?.(w, h)
+            }
+            onScroll={e => scroll.current?.onScroll?.(e)}
             data={Array.from({length: 20}, (_, i) => i + 1)}
             keyExtractor={item => item.toString()}
             renderItem={({item}) => (

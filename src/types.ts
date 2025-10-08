@@ -1,16 +1,19 @@
 /**
  * @internal
- * Device orientation type.
+ * Dimension type for general use.
  */
-export type IOrientation = 'portrait' | 'landscape';
+export type Size = {
+  width: number;
+  height: number;
+};
 
 /**
  * @internal
- * Dimension type for general use.
+ * Offset type for general use.
  */
-export type ISize = {
-  width: number;
-  height: number;
+export type Offset = {
+  x: number;
+  y: number;
 };
 
 export namespace AnimationNs {

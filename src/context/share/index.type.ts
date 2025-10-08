@@ -1,18 +1,22 @@
 import {ReactNode} from 'react';
 import {SharedValue} from 'react-native-reanimated';
 import {NativeGesture, PanGesture} from 'react-native-gesture-handler';
-import {ISize} from '../../types';
+import {Offset, Size} from '../../types';
 
 export type ShareContextState = {
-  // animation management.
-  size: SharedValue<ISize>;
+  // Animation management values.
+  size: SharedValue<Size>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
   opacity: SharedValue<number>;
   scale: SharedValue<number>;
 
-  // children management.
+  // Children management values.
   scrolling: SharedValue<number>;
+  scrollingInitial: SharedValue<number>;
+  scrollingOffset: SharedValue<Offset>;
+
+  // Children management gestures.
   native: NativeGesture;
   pan: PanGesture;
 };

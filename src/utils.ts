@@ -1,11 +1,11 @@
-import {AnimationNs, ISize} from './types';
+import {AnimationNs, Size} from './types';
 
 export const Movement = {
   /**
    * @internal
    * Offset values for enter animations.
    */
-  get: (size: ISize): Record<AnimationNs.Direction, number> => {
+  get: (size: Size): Record<AnimationNs.Direction, number> => {
     const {width, height} = size;
     return {up: height, down: -height, left: width, right: -width};
   },
@@ -14,7 +14,7 @@ export const Movement = {
    * @internal
    * Offset values for exit animations (reverse of get).
    */
-  getReflect: (size: ISize): Record<AnimationNs.Direction, number> => {
+  getReflect: (size: Size): Record<AnimationNs.Direction, number> => {
     const {width, height} = size;
     return {up: -height, down: height, left: -width, right: width};
   },

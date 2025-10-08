@@ -1,5 +1,15 @@
 import {ReactNode} from 'react';
-import {NativeScrollEvent, NativeSyntheticEvent} from 'react-native';
+import {
+  LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
+
+export type ScrollableRef = {
+  onScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  onLayout: (e: LayoutChangeEvent) => void;
+  onContentSizeChange: (width: number, height: number) => void;
+};
 
 /**
  * Props for the Scrollable component.
@@ -11,10 +21,6 @@ export type ScrollableProps = {
    */
   orientation?: 'vertical' | 'horizontal';
   /**
-   * Callback fired when the scrollable is ready.
-   */
-  onReady?: (cb: (fn: NativeSyntheticEvent<NativeScrollEvent>) => void) => void;
-  /**
    * Scrollable children.
    */
   children?: ReactNode;
@@ -24,7 +30,7 @@ export type ScrollableProps = {
  * Props that always have initial values even if the user leaves them empty.
  */
 export type ScrollableRequiredProps = Required<
-  Pick<ScrollableProps, 'orientation' | 'onReady'>
+  Pick<ScrollableProps, 'orientation'>
 >;
 
 /**

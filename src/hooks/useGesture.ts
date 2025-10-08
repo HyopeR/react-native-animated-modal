@@ -7,7 +7,7 @@ import {
 } from 'react-native-reanimated';
 import {Gesture} from 'react-native-gesture-handler';
 import {SWIPE_LOCK_THRESHOLD} from '../constants';
-import {AnimationNs, ISize, SwipeNs} from '../types';
+import {AnimationNs, Offset, Size, SwipeNs} from '../types';
 
 export type UseGestureEvents = {
   onSwipeComplete: () => void;
@@ -17,10 +17,12 @@ export type UseGestureEvents = {
 export type UseGestureProps = {
   swipe: SwipeNs.ConfigStrict;
   animation: AnimationNs.ConfigStrict;
-  size: SharedValue<ISize>;
+  size: SharedValue<Size>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
   scrolling: SharedValue<number>;
+  scrollingInitial: SharedValue<number>;
+  scrollingOffset: SharedValue<Offset>;
   events?: Partial<UseGestureEvents>;
 };
 
@@ -40,6 +42,8 @@ export const useGesture = ({
   translateX,
   translateY,
   scrolling,
+  scrollingInitial,
+  scrollingOffset,
   events,
 }: UseGestureProps) => {
   const enabled = useMemo(
@@ -80,33 +84,42 @@ export const useGesture = ({
   );
 
   return useMemo(() => {
-    const gestureNative = Gesture.Native().enabled(enabled);
+    const gestureNative = Gesture.Native();
     const gesturePan = Gesture.Pan()
       .enabled(enabled)
       .simultaneousWithExternalGesture(gestureNative)
-      .onStart(() => {
-        'worklet';
-        if (scrolling.value) return;
+      .onStart(e => {
+        ('worklet');
+        if (scrolling.value) {
+          scrollingOffset.value = {x: e.translationX, y: e.translationY};
+          return;
+        }
 
         direction.value = null;
         axis.value = null;
       })
-      .onUpdate(event => {
-        'worklet';
-        if (scrolling.value) return;
+      .onUpdate(e => {
+        ('worklet');
+        if (scrolling.value) {
+          scrollingOffset.value = {x: e.translationX, y: e.translationY};
+          return;
+        }
+
+        const translationX = e.translationX - scrollingOffset.value.x;
+        const translationY = e.translationY - scrollingOffset.value.y;
 
         if (direction.value === null) {
-          const absX = Math.abs(event.translationX);
-          const absY = Math.abs(event.translationY);
+          const absX = Math.abs(translationX);
+          const absY = Math.abs(translationY);
           if (absX < SWIPE_LOCK_THRESHOLD && absY < SWIPE_LOCK_THRESHOLD) {
             return;
           }
 
           if (absX > absY) {
-            direction.value = event.translationX > 0 ? 'right' : 'left';
+            direction.value = translationX > 0 ? 'right' : 'left';
             axis.value = 'x';
           } else {
-            direction.value = event.translationY > 0 ? 'down' : 'up';
+            direction.value = translationY > 0 ? 'down' : 'up';
             axis.value = 'y';
           }
 
@@ -118,23 +131,28 @@ export const useGesture = ({
 
         if (direction.value === 'up') {
           translateX.value = 0;
-          translateY.value = Math.min(0, event.translationY);
+          translateY.value = Math.min(0, translationY);
         } else if (direction.value === 'down') {
           translateX.value = 0;
-          translateY.value = Math.max(0, event.translationY);
+          translateY.value = Math.max(0, translationY);
         } else if (direction.value === 'left') {
-          translateX.value = Math.min(0, event.translationX);
+          translateX.value = Math.min(0, translationX);
           translateY.value = 0;
         } else if (direction.value === 'right') {
-          translateX.value = Math.max(0, event.translationX);
+          translateX.value = Math.max(0, translationX);
           translateY.value = 0;
         }
       })
-      .onEnd(event => {
-        'worklet';
-        if (scrolling.value) return;
+      .onEnd(e => {
+        ('worklet');
+        if (scrolling.value) {
+          scrollingOffset.value = {x: e.translationX, y: e.translationY};
+          return;
+        }
 
-        const {translationX, velocityX, translationY, velocityY} = event;
+        const {velocityX, velocityY} = e;
+        const translationX = e.translationX - scrollingOffset.value.x;
+        const translationY = e.translationY - scrollingOffset.value.y;
 
         let dismiss = false;
         let toX = 0;
@@ -169,8 +187,8 @@ export const useGesture = ({
         }
       })
       .onFinalize(() => {
-        if (scrolling.value) return;
-        scrolling.value = 1;
+        scrolling.value = scrollingInitial.value;
+        scrollingOffset.value = {x: 0, y: 0};
       });
 
     return {native: gestureNative, pan: gesturePan};
@@ -181,6 +199,8 @@ export const useGesture = ({
     direction,
     enabled,
     scrolling,
+    scrollingInitial,
+    scrollingOffset,
     size,
     swipe.closable,
     swipe.directions,

@@ -18,6 +18,7 @@ export const useVerticalScrollable = (scrolling: SharedValue<number>) => {
       const isAtTop = contentOffset.y <= 0;
       if (isAtTop && isMovingDown) {
         scrolling.value = 0;
+        return;
       }
 
       const scrollable = contentSize.height > layout.height;

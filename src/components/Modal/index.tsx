@@ -128,7 +128,6 @@ export const Modal = (props: ModalProps) => {
     translateY: values.translateY,
     opacity: values.opacity,
     scale: values.scale,
-    scrolling: values.scrolling,
     events: eventsAnimation,
   });
 
@@ -139,6 +138,8 @@ export const Modal = (props: ModalProps) => {
     translateX: values.translateX,
     translateY: values.translateY,
     scrolling: values.scrolling,
+    scrollingInitial: values.scrollingInitial,
+    scrollingOffset: values.scrollingOffset,
     events: eventsGesture,
   });
 
