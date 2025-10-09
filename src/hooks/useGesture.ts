@@ -1,4 +1,4 @@
-import {createRef, useCallback, useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import {
   runOnJS,
   SharedValue,
@@ -100,19 +100,18 @@ export const useGesture = ({
       type: 'complete' | 'cancel',
     ) => {
       'worklet';
-      if (finished && axis.value === character) {
+      if (finished && axisLock.value === character) {
         runOnJS(handler)(type);
       }
     },
-    [axis, handler],
+    [axisLock, handler],
   );
 
   return useMemo(() => {
-    const gestureNativeRef = createRef<any>();
     const gestureNative = Gesture.Native();
     const gesturePan = Gesture.Pan()
       .enabled(enabled)
-      .simultaneousWithExternalGesture(gestureNative, gestureNativeRef)
+      .simultaneousWithExternalGesture(gestureNative)
       .onStart(() => {
         'worklet';
         direction.value = null;
@@ -146,10 +145,10 @@ export const useGesture = ({
         }
 
         if (!swipe.directions.includes(direction.value)) {
-          direction.value = null;
-          directionLock.value = null;
-          axis.value = null;
-          axisLock.value = null;
+          //direction.value = null;
+          //directionLock.value = null;
+          //axis.value = null;
+          //axisLock.value = null;
           return;
         }
 
@@ -264,7 +263,6 @@ export const useGesture = ({
       });
 
     return {
-      nativeRef: gestureNativeRef,
       native: gestureNative,
       pan: gesturePan,
     };

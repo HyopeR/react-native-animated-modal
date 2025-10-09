@@ -18,7 +18,6 @@ export type ShareContextState = {
   scrollOrientation: SharedValue<ScrollOrientation>;
 
   // Children management gestures.
-  nativeRef: RefObject<any>;
   native: NativeGesture;
   pan: PanGesture;
 };
