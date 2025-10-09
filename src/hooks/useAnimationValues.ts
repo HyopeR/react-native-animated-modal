@@ -2,7 +2,7 @@ import {useEffect, useMemo} from 'react';
 import {Dimensions} from 'react-native';
 import {useSharedValue} from 'react-native-reanimated';
 import {SIZE} from '../constants';
-import {Size, Offset} from '../types';
+import {Size, Offset, ScrollOrientation, Scroll} from '../types';
 
 /**
  * @internal
@@ -17,9 +17,10 @@ export const useAnimationValues = () => {
   const scale = useSharedValue(0);
 
   // Children management values.
-  const scrolling = useSharedValue('down');
-  const scrollingLock = useSharedValue(false);
-  const scrollingOffset = useSharedValue<Offset>({x: 0, y: 0});
+  const scroll = useSharedValue<Scroll>('none');
+  const scrollLock = useSharedValue(false);
+  const scrollOffset = useSharedValue<Offset>({x: 0, y: 0});
+  const scrollOrientation = useSharedValue<ScrollOrientation>('none');
 
   useEffect(() => {
     const sub = Dimensions.addEventListener('change', ({window}) => {
@@ -37,16 +38,18 @@ export const useAnimationValues = () => {
       translateY,
       opacity,
       scale,
-      scrolling,
-      scrollingLock,
-      scrollingOffset,
+      scroll,
+      scrollLock,
+      scrollOffset,
+      scrollOrientation,
     };
   }, [
     opacity,
     scale,
-    scrolling,
-    scrollingLock,
-    scrollingOffset,
+    scroll,
+    scrollLock,
+    scrollOffset,
+    scrollOrientation,
     size,
     translateX,
     translateY,

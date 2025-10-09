@@ -1,7 +1,7 @@
 import {ReactNode, RefObject} from 'react';
 import {SharedValue} from 'react-native-reanimated';
 import {NativeGesture, PanGesture} from 'react-native-gesture-handler';
-import {Offset, Size} from '../../types';
+import {Offset, Scroll, ScrollOrientation, Size} from '../../types';
 
 export type ShareContextState = {
   // Animation management values.
@@ -12,9 +12,10 @@ export type ShareContextState = {
   scale: SharedValue<number>;
 
   // Children management values.
-  scrolling: SharedValue<string>;
-  scrollingLock: SharedValue<boolean>;
-  scrollingOffset: SharedValue<Offset>;
+  scroll: SharedValue<Scroll>;
+  scrollLock: SharedValue<boolean>;
+  scrollOffset: SharedValue<Offset>;
+  scrollOrientation: SharedValue<ScrollOrientation>;
 
   // Children management gestures.
   nativeRef: RefObject<any>;

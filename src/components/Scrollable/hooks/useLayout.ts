@@ -3,16 +3,16 @@ import {LayoutChangeEvent} from 'react-native';
 import {Size} from '../../../types';
 
 export type UseLayoutProps = {
-  scrollingLayout: RefObject<Size>;
+  scrollLayout: RefObject<Size>;
 };
 
-export const useLayout = ({scrollingLayout}: UseLayoutProps) => {
+export const useLayout = ({scrollLayout}: UseLayoutProps) => {
   const onLayout = useCallback(
     (e: LayoutChangeEvent) => {
       const {width, height} = e.nativeEvent.layout;
-      scrollingLayout.current = {width, height};
+      scrollLayout.current = {width, height};
     },
-    [scrollingLayout],
+    [scrollLayout],
   );
 
   return {onLayout};

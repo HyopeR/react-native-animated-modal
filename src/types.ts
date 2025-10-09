@@ -18,9 +18,15 @@ export type Offset = {
 
 /**
  * @internal
+ * Scrollable component state for general use.
+ */
+export type Scroll = 'top' | 'bottom' | 'left' | 'right' | 'middle' | 'none';
+
+/**
+ * @internal
  * Scrollable component boundary for general use.
  */
-export type Boundary = 'top' | 'bottom' | 'left' | 'right' | 'around' | 'none';
+export type ScrollOrientation = 'vertical' | 'horizontal' | 'none';
 
 export namespace AnimationNs {
   /**

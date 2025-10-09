@@ -7,7 +7,14 @@ import {
 } from 'react-native-reanimated';
 import {Gesture} from 'react-native-gesture-handler';
 import {SWIPE_LOCK_THRESHOLD} from '../constants';
-import {AnimationNs, Offset, Size, SwipeNs} from '../types';
+import {
+  AnimationNs,
+  Offset,
+  Scroll,
+  ScrollOrientation,
+  Size,
+  SwipeNs,
+} from '../types';
 
 export type UseGestureEvents = {
   onSwipeComplete: () => void;
@@ -20,9 +27,10 @@ export type UseGestureProps = {
   size: SharedValue<Size>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
-  scrolling: SharedValue<string>;
-  scrollingLock: SharedValue<boolean>;
-  scrollingOffset: SharedValue<Offset>;
+  scroll: SharedValue<Scroll>;
+  scrollLock: SharedValue<boolean>;
+  scrollOffset: SharedValue<Offset>;
+  scrollOrientation: SharedValue<ScrollOrientation>;
   events?: Partial<UseGestureEvents>;
 };
 
@@ -41,9 +49,10 @@ export const useGesture = ({
   animation,
   translateX,
   translateY,
-  scrolling,
-  scrollingLock,
-  scrollingOffset,
+  scroll,
+  scrollLock,
+  scrollOffset,
+  scrollOrientation,
   events,
 }: UseGestureProps) => {
   const enabled = useMemo(
@@ -70,8 +79,8 @@ export const useGesture = ({
       axis.value = null;
       axisLock.value = null;
 
-      scrollingLock.value = false;
-      scrollingOffset.value = {x: 0, y: 0};
+      scrollLock.value = false;
+      scrollOffset.value = {x: 0, y: 0};
     },
     [
       axis,
@@ -79,8 +88,8 @@ export const useGesture = ({
       direction,
       directionLock,
       events,
-      scrollingLock,
-      scrollingOffset,
+      scrollLock,
+      scrollOffset,
     ],
   );
 
@@ -113,8 +122,8 @@ export const useGesture = ({
       })
       .onUpdate(e => {
         'worklet';
-        const translationX = e.translationX - scrollingOffset.value.x;
-        const translationY = e.translationY - scrollingOffset.value.y;
+        const translationX = e.translationX - scrollOffset.value.x;
+        const translationY = e.translationY - scrollOffset.value.y;
 
         const absX = Math.abs(translationX);
         const absY = Math.abs(translationY);
@@ -144,41 +153,73 @@ export const useGesture = ({
           return;
         }
 
-        const orientation = 'vertical';
-
-        if (orientation === 'vertical') {
-          if (axis.value === 'y' && scrolling.value === 'idle') {
-            scrollingOffset.value = {x: e.translationX, y: e.translationY};
+        if (scrollOrientation.value === 'vertical') {
+          if (axis.value === 'y' && scroll.value === 'middle') {
+            scrollOffset.value = {x: e.translationX, y: e.translationY};
             return;
           }
 
           switch (direction.value) {
             case 'up':
-              if (axisLock.value === 'y' && scrolling.value !== 'down') {
-                console.log('trigger up');
-                scrollingLock.value = true;
+              if (axisLock.value === 'y' && scroll.value !== 'top') {
+                scrollLock.value = true;
                 translateX.value = 0;
                 translateY.value = Math.min(0, translationY);
               }
               break;
             case 'down':
-              if (axisLock.value === 'y' && scrolling.value !== 'up') {
-                console.log('trigger down');
-                scrollingLock.value = true;
+              if (axisLock.value === 'y' && scroll.value !== 'bottom') {
+                scrollLock.value = true;
                 translateX.value = 0;
                 translateY.value = Math.max(0, translationY);
               }
               break;
             case 'left':
               if (axisLock.value === 'x') {
-                scrollingLock.value = true;
+                scrollLock.value = true;
                 translateX.value = Math.min(0, translationX);
                 translateY.value = 0;
               }
               break;
             case 'right':
               if (axisLock.value === 'x') {
-                scrollingLock.value = true;
+                scrollLock.value = true;
+                translateX.value = Math.max(0, translationX);
+                translateY.value = 0;
+              }
+              break;
+          }
+        } else {
+          if (axis.value === 'x' && scroll.value === 'middle') {
+            scrollOffset.value = {x: e.translationX, y: e.translationY};
+            return;
+          }
+
+          switch (direction.value) {
+            case 'up':
+              if (axisLock.value === 'y') {
+                scrollLock.value = true;
+                translateX.value = 0;
+                translateY.value = Math.min(0, translationY);
+              }
+              break;
+            case 'down':
+              if (axisLock.value === 'y') {
+                scrollLock.value = true;
+                translateX.value = 0;
+                translateY.value = Math.max(0, translationY);
+              }
+              break;
+            case 'left':
+              if (axisLock.value === 'x' && scroll.value !== 'left') {
+                scrollLock.value = true;
+                translateX.value = Math.min(0, translationX);
+                translateY.value = 0;
+              }
+              break;
+            case 'right':
+              if (axisLock.value === 'x' && scroll.value !== 'right') {
+                scrollLock.value = true;
                 translateX.value = Math.max(0, translationX);
                 translateY.value = 0;
               }
@@ -188,8 +229,8 @@ export const useGesture = ({
       })
       .onEnd(e => {
         'worklet';
-        const translationX = e.translationX - scrollingOffset.value.x;
-        const translationY = e.translationY - scrollingOffset.value.y;
+        const translationX = e.translationX - scrollOffset.value.x;
+        const translationY = e.translationY - scrollOffset.value.y;
 
         let dismiss = false;
         let toX = 0;
@@ -235,9 +276,10 @@ export const useGesture = ({
     direction,
     directionLock,
     enabled,
-    scrolling,
-    scrollingLock,
-    scrollingOffset,
+    scroll,
+    scrollLock,
+    scrollOffset,
+    scrollOrientation,
     size,
     swipe.closable,
     swipe.directions,

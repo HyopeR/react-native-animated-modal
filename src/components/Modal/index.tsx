@@ -137,9 +137,10 @@ export const Modal = (props: ModalProps) => {
     size: values.size,
     translateX: values.translateX,
     translateY: values.translateY,
-    scrolling: values.scrolling,
-    scrollingLock: values.scrollingLock,
-    scrollingOffset: values.scrollingOffset,
+    scroll: values.scroll,
+    scrollLock: values.scrollLock,
+    scrollOffset: values.scrollOffset,
+    scrollOrientation: values.scrollOrientation,
     events: eventsGesture,
   });
 
@@ -157,6 +158,7 @@ export const Modal = (props: ModalProps) => {
   // Control enter/exit animations when visibility changes.
   useEffect(() => {
     if (!visible && !mount.current) return;
+
     const timeout = setTimeout(() => {
       if (visible) enter();
       else exit();

@@ -1,29 +1,27 @@
 import {RefObject, useCallback} from 'react';
 import {SharedValue} from 'react-native-reanimated';
-import {Size} from '../../../types';
+import {Scroll, Size} from '../../../types';
 
 export type UseContentSizeChangeProps = {
   orientation: 'vertical' | 'horizontal';
-  scrolling: SharedValue<string>;
-  scrollingLayout: RefObject<Size>;
+  scroll: SharedValue<Scroll>;
+  scrollLayout: RefObject<Size>;
 };
 
 export const useContentSizeChange = ({
   orientation,
-  scrolling,
-  scrollingLayout,
+  scroll,
+  scrollLayout,
 }: UseContentSizeChangeProps) => {
   const onContentSizeChange = useCallback(
     (width: number, height: number) => {
       if (orientation === 'vertical') {
-        const value = height > scrollingLayout.current.height ? 'down' : 'none';
-        scrolling.value = value;
+        scroll.value = height > scrollLayout.current.height ? 'top' : 'none';
       } else {
-        const value = width > scrollingLayout.current.width ? 'right' : 'none';
-        scrolling.value = value;
+        scroll.value = width > scrollLayout.current.width ? 'left' : 'none';
       }
     },
-    [orientation, scrolling, scrollingLayout],
+    [orientation, scroll, scrollLayout],
   );
 
   return {onContentSizeChange};

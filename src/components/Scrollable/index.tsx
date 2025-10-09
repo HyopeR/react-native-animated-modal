@@ -1,4 +1,4 @@
-import React, {useImperativeHandle, useRef} from 'react';
+import React, {useEffect, useImperativeHandle, useRef} from 'react';
 import {GestureDetector} from 'react-native-gesture-handler';
 import {useShareContext} from '../../context';
 import {getSafeProps} from '../../utils';
@@ -23,17 +23,21 @@ export const Scrollable = React.forwardRef<ScrollableRef, ScrollableProps>(
       ScrollableDefaultProps,
     ) as ScrollableStrictProps;
 
-    const {native, scrolling, scrollingLock} = useShareContext();
+    const {native, scroll, scrollLock, scrollOrientation} = useShareContext();
 
-    const scrollingLayout = useRef({width: 0, height: 0});
+    const scrollLayout = useRef({width: 0, height: 0});
 
-    const {onLayout} = useLayout({scrollingLayout});
+    useEffect(() => {
+      scrollOrientation.value = orientation;
+    }, [orientation, scrollOrientation]);
+
+    const {onLayout} = useLayout({scrollLayout});
     const {onContentSizeChange} = useContentSizeChange({
       orientation,
-      scrolling,
-      scrollingLayout,
+      scroll,
+      scrollLayout,
     });
-    const {onScroll} = useScroll({orientation, scrolling, scrollingLock});
+    const {onScroll} = useScroll({orientation, scroll, scrollLock});
 
     useImperativeHandle(
       ref,

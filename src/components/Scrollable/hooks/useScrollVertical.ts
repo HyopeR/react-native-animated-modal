@@ -1,16 +1,17 @@
 import {useCallback} from 'react';
 import {NativeScrollEvent, NativeSyntheticEvent} from 'react-native';
 import {SharedValue} from 'react-native-reanimated';
+import {Scroll} from '../../../types';
 
 export const useScrollVertical = (
-  scrolling: SharedValue<string>,
-  scrollingLock: SharedValue<boolean>,
+  scroll: SharedValue<Scroll>,
+  scrollLock: SharedValue<boolean>,
 ) => {
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
       const {contentOffset, contentSize, layoutMeasurement} = e.nativeEvent;
 
-      if (scrollingLock.value) return;
+      if (scrollLock.value) return;
 
       const scrollable = contentSize.height > layoutMeasurement.height;
       if (!scrollable) return;
@@ -20,21 +21,25 @@ export const useScrollVertical = (
         contentOffset.y + layoutMeasurement.height >= contentSize.height - 1;
 
       if (isAtTop) {
-        scrolling.value = 'down';
+        if (scroll.value !== 'top') {
+          scroll.value = 'top';
+        }
         return;
       }
 
       if (isAtBottom) {
-        scrolling.value = 'up';
+        if (scroll.value !== 'bottom') {
+          scroll.value = 'bottom';
+        }
         return;
       }
 
-      if (scrolling.value !== 'idle') {
-        scrolling.value = 'idle';
+      if (scroll.value !== 'middle') {
+        scroll.value = 'middle';
         return;
       }
     },
-    [scrolling, scrollingLock],
+    [scroll, scrollLock],
   );
   return {onScroll};
 };
