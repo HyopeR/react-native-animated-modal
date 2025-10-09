@@ -23,7 +23,7 @@ export const Scrollable = React.forwardRef<ScrollableRef, ScrollableProps>(
       ScrollableDefaultProps,
     ) as ScrollableStrictProps;
 
-    const {native, scrolling, scrollingInitial} = useShareContext();
+    const {native, scrolling, scrollingLock} = useShareContext();
 
     const scrollingLayout = useRef({width: 0, height: 0});
 
@@ -31,10 +31,9 @@ export const Scrollable = React.forwardRef<ScrollableRef, ScrollableProps>(
     const {onContentSizeChange} = useContentSizeChange({
       orientation,
       scrolling,
-      scrollingInitial,
       scrollingLayout,
     });
-    const {onScroll} = useScroll({orientation, scrolling});
+    const {onScroll} = useScroll({orientation, scrolling, scrollingLock});
 
     useImperativeHandle(
       ref,

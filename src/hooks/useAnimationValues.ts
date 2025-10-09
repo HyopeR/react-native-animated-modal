@@ -18,7 +18,7 @@ export const useAnimationValues = () => {
 
   // Children management values.
   const scrolling = useSharedValue('down');
-  const scrollingInitial = useSharedValue('down');
+  const scrollingLock = useSharedValue(false);
   const scrollingOffset = useSharedValue<Offset>({x: 0, y: 0});
 
   useEffect(() => {
@@ -38,14 +38,14 @@ export const useAnimationValues = () => {
       opacity,
       scale,
       scrolling,
-      scrollingInitial,
+      scrollingLock,
       scrollingOffset,
     };
   }, [
     opacity,
     scale,
     scrolling,
-    scrollingInitial,
+    scrollingLock,
     scrollingOffset,
     size,
     translateX,

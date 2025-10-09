@@ -1,4 +1,4 @@
-import {useCallback, useMemo} from 'react';
+import {createRef, useCallback, useMemo} from 'react';
 import {
   runOnJS,
   SharedValue,
@@ -21,7 +21,7 @@ export type UseGestureProps = {
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
   scrolling: SharedValue<string>;
-  scrollingInitial: SharedValue<string>;
+  scrollingLock: SharedValue<boolean>;
   scrollingOffset: SharedValue<Offset>;
   events?: Partial<UseGestureEvents>;
 };
@@ -42,7 +42,7 @@ export const useGesture = ({
   translateX,
   translateY,
   scrolling,
-  scrollingInitial,
+  scrollingLock,
   scrollingOffset,
   events,
 }: UseGestureProps) => {
@@ -57,16 +57,31 @@ export const useGesture = ({
   );
 
   const direction = useSharedValue<AnimationNs.Direction | null>(null);
+  const directionLock = useSharedValue<AnimationNs.Direction | null>(null);
   const axis = useSharedValue<AnimationNs.Axis | null>(null);
+  const axisLock = useSharedValue<AnimationNs.Axis | null>(null);
 
   const handler = useCallback(
     (type: 'complete' | 'cancel') => {
       if (type === 'complete') events?.onSwipeComplete?.();
       else events?.onSwipeCancel?.();
       direction.value = null;
+      directionLock.value = null;
       axis.value = null;
+      axisLock.value = null;
+
+      scrollingLock.value = false;
+      scrollingOffset.value = {x: 0, y: 0};
     },
-    [axis, direction, events],
+    [
+      axis,
+      axisLock,
+      direction,
+      directionLock,
+      events,
+      scrollingLock,
+      scrollingOffset,
+    ],
   );
 
   const cb = useCallback(
@@ -84,66 +99,95 @@ export const useGesture = ({
   );
 
   return useMemo(() => {
+    const gestureNativeRef = createRef<any>();
     const gestureNative = Gesture.Native();
     const gesturePan = Gesture.Pan()
-      .enabled(false)
-      .simultaneousWithExternalGesture(gestureNative)
-      .onStart(e => {
-        ('worklet');
+      .enabled(enabled)
+      .simultaneousWithExternalGesture(gestureNative, gestureNativeRef)
+      .onStart(() => {
+        'worklet';
         direction.value = null;
+        directionLock.value = null;
         axis.value = null;
+        axisLock.value = null;
       })
       .onUpdate(e => {
-        ('worklet');
-        if (scrolling.value === 'idle') {
-          scrollingOffset.value = {x: e.translationX, y: e.translationY};
-        }
-
+        'worklet';
         const translationX = e.translationX - scrollingOffset.value.x;
         const translationY = e.translationY - scrollingOffset.value.y;
 
-        if (direction.value === null) {
-          const absX = Math.abs(translationX);
-          const absY = Math.abs(translationY);
-          if (absX < SWIPE_LOCK_THRESHOLD && absY < SWIPE_LOCK_THRESHOLD) {
-            return;
-          }
+        const absX = Math.abs(translationX);
+        const absY = Math.abs(translationY);
+        if (absX < SWIPE_LOCK_THRESHOLD && absY < SWIPE_LOCK_THRESHOLD) return;
 
-          if (absX > absY) {
-            direction.value = translationX > 0 ? 'right' : 'left';
-            axis.value = 'x';
-          } else {
-            direction.value = translationY > 0 ? 'down' : 'up';
-            axis.value = 'y';
-          }
-
-          if (!swipe.directions.includes(direction.value)) {
-            direction.value = null;
-            axis.value = null;
-          }
+        if (absX > absY) {
+          direction.value = translationX > 0 ? 'right' : 'left';
+          axis.value = 'x';
+        } else {
+          direction.value = translationY > 0 ? 'down' : 'up';
+          axis.value = 'y';
         }
 
-        if (direction.value === 'up' && scrolling.value !== 'down') {
-          translateX.value = 0;
-          translateY.value = Math.min(0, translationY);
-        } else if (direction.value === 'down' && scrolling.value !== 'up') {
-          translateX.value = 0;
-          translateY.value = Math.max(0, translationY);
-        } else if (direction.value === 'left' && scrolling.value !== 'right') {
-          translateX.value = Math.min(0, translationX);
-          translateY.value = 0;
-        } else if (direction.value === 'right' && scrolling.value !== 'left') {
-          translateX.value = Math.max(0, translationX);
-          translateY.value = 0;
+        if (!axisLock.value) {
+          axisLock.value = axis.value;
         }
-      })
-      .onEnd(e => {
-        ('worklet');
-        if (scrolling.value === 'idle') {
+
+        if (!directionLock.value || axisLock.value === axis.value) {
+          directionLock.value = direction.value;
+        }
+
+        if (!swipe.directions.includes(direction.value)) {
+          direction.value = null;
+          directionLock.value = null;
+          axis.value = null;
+          axisLock.value = null;
           return;
         }
 
-        const {velocityX, velocityY} = e;
+        const orientation = 'vertical';
+
+        if (orientation === 'vertical') {
+          if (axis.value === 'y' && scrolling.value === 'idle') {
+            scrollingOffset.value = {x: e.translationX, y: e.translationY};
+            return;
+          }
+
+          switch (direction.value) {
+            case 'up':
+              if (axisLock.value === 'y' && scrolling.value !== 'down') {
+                console.log('trigger up');
+                scrollingLock.value = true;
+                translateX.value = 0;
+                translateY.value = Math.min(0, translationY);
+              }
+              break;
+            case 'down':
+              if (axisLock.value === 'y' && scrolling.value !== 'up') {
+                console.log('trigger down');
+                scrollingLock.value = true;
+                translateX.value = 0;
+                translateY.value = Math.max(0, translationY);
+              }
+              break;
+            case 'left':
+              if (axisLock.value === 'x') {
+                scrollingLock.value = true;
+                translateX.value = Math.min(0, translationX);
+                translateY.value = 0;
+              }
+              break;
+            case 'right':
+              if (axisLock.value === 'x') {
+                scrollingLock.value = true;
+                translateX.value = Math.max(0, translationX);
+                translateY.value = 0;
+              }
+              break;
+          }
+        }
+      })
+      .onEnd(e => {
+        'worklet';
         const translationX = e.translationX - scrollingOffset.value.x;
         const translationY = e.translationY - scrollingOffset.value.y;
 
@@ -151,23 +195,21 @@ export const useGesture = ({
         let toX = 0;
         let toY = 0;
 
-        if (direction.value === 'up') {
-          dismiss =
-            translationY < -swipe.distance || velocityY < -swipe.velocity;
+        if (directionLock.value === 'up') {
+          dismiss = translationY < -swipe.distance;
           toY = dismiss ? -size.value.height : 0;
-        } else if (direction.value === 'down') {
-          dismiss = translationY > swipe.distance || velocityY > swipe.velocity;
+        } else if (directionLock.value === 'down') {
+          dismiss = translationY > swipe.distance;
           toY = dismiss ? size.value.height : 0;
-        } else if (direction.value === 'left') {
-          dismiss =
-            translationX < -swipe.distance || velocityX < -swipe.velocity;
+        } else if (directionLock.value === 'left') {
+          dismiss = translationX < -swipe.distance;
           toX = dismiss ? -size.value.width : 0;
-        } else if (direction.value === 'right') {
-          dismiss = translationX > swipe.distance || velocityX > swipe.velocity;
+        } else if (directionLock.value === 'right') {
+          dismiss = translationX > swipe.distance;
           toX = dismiss ? size.value.width : 0;
         }
 
-        if (dismiss && axis.value && swipe.closable) {
+        if (dismiss && axisLock.value && swipe.closable) {
           translateX.value = withTiming(toX, config, f =>
             cb(f, 'x', 'complete'),
           );
@@ -178,25 +220,28 @@ export const useGesture = ({
           translateX.value = withTiming(0, config, f => cb(f, 'x', 'cancel'));
           translateY.value = withTiming(0, config, f => cb(f, 'y', 'cancel'));
         }
-      })
-      .onFinalize(() => {
-        scrollingOffset.value = {x: 0, y: 0};
       });
 
-    return {native: gestureNative, pan: gesturePan};
+    return {
+      nativeRef: gestureNativeRef,
+      native: gestureNative,
+      pan: gesturePan,
+    };
   }, [
     axis,
+    axisLock,
     cb,
     config,
     direction,
+    directionLock,
     enabled,
     scrolling,
+    scrollingLock,
     scrollingOffset,
     size,
     swipe.closable,
     swipe.directions,
     swipe.distance,
-    swipe.velocity,
     translateX,
     translateY,
   ]);

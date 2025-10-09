@@ -14,14 +14,13 @@ export const ListModal = ({visible, setVisible}: ModalExampleProps) => {
       onHide={() => setVisible(false)}
       onSwipeComplete={() => setVisible(false)}
       onBackPress={() => setVisible(false)}
-      onBackdropPress={() => setVisible(false)}
+      // onBackdropPress={() => setVisible(false)}
       animation={{type: 'slide', direction: {start: 'up', end: 'down'}}}
       supportedOrientations={['portrait', 'landscape']}
       swipe={{enabled: true, directions: ['up', 'down', 'left', 'right']}}>
       <View style={{...styles.container, height: 500}}>
         <Scrollable ref={scroll} orientation={'vertical'}>
           <FlatList
-            scrollEventThrottle={16}
             onLayout={e => scroll.current?.onLayout?.(e)}
             onContentSizeChange={(w, h) =>
               scroll.current?.onContentSizeChange?.(w, h)

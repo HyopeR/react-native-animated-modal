@@ -2,10 +2,15 @@ import {useCallback} from 'react';
 import {NativeScrollEvent, NativeSyntheticEvent} from 'react-native';
 import {SharedValue} from 'react-native-reanimated';
 
-export const useScrollHorizontal = (scrolling: SharedValue<string>) => {
+export const useScrollHorizontal = (
+  scrolling: SharedValue<string>,
+  scrollingLock: SharedValue<boolean>,
+) => {
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
       const {contentOffset, contentSize, layoutMeasurement} = e.nativeEvent;
+
+      if (scrollingLock.value) return;
 
       const scrollable = contentSize.width > layoutMeasurement.width;
       if (!scrollable) return;
@@ -29,7 +34,7 @@ export const useScrollHorizontal = (scrolling: SharedValue<string>) => {
         return;
       }
     },
-    [scrolling],
+    [scrolling, scrollingLock],
   );
   return {onScroll};
 };

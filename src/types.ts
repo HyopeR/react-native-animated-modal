@@ -16,6 +16,12 @@ export type Offset = {
   y: number;
 };
 
+/**
+ * @internal
+ * Scrollable component boundary for general use.
+ */
+export type Boundary = 'top' | 'bottom' | 'left' | 'right' | 'around' | 'none';
+
 export namespace AnimationNs {
   /**
    * Animation configuration.

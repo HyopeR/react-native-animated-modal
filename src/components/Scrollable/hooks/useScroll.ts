@@ -7,11 +7,22 @@ import {useScrollHorizontal} from './useScrollHorizontal';
 export type UseScrollableProps = {
   orientation: 'vertical' | 'horizontal';
   scrolling: SharedValue<string>;
+  scrollingLock: SharedValue<boolean>;
 };
 
-export const useScroll = ({orientation, scrolling}: UseScrollableProps) => {
-  const {onScroll: onScrollVertical} = useScrollVertical(scrolling);
-  const {onScroll: onScrollHorizontal} = useScrollHorizontal(scrolling);
+export const useScroll = ({
+  orientation,
+  scrolling,
+  scrollingLock,
+}: UseScrollableProps) => {
+  const {onScroll: onScrollVertical} = useScrollVertical(
+    scrolling,
+    scrollingLock,
+  );
+  const {onScroll: onScrollHorizontal} = useScrollHorizontal(
+    scrolling,
+    scrollingLock,
+  );
 
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
