@@ -18,13 +18,19 @@ export type Offset = {
 
 /**
  * @internal
- * Scrollable component state for general use.
+ * Modal component status.
+ */
+export type Status = 'idle' | 'entering' | 'exiting';
+
+/**
+ * @internal
+ * Scrollable component scroll state.
  */
 export type Scroll = 'top' | 'bottom' | 'left' | 'right' | 'middle' | 'none';
 
 /**
  * @internal
- * Scrollable component boundary for general use.
+ * Scrollable component orientation.
  */
 export type ScrollOrientation = 'vertical' | 'horizontal' | 'none';
 

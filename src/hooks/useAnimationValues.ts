@@ -2,7 +2,7 @@ import {useEffect, useMemo} from 'react';
 import {Dimensions} from 'react-native';
 import {useSharedValue} from 'react-native-reanimated';
 import {SIZE} from '../constants';
-import {Size, Offset, ScrollOrientation, Scroll} from '../types';
+import {Size, Offset, ScrollOrientation, Scroll, Status} from '../types';
 
 /**
  * @internal
@@ -10,6 +10,7 @@ import {Size, Offset, ScrollOrientation, Scroll} from '../types';
  */
 export const useAnimationValues = () => {
   // Animation management values.
+  const status = useSharedValue<Status>('idle');
   const size = useSharedValue<Size>(SIZE);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -34,6 +35,7 @@ export const useAnimationValues = () => {
   return useMemo(() => {
     return {
       size,
+      status,
       translateX,
       translateY,
       opacity,
@@ -51,6 +53,7 @@ export const useAnimationValues = () => {
     scrollOffset,
     scrollOrientation,
     size,
+    status,
     translateX,
     translateY,
   ]);

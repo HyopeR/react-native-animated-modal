@@ -13,6 +13,7 @@ import {
   Scroll,
   ScrollOrientation,
   Size,
+  Status,
   SwipeNs,
 } from '../types';
 
@@ -22,8 +23,9 @@ export type UseGestureEvents = {
 };
 
 export type UseGestureProps = {
-  swipe: SwipeNs.ConfigStrict;
   animation: AnimationNs.ConfigStrict;
+  swipe: SwipeNs.ConfigStrict;
+  status: SharedValue<Status>;
   size: SharedValue<Size>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
@@ -44,9 +46,10 @@ export type UseGestureProps = {
  * Calls lifecycle events: `onSwipeComplete` or `onSwipeCancel`.
  */
 export const useGesture = ({
-  size,
-  swipe,
   animation,
+  swipe,
+  status,
+  size,
   translateX,
   translateY,
   scroll,
@@ -65,8 +68,6 @@ export const useGesture = ({
     [animation.duration],
   );
 
-  const gestureLock = useSharedValue(false);
-
   const direction = useSharedValue<AnimationNs.Direction | null>(null);
   const directionLock = useSharedValue<AnimationNs.Direction | null>(null);
   const axis = useSharedValue<AnimationNs.Axis | null>(null);
@@ -76,7 +77,8 @@ export const useGesture = ({
     (type: 'complete' | 'cancel') => {
       if (type === 'complete') events?.onSwipeComplete?.();
       else events?.onSwipeCancel?.();
-      gestureLock.value = false;
+
+      status.value = 'idle';
 
       direction.value = null;
       directionLock.value = null;
@@ -92,9 +94,9 @@ export const useGesture = ({
       direction,
       directionLock,
       events,
-      gestureLock,
       scrollLock,
       scrollOffset,
+      status,
     ],
   );
 
@@ -105,7 +107,8 @@ export const useGesture = ({
       type: 'complete' | 'cancel',
     ) => {
       'worklet';
-      if (axisLock.value === character) {
+      console.log(finished, axisLock.value, character);
+      if (finished && axisLock.value === character) {
         runOnJS(handler)(type);
       }
     },
@@ -119,7 +122,7 @@ export const useGesture = ({
       .simultaneousWithExternalGesture(gestureNative)
       .onStart(() => {
         'worklet';
-        if (gestureLock.value) return;
+        if (status.value !== 'idle') return;
 
         direction.value = null;
         directionLock.value = null;
@@ -128,7 +131,7 @@ export const useGesture = ({
       })
       .onUpdate(e => {
         'worklet';
-        if (gestureLock.value) return;
+        if (status.value !== 'idle') return;
 
         const translationX = e.translationX - scrollOffset.value.x;
         const translationY = e.translationY - scrollOffset.value.y;
@@ -236,7 +239,27 @@ export const useGesture = ({
       })
       .onEnd(e => {
         'worklet';
-        if (gestureLock.value || !axisLock.value || !directionLock.value) {
+        if (
+          status.value !== 'idle' ||
+          !axisLock.value ||
+          !directionLock.value
+        ) {
+          return;
+        }
+
+        if (
+          scrollOrientation.value === 'vertical' &&
+          scroll.value === 'middle' &&
+          axisLock.value === 'y'
+        ) {
+          return;
+        }
+
+        if (
+          scrollOrientation.value === 'horizontal' &&
+          scroll.value === 'middle' &&
+          axisLock.value === 'x'
+        ) {
           return;
         }
 
@@ -261,8 +284,8 @@ export const useGesture = ({
           toX = dismiss ? size.value.width : 0;
         }
 
-        gestureLock.value = true;
         if (dismiss && swipe.closable) {
+          status.value = 'exiting';
           translateX.value = withTiming(toX, config, f =>
             cb(f, 'x', 'complete'),
           );
@@ -287,12 +310,12 @@ export const useGesture = ({
     direction,
     directionLock,
     enabled,
-    gestureLock,
     scroll,
     scrollLock,
     scrollOffset,
     scrollOrientation,
     size,
+    status,
     swipe.closable,
     swipe.directions,
     swipe.distance,

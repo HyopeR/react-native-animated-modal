@@ -68,6 +68,8 @@ export const Modal = (props: ModalProps) => {
   }, [animationConfig, backdropConfig, swipeConfig]);
 
   const mount = useRef(false);
+
+  const _visibleRef = useRef(visible);
   const [_visible, _setVisible] = useState(visible);
 
   // Cache user-provided callbacks to avoid unnecessary re-renders.
@@ -79,19 +81,23 @@ export const Modal = (props: ModalProps) => {
   const onSwipeCancelEvent = useEvent(onSwipeCancel);
 
   const handleShow = useCallback(() => {
-    if (_visible) return;
+    if (_visibleRef.current) return;
     onShowEvent();
+    _visibleRef.current = true;
     _setVisible(true);
-  }, [onShowEvent, _visible]);
+  }, [onShowEvent]);
 
   const handleHide = useCallback(() => {
-    if (!_visible) return;
+    if (!_visibleRef.current) return;
     onHideEvent();
+    _visibleRef.current = false;
     _setVisible(false);
-  }, [onHideEvent, _visible]);
+  }, [onHideEvent]);
 
   const handleSwipeComplete = useCallback(() => {
+    if (!_visibleRef.current) return;
     onSwipeCompleteEvent();
+    _visibleRef.current = false;
     _setVisible(false);
   }, [onSwipeCompleteEvent]);
 
@@ -123,6 +129,7 @@ export const Modal = (props: ModalProps) => {
 
   const {init, enter, exit} = useAnimation({
     animation: config.animation,
+    status: values.status,
     size: values.size,
     translateX: values.translateX,
     translateY: values.translateY,
@@ -132,8 +139,9 @@ export const Modal = (props: ModalProps) => {
   });
 
   const {native, pan} = useGesture({
-    swipe: config.swipe,
     animation: config.animation,
+    swipe: config.swipe,
+    status: values.status,
     size: values.size,
     translateX: values.translateX,
     translateY: values.translateY,

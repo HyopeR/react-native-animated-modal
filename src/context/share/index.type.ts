@@ -1,10 +1,11 @@
-import {ReactNode, RefObject} from 'react';
+import {ReactNode} from 'react';
 import {SharedValue} from 'react-native-reanimated';
 import {NativeGesture, PanGesture} from 'react-native-gesture-handler';
-import {Offset, Scroll, ScrollOrientation, Size} from '../../types';
+import {Offset, Scroll, ScrollOrientation, Size, Status} from '../../types';
 
 export type ShareContextState = {
   // Animation management values.
+  status: SharedValue<Status>;
   size: SharedValue<Size>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;

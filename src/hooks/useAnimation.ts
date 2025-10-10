@@ -7,7 +7,7 @@ import {
 } from 'react-native-reanimated';
 import {EASING} from '../constants';
 import {Movement} from '../utils';
-import {AnimationNs, Size} from '../types';
+import {AnimationNs, Size, Status} from '../types';
 
 export type UseAnimationEvents = {
   onInitStart: () => void;
@@ -20,6 +20,7 @@ export type UseAnimationEvents = {
 
 export type UseAnimationProps = {
   animation: AnimationNs.ConfigStrict;
+  status: SharedValue<Status>;
   size: SharedValue<Size>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
@@ -36,6 +37,7 @@ export type UseAnimationProps = {
  */
 export const useAnimation = ({
   animation,
+  status,
   size,
   translateX,
   translateY,
@@ -53,8 +55,22 @@ export const useAnimation = ({
   const handler = useCallback(
     (event: keyof UseAnimationEvents) => {
       events?.[event]?.();
+      switch (event) {
+        case 'onEnterStart':
+          status.value = 'entering';
+          break;
+        case 'onEnterEnd':
+          status.value = 'idle';
+          break;
+        case 'onExitStart':
+          status.value = 'exiting';
+          break;
+        case 'onExitEnd':
+          status.value = 'idle';
+          break;
+      }
     },
-    [events],
+    [events, status],
   );
 
   const cb = useCallback(
@@ -157,6 +173,8 @@ export const useAnimation = ({
    * Run exit animation (on unmount).
    */
   const exit = useCallback(() => {
+    if (status.value === 'exiting') return;
+
     handler('onExitStart');
     switch (animation.type) {
       case 'fade':
@@ -209,6 +227,7 @@ export const useAnimation = ({
     opacity,
     scale,
     size,
+    status,
     translateX,
     translateY,
   ]);
