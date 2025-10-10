@@ -65,6 +65,8 @@ export const useGesture = ({
     [animation.duration],
   );
 
+  const gestureLock = useSharedValue(false);
+
   const direction = useSharedValue<AnimationNs.Direction | null>(null);
   const directionLock = useSharedValue<AnimationNs.Direction | null>(null);
   const axis = useSharedValue<AnimationNs.Axis | null>(null);
@@ -74,6 +76,8 @@ export const useGesture = ({
     (type: 'complete' | 'cancel') => {
       if (type === 'complete') events?.onSwipeComplete?.();
       else events?.onSwipeCancel?.();
+      gestureLock.value = false;
+
       direction.value = null;
       directionLock.value = null;
       axis.value = null;
@@ -88,6 +92,7 @@ export const useGesture = ({
       direction,
       directionLock,
       events,
+      gestureLock,
       scrollLock,
       scrollOffset,
     ],
@@ -100,7 +105,7 @@ export const useGesture = ({
       type: 'complete' | 'cancel',
     ) => {
       'worklet';
-      if (finished && axisLock.value === character) {
+      if (axisLock.value === character) {
         runOnJS(handler)(type);
       }
     },
@@ -114,6 +119,8 @@ export const useGesture = ({
       .simultaneousWithExternalGesture(gestureNative)
       .onStart(() => {
         'worklet';
+        if (gestureLock.value) return;
+
         direction.value = null;
         directionLock.value = null;
         axis.value = null;
@@ -121,13 +128,18 @@ export const useGesture = ({
       })
       .onUpdate(e => {
         'worklet';
+        if (gestureLock.value) return;
+
         const translationX = e.translationX - scrollOffset.value.x;
         const translationY = e.translationY - scrollOffset.value.y;
 
         const absX = Math.abs(translationX);
         const absY = Math.abs(translationY);
-        if (absX < SWIPE_LOCK_THRESHOLD && absY < SWIPE_LOCK_THRESHOLD) return;
+        if (absX < SWIPE_LOCK_THRESHOLD && absY < SWIPE_LOCK_THRESHOLD) {
+          return;
+        }
 
+        // The direction and axis of movement are determined.
         if (absX > absY) {
           direction.value = translationX > 0 ? 'right' : 'left';
           axis.value = 'x';
@@ -136,98 +148,98 @@ export const useGesture = ({
           axis.value = 'y';
         }
 
+        // The axis is locked when movement begins.
+        // It prevents simultaneous movement in the X and Y axes.
         if (!axisLock.value) {
           axisLock.value = axis.value;
         }
 
+        // The direction of movement can be changed while in motion.
+        // The direction of movement can only change along the axis from which it started.
         if (!directionLock.value || axisLock.value === axis.value) {
           directionLock.value = direction.value;
         }
 
+        // If there is a movement in directions not specified by the user,
+        // the movement is not started.
         if (!swipe.directions.includes(direction.value)) {
-          //direction.value = null;
-          //directionLock.value = null;
-          //axis.value = null;
-          //axisLock.value = null;
+          direction.value = null;
+          directionLock.value = null;
+          axis.value = null;
+          axisLock.value = null;
           return;
         }
 
-        if (scrollOrientation.value === 'vertical') {
-          if (axis.value === 'y' && scroll.value === 'middle') {
+        if (scrollOrientation.value !== 'none' && scroll.value === 'middle') {
+          if (scrollOrientation.value === 'vertical' && axis.value === 'y') {
             scrollOffset.value = {x: e.translationX, y: e.translationY};
             return;
           }
 
-          switch (direction.value) {
-            case 'up':
-              if (axisLock.value === 'y' && scroll.value !== 'top') {
-                scrollLock.value = true;
-                translateX.value = 0;
-                translateY.value = Math.min(0, translationY);
-              }
-              break;
-            case 'down':
-              if (axisLock.value === 'y' && scroll.value !== 'bottom') {
-                scrollLock.value = true;
-                translateX.value = 0;
-                translateY.value = Math.max(0, translationY);
-              }
-              break;
-            case 'left':
-              if (axisLock.value === 'x') {
-                scrollLock.value = true;
-                translateX.value = Math.min(0, translationX);
-                translateY.value = 0;
-              }
-              break;
-            case 'right':
-              if (axisLock.value === 'x') {
-                scrollLock.value = true;
-                translateX.value = Math.max(0, translationX);
-                translateY.value = 0;
-              }
-              break;
-          }
-        } else {
-          if (axis.value === 'x' && scroll.value === 'middle') {
+          if (scrollOrientation.value === 'horizontal' && axis.value === 'x') {
             scrollOffset.value = {x: e.translationX, y: e.translationY};
             return;
           }
+        }
 
-          switch (direction.value) {
-            case 'up':
-              if (axisLock.value === 'y') {
-                scrollLock.value = true;
-                translateX.value = 0;
-                translateY.value = Math.min(0, translationY);
-              }
-              break;
-            case 'down':
-              if (axisLock.value === 'y') {
-                scrollLock.value = true;
-                translateX.value = 0;
-                translateY.value = Math.max(0, translationY);
-              }
-              break;
-            case 'left':
-              if (axisLock.value === 'x' && scroll.value !== 'left') {
-                scrollLock.value = true;
-                translateX.value = Math.min(0, translationX);
-                translateY.value = 0;
-              }
-              break;
-            case 'right':
-              if (axisLock.value === 'x' && scroll.value !== 'right') {
-                scrollLock.value = true;
-                translateX.value = Math.max(0, translationX);
-                translateY.value = 0;
-              }
-              break;
-          }
+        // Pan.Gesture and Scrollable Children are what determine how the component will work.
+        // If there are no scrollable children -> All true.
+        // If there are scrollable children -> Determine by position in the list.
+        const scrollable = {
+          top:
+            scrollOrientation.value !== 'vertical' ||
+            (scrollOrientation.value === 'vertical' && scroll.value !== 'top'),
+          bottom:
+            scrollOrientation.value !== 'vertical' ||
+            (scrollOrientation.value === 'vertical' &&
+              scroll.value !== 'bottom'),
+          left:
+            scrollOrientation.value !== 'horizontal' ||
+            (scrollOrientation.value === 'horizontal' &&
+              scroll.value !== 'left'),
+          right:
+            scrollOrientation.value !== 'horizontal' ||
+            (scrollOrientation.value === 'horizontal' &&
+              scroll.value !== 'right'),
+        };
+
+        switch (direction.value) {
+          case 'up':
+            if (axisLock.value === 'y' && scrollable.top) {
+              scrollLock.value = true;
+              translateX.value = 0;
+              translateY.value = Math.min(0, translationY);
+            }
+            break;
+          case 'down':
+            if (axisLock.value === 'y' && scrollable.bottom) {
+              scrollLock.value = true;
+              translateX.value = 0;
+              translateY.value = Math.max(0, translationY);
+            }
+            break;
+          case 'left':
+            if (axisLock.value === 'x' && scrollable.left) {
+              scrollLock.value = true;
+              translateX.value = Math.min(0, translationX);
+              translateY.value = 0;
+            }
+            break;
+          case 'right':
+            if (axisLock.value === 'x' && scrollable.right) {
+              scrollLock.value = true;
+              translateX.value = Math.max(0, translationX);
+              translateY.value = 0;
+            }
+            break;
         }
       })
       .onEnd(e => {
         'worklet';
+        if (gestureLock.value || !axisLock.value || !directionLock.value) {
+          return;
+        }
+
         const translationX = e.translationX - scrollOffset.value.x;
         const translationY = e.translationY - scrollOffset.value.y;
 
@@ -249,7 +261,8 @@ export const useGesture = ({
           toX = dismiss ? size.value.width : 0;
         }
 
-        if (dismiss && axisLock.value && swipe.closable) {
+        gestureLock.value = true;
+        if (dismiss && swipe.closable) {
           translateX.value = withTiming(toX, config, f =>
             cb(f, 'x', 'complete'),
           );
@@ -274,6 +287,7 @@ export const useGesture = ({
     direction,
     directionLock,
     enabled,
+    gestureLock,
     scroll,
     scrollLock,
     scrollOffset,

@@ -14,7 +14,7 @@ export const ListModal = ({visible, setVisible}: ModalExampleProps) => {
       onHide={() => setVisible(false)}
       onSwipeComplete={() => setVisible(false)}
       onBackPress={() => setVisible(false)}
-      // onBackdropPress={() => setVisible(false)}
+      onBackdropPress={() => setVisible(false)}
       animation={{type: 'slide', direction: {start: 'up', end: 'down'}}}
       supportedOrientations={['portrait', 'landscape']}
       swipe={{enabled: true, directions: ['up', 'down', 'left', 'right']}}>
