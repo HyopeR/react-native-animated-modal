@@ -5,6 +5,10 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 
+/**
+ * Reference for the Scrollable component.
+ * The functions here are available for any child component to consume.
+ */
 export type ScrollableRef = {
   onScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
   onLayout: (e: LayoutChangeEvent) => void;
@@ -21,6 +25,10 @@ export type ScrollableProps = {
    */
   orientation?: 'vertical' | 'horizontal';
   /**
+   * Reverses the direction of scroll. Uses scale transforms of -1.
+   */
+  inverted?: boolean;
+  /**
    * Scrollable children.
    */
   children?: ReactNode;
@@ -30,7 +38,7 @@ export type ScrollableProps = {
  * Props that always have initial values even if the user leaves them empty.
  */
 export type ScrollableRequiredProps = Required<
-  Pick<ScrollableProps, 'orientation'>
+  Pick<ScrollableProps, 'orientation' | 'inverted'>
 >;
 
 /**

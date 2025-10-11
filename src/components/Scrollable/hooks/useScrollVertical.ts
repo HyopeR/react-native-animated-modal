@@ -1,12 +1,12 @@
 import {useCallback} from 'react';
 import {NativeScrollEvent, NativeSyntheticEvent} from 'react-native';
-import {SharedValue} from 'react-native-reanimated';
-import {Scroll} from '../../../types';
+import {UseScrollCommonProps} from './types';
 
-export const useScrollVertical = (
-  scroll: SharedValue<Scroll>,
-  scrollLock: SharedValue<boolean>,
-) => {
+export const useScrollVertical = ({
+  inverted,
+  scroll,
+  scrollLock,
+}: UseScrollCommonProps) => {
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
       const {contentOffset, contentSize, layoutMeasurement} = e.nativeEvent;
@@ -21,15 +21,17 @@ export const useScrollVertical = (
         contentOffset.y + layoutMeasurement.height >= contentSize.height - 1;
 
       if (isAtTop) {
-        if (scroll.value !== 'top') {
-          scroll.value = 'top';
+        const boundary = !inverted ? 'top' : 'bottom';
+        if (scroll.value !== boundary) {
+          scroll.value = boundary;
         }
         return;
       }
 
       if (isAtBottom) {
-        if (scroll.value !== 'bottom') {
-          scroll.value = 'bottom';
+        const boundary = !inverted ? 'bottom' : 'top';
+        if (scroll.value !== boundary) {
+          scroll.value = boundary;
         }
         return;
       }
@@ -39,7 +41,7 @@ export const useScrollVertical = (
         return;
       }
     },
-    [scroll, scrollLock],
+    [inverted, scroll, scrollLock],
   );
   return {onScroll};
 };

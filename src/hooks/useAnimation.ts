@@ -6,7 +6,7 @@ import {
   WithTimingConfig,
 } from 'react-native-reanimated';
 import {EASING} from '../constants';
-import {Movement} from '../utils';
+import {SlideMovement} from '../utils';
 import {AnimationNs, Size, Status} from '../types';
 
 export type UseAnimationEvents = {
@@ -55,6 +55,8 @@ export const useAnimation = ({
   const handler = useCallback(
     (event: keyof UseAnimationEvents) => {
       events?.[event]?.();
+
+      // Modal status updates with Animation.
       switch (event) {
         case 'onEnterStart':
           status.value = 'entering';
@@ -98,7 +100,7 @@ export const useAnimation = ({
 
       case 'slide':
         const {direction} = animation;
-        const movement = Movement.get(size.value);
+        const movement = SlideMovement.get(size.value);
         const dict: Record<AnimationNs.Direction, Function> = {
           up: () => {
             translateX.value = 0;
@@ -184,10 +186,12 @@ export const useAnimation = ({
       case 'slide':
         const {direction} = animation;
 
+        // If the animation start and end are given differently,
+        // use the movement values of the Slide animation by reversing them.
         const reflection = typeof direction !== 'string';
         const movement = reflection
-          ? Movement.getReflect(size.value)
-          : Movement.get(size.value);
+          ? SlideMovement.getReflect(size.value)
+          : SlideMovement.get(size.value);
 
         const dict: Record<AnimationNs.Direction, Function> = {
           up: () => {

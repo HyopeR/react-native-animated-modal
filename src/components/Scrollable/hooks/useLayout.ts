@@ -1,10 +1,6 @@
-import {RefObject, useCallback} from 'react';
+import {useCallback} from 'react';
 import {LayoutChangeEvent} from 'react-native';
-import {Size} from '../../../types';
-
-export type UseLayoutProps = {
-  scrollLayout: RefObject<Size>;
-};
+import {UseLayoutProps} from './types';
 
 export const useLayout = ({scrollLayout}: UseLayoutProps) => {
   const onLayout = useCallback(

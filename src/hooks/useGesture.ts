@@ -107,7 +107,6 @@ export const useGesture = ({
       type: 'complete' | 'cancel',
     ) => {
       'worklet';
-      console.log(finished, axisLock.value, character);
       if (finished && axisLock.value === character) {
         runOnJS(handler)(type);
       }
@@ -128,6 +127,9 @@ export const useGesture = ({
         directionLock.value = null;
         axis.value = null;
         axisLock.value = null;
+
+        scrollLock.value = false;
+        scrollOffset.value = {x: 0, y: 0};
       })
       .onUpdate(e => {
         'worklet';
@@ -161,6 +163,8 @@ export const useGesture = ({
         // The direction of movement can only change along the axis from which it started.
         if (!directionLock.value || axisLock.value === axis.value) {
           directionLock.value = direction.value;
+          // Scroll lock needs to be turned on when the direction changes.
+          scrollLock.value = false;
         }
 
         // If there is a movement in directions not specified by the user,
@@ -173,13 +177,13 @@ export const useGesture = ({
           return;
         }
 
+        // If there are any scrollable children and the scroll status is 'middle', their
+        // movements on the same axis during this movement are written into the offset.
         if (scrollOrientation.value !== 'none' && scroll.value === 'middle') {
-          if (scrollOrientation.value === 'vertical' && axis.value === 'y') {
-            scrollOffset.value = {x: e.translationX, y: e.translationY};
-            return;
-          }
-
-          if (scrollOrientation.value === 'horizontal' && axis.value === 'x') {
+          if (
+            (scrollOrientation.value === 'vertical' && axis.value === 'y') ||
+            (scrollOrientation.value === 'horizontal' && axis.value === 'x')
+          ) {
             scrollOffset.value = {x: e.translationX, y: e.translationY};
             return;
           }
@@ -239,28 +243,16 @@ export const useGesture = ({
       })
       .onEnd(e => {
         'worklet';
-        if (
-          status.value !== 'idle' ||
-          !axisLock.value ||
-          !directionLock.value
-        ) {
-          return;
-        }
-
-        if (
-          scrollOrientation.value === 'vertical' &&
-          scroll.value === 'middle' &&
-          axisLock.value === 'y'
-        ) {
-          return;
-        }
-
-        if (
-          scrollOrientation.value === 'horizontal' &&
-          scroll.value === 'middle' &&
-          axisLock.value === 'x'
-        ) {
-          return;
+        if (status.value !== 'idle') return;
+        if (!axisLock.value || !directionLock.value) return;
+        if (scrollOrientation.value !== 'none' && scroll.value === 'middle') {
+          if (
+            (scrollOrientation.value === 'vertical' &&
+              axisLock.value === 'y') ||
+            (scrollOrientation.value === 'horizontal' && axisLock.value === 'x')
+          ) {
+            return;
+          }
         }
 
         const translationX = e.translationX - scrollOffset.value.x;
@@ -285,6 +277,7 @@ export const useGesture = ({
         }
 
         if (dismiss && swipe.closable) {
+          // Modal closing change modal state.
           status.value = 'exiting';
           translateX.value = withTiming(toX, config, f =>
             cb(f, 'x', 'complete'),

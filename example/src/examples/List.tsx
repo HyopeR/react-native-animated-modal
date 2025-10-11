@@ -21,6 +21,10 @@ export const ListModal = ({visible, setVisible}: ModalExampleProps) => {
       <View style={{...styles.container, height: 500}}>
         <Scrollable ref={scroll} orientation={'vertical'}>
           <FlatList
+            bounces={false}
+            alwaysBounceVertical={false}
+            alwaysBounceHorizontal={false}
+            overScrollMode={'never'}
             onLayout={e => scroll.current?.onLayout?.(e)}
             onContentSizeChange={(w, h) =>
               scroll.current?.onContentSizeChange?.(w, h)

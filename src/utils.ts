@@ -1,9 +1,9 @@
 import {AnimationNs, Size} from './types';
 
-export const Movement = {
+export const SlideMovement = {
   /**
    * @internal
-   * Offset values for enter animations.
+   * Offset values for enter slide animations.
    */
   get: (size: Size): Record<AnimationNs.Direction, number> => {
     const {width, height} = size;
@@ -12,7 +12,7 @@ export const Movement = {
 
   /**
    * @internal
-   * Offset values for exit animations (reverse of get).
+   * Offset values for exit slide animations (reverse of get).
    */
   getReflect: (size: Size): Record<AnimationNs.Direction, number> => {
     const {width, height} = size;
