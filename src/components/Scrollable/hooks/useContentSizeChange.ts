@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {UseContentSizeChangeProps} from './types';
+import {UseContentSizeChangeProps} from './index.type';
 
 export const useContentSizeChange = ({
   orientation,

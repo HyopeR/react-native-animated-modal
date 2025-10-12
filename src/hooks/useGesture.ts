@@ -30,6 +30,7 @@ export type UseGestureProps = {
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
   scroll: SharedValue<Scroll>;
+  scrollInteraction: SharedValue<boolean>;
   scrollLock: SharedValue<boolean>;
   scrollOffset: SharedValue<Offset>;
   scrollOrientation: SharedValue<ScrollOrientation>;
@@ -53,6 +54,7 @@ export const useGesture = ({
   translateX,
   translateY,
   scroll,
+  scrollInteraction,
   scrollLock,
   scrollOffset,
   scrollOrientation,
@@ -101,24 +103,21 @@ export const useGesture = ({
   );
 
   const cb = useCallback(
-    (
-      finished: boolean | undefined,
-      character: 'x' | 'y',
-      type: 'complete' | 'cancel',
-    ) => {
+    (finished: boolean | undefined, type: 'complete' | 'cancel') => {
       'worklet';
-      if (finished && axisLock.value === character) {
+      if (finished) {
         runOnJS(handler)(type);
       }
     },
-    [axisLock, handler],
+    [handler],
   );
 
   return useMemo(() => {
-    const gestureNative = Gesture.Native();
+    const gestureNative = Gesture.Native().shouldCancelWhenOutside(false);
     const gesturePan = Gesture.Pan()
       .enabled(enabled)
       .simultaneousWithExternalGesture(gestureNative)
+      .shouldCancelWhenOutside(false)
       .onStart(() => {
         'worklet';
         if (status.value !== 'idle') return;
@@ -179,7 +178,11 @@ export const useGesture = ({
 
         // If there are any scrollable children and the scroll status is 'middle', their
         // movements on the same axis during this movement are written into the offset.
-        if (scrollOrientation.value !== 'none' && scroll.value === 'middle') {
+        if (
+          scrollInteraction.value &&
+          scrollOrientation.value !== 'none' &&
+          scroll.value === 'middle'
+        ) {
           if (
             (scrollOrientation.value === 'vertical' && axis.value === 'y') ||
             (scrollOrientation.value === 'horizontal' && axis.value === 'x')
@@ -194,17 +197,21 @@ export const useGesture = ({
         // If there are scrollable children -> Determine by position in the list.
         const scrollable = {
           top:
+            !scrollInteraction.value ||
             scrollOrientation.value !== 'vertical' ||
             (scrollOrientation.value === 'vertical' && scroll.value !== 'top'),
           bottom:
+            !scrollInteraction.value ||
             scrollOrientation.value !== 'vertical' ||
             (scrollOrientation.value === 'vertical' &&
               scroll.value !== 'bottom'),
           left:
+            !scrollInteraction.value ||
             scrollOrientation.value !== 'horizontal' ||
             (scrollOrientation.value === 'horizontal' &&
               scroll.value !== 'left'),
           right:
+            !scrollInteraction.value ||
             scrollOrientation.value !== 'horizontal' ||
             (scrollOrientation.value === 'horizontal' &&
               scroll.value !== 'right'),
@@ -245,18 +252,15 @@ export const useGesture = ({
         'worklet';
         if (status.value !== 'idle') return;
         if (!axisLock.value || !directionLock.value) return;
-        if (scrollOrientation.value !== 'none' && scroll.value === 'middle') {
-          if (
-            (scrollOrientation.value === 'vertical' &&
-              axisLock.value === 'y') ||
-            (scrollOrientation.value === 'horizontal' && axisLock.value === 'x')
-          ) {
-            return;
-          }
-        }
 
         const translationX = e.translationX - scrollOffset.value.x;
         const translationY = e.translationY - scrollOffset.value.y;
+
+        const absX = Math.abs(translationX);
+        const absY = Math.abs(translationY);
+        if (absX < SWIPE_LOCK_THRESHOLD && absY < SWIPE_LOCK_THRESHOLD) {
+          return;
+        }
 
         let dismiss = false;
         let toX = 0;
@@ -279,15 +283,19 @@ export const useGesture = ({
         if (dismiss && swipe.closable) {
           // Modal closing change modal state.
           status.value = 'exiting';
-          translateX.value = withTiming(toX, config, f =>
-            cb(f, 'x', 'complete'),
-          );
-          translateY.value = withTiming(toY, config, f =>
-            cb(f, 'y', 'complete'),
-          );
+          translateX.value = withTiming(toX, config, f => {
+            if (axisLock.value === 'x') cb(f, 'complete');
+          });
+          translateY.value = withTiming(toY, config, f => {
+            if (axisLock.value === 'y') cb(f, 'complete');
+          });
         } else {
-          translateX.value = withTiming(0, config, f => cb(f, 'x', 'cancel'));
-          translateY.value = withTiming(0, config, f => cb(f, 'y', 'cancel'));
+          translateX.value = withTiming(0, config, f => {
+            if (axisLock.value === 'x') cb(f, 'cancel');
+          });
+          translateY.value = withTiming(0, config, f => {
+            if (axisLock.value === 'y') cb(f, 'cancel');
+          });
         }
       });
 
@@ -304,6 +312,7 @@ export const useGesture = ({
     directionLock,
     enabled,
     scroll,
+    scrollInteraction,
     scrollLock,
     scrollOffset,
     scrollOrientation,

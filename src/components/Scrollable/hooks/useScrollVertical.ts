@@ -1,6 +1,7 @@
 import {useCallback} from 'react';
 import {NativeScrollEvent, NativeSyntheticEvent} from 'react-native';
-import {UseScrollCommonProps} from './types';
+import {ReanimatedEvent} from 'react-native-reanimated';
+import {UseScrollCommonProps} from './index.type';
 
 export const useScrollVertical = ({
   inverted,
@@ -8,8 +9,10 @@ export const useScrollVertical = ({
   scrollLock,
 }: UseScrollCommonProps) => {
   const onScroll = useCallback(
-    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-      const {contentOffset, contentSize, layoutMeasurement} = e.nativeEvent;
+    (e: ReanimatedEvent<NativeSyntheticEvent<NativeScrollEvent>>) => {
+      'worklet';
+
+      const {contentOffset, contentSize, layoutMeasurement} = e;
 
       if (scrollLock.value) return;
 
@@ -20,28 +23,21 @@ export const useScrollVertical = ({
       const isAtBottom =
         contentOffset.y + layoutMeasurement.height >= contentSize.height - 1;
 
+      let value: 'top' | 'bottom' | 'middle';
       if (isAtTop) {
-        const boundary = !inverted ? 'top' : 'bottom';
-        if (scroll.value !== boundary) {
-          scroll.value = boundary;
-        }
-        return;
+        value = !inverted ? 'top' : 'bottom';
+      } else if (isAtBottom) {
+        value = !inverted ? 'bottom' : 'top';
+      } else {
+        value = 'middle';
       }
 
-      if (isAtBottom) {
-        const boundary = !inverted ? 'bottom' : 'top';
-        if (scroll.value !== boundary) {
-          scroll.value = boundary;
-        }
-        return;
-      }
-
-      if (scroll.value !== 'middle') {
-        scroll.value = 'middle';
-        return;
+      if (scroll.value !== value) {
+        scroll.value = value;
       }
     },
     [inverted, scroll, scrollLock],
   );
+
   return {onScroll};
 };

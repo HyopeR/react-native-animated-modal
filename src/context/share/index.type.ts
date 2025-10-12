@@ -14,6 +14,7 @@ export type ShareContextState = {
 
   // Children management values.
   scroll: SharedValue<Scroll>;
+  scrollInteraction: SharedValue<boolean>;
   scrollLock: SharedValue<boolean>;
   scrollOffset: SharedValue<Offset>;
   scrollOrientation: SharedValue<ScrollOrientation>;

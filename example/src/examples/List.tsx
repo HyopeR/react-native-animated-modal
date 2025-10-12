@@ -1,12 +1,17 @@
 import React, {useRef} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {Modal, Scrollable, ScrollableRef} from 'react-native-animated-modal';
+import {StyleSheet, Text, View} from 'react-native';
+import {
+  Modal,
+  Scrollable,
+  ScrollableFlatList,
+  ScrollableFlatListNs,
+} from 'react-native-animated-modal';
 import {Button} from '../commons/Button';
 import {styles} from './styles';
 import {ModalExampleProps} from './types';
 
 export const ListModal = ({visible, setVisible}: ModalExampleProps) => {
-  const scroll = useRef<ScrollableRef>(null);
+  const ref = useRef<ScrollableFlatListNs.Ref>(null);
 
   return (
     <Modal
@@ -19,32 +24,37 @@ export const ListModal = ({visible, setVisible}: ModalExampleProps) => {
       supportedOrientations={['portrait', 'landscape']}
       swipe={{enabled: true, directions: ['up', 'down', 'left', 'right']}}>
       <View style={{...styles.container, height: 500}}>
-        <Scrollable ref={scroll} orientation={'vertical'}>
-          <FlatList
-            bounces={false}
-            alwaysBounceVertical={false}
-            alwaysBounceHorizontal={false}
-            overScrollMode={'never'}
-            onLayout={e => scroll.current?.onLayout?.(e)}
-            onContentSizeChange={(w, h) =>
-              scroll.current?.onContentSizeChange?.(w, h)
-            }
-            onScroll={e => scroll.current?.onScroll?.(e)}
-            data={Array.from({length: 20}, (_, i) => i + 1)}
-            keyExtractor={item => item.toString()}
-            renderItem={({item}) => (
-              <View style={itemStyles.item}>
-                <Text style={itemStyles.text}>Item: {item}</Text>
-              </View>
-            )}
-          />
-        </Scrollable>
-
         <Text style={styles.title}>List Example</Text>
         <Text style={styles.description}>
           Swipeable modal usage example. Can use gestures for show/hide. Try
           scrolling up, down, right, and left.
         </Text>
+
+        <Scrollable
+          onScroll={() => {}}
+          onBeginDrag={() => {}}
+          onEndDrag={() => {}}
+          onMomentumBegin={() => {}}
+          onMomentumEnd={() => {}}>
+          {({onLayout, onContentSizeChange, onScroll, ...opts}) => {
+            return (
+              <ScrollableFlatList
+                ref={ref}
+                {...opts}
+                onLayout={onLayout}
+                onContentSizeChange={onContentSizeChange}
+                onScroll={onScroll}
+                data={Array.from({length: 20}, (_, i) => i + 1)}
+                keyExtractor={item => item.toString()}
+                renderItem={({item}) => (
+                  <View style={itemStyles.item}>
+                    <Text style={itemStyles.text}>Item: {item}</Text>
+                  </View>
+                )}
+              />
+            );
+          }}
+        </Scrollable>
 
         <View style={styles.action}>
           <Button title="Close" onPress={() => setVisible(false)} />

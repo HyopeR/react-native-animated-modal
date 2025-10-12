@@ -7,14 +7,16 @@ import {useCallback, useLayoutEffect, useRef} from 'react';
  * Prevents unnecessary re-renders by caching the function reference,
  * while always calling the latest version of the user-provided callback.
  */
-export const useEvent = <T extends (...args: any[]) => any>(fn: T): T => {
-  const ref = useRef<T>(null);
+export const useEvent = <T extends (...args: any[]) => any>(fn?: T): T => {
+  const ref = useRef<T | undefined>(fn);
 
   useLayoutEffect(() => {
     ref.current = fn;
-  });
+  }, [fn]);
 
   return useCallback((...args: Parameters<T>) => {
-    return ref.current!(...args);
+    if (ref.current) {
+      return ref.current(...args);
+    }
   }, []) as T;
 };

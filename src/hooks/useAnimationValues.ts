@@ -19,6 +19,7 @@ export const useAnimationValues = () => {
 
   // Children management values.
   const scroll = useSharedValue<Scroll>('none');
+  const scrollInteraction = useSharedValue(false);
   const scrollLock = useSharedValue(false);
   const scrollOffset = useSharedValue<Offset>({x: 0, y: 0});
   const scrollOrientation = useSharedValue<ScrollOrientation>('none');
@@ -41,6 +42,7 @@ export const useAnimationValues = () => {
       opacity,
       scale,
       scroll,
+      scrollInteraction,
       scrollLock,
       scrollOffset,
       scrollOrientation,
@@ -49,6 +51,7 @@ export const useAnimationValues = () => {
     opacity,
     scale,
     scroll,
+    scrollInteraction,
     scrollLock,
     scrollOffset,
     scrollOrientation,

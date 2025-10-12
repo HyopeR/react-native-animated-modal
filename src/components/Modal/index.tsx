@@ -146,6 +146,7 @@ export const Modal = (props: ModalProps) => {
     translateX: values.translateX,
     translateY: values.translateY,
     scroll: values.scroll,
+    scrollInteraction: values.scrollInteraction,
     scrollLock: values.scrollLock,
     scrollOffset: values.scrollOffset,
     scrollOrientation: values.scrollOrientation,
