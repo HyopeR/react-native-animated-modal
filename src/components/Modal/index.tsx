@@ -164,6 +164,7 @@ export const Modal = (props: ModalProps) => {
     if (!visible) return;
     runOnUI(() => {
       'worklet';
+      init();
     })();
   }, [init, visible]);
 
