@@ -54,7 +54,12 @@ export const useAnimation = ({
 
   const handler = useCallback(
     (event: keyof UseAnimationEvents) => {
-      events?.[event]?.();
+      'worklet';
+
+      const e = events?.[event];
+      if (e) {
+        runOnJS(e)();
+      }
 
       // Modal status updates with Animation.
       switch (event) {
@@ -79,7 +84,7 @@ export const useAnimation = ({
     (finished: boolean | undefined, event: keyof UseAnimationEvents) => {
       'worklet';
       if (finished) {
-        runOnJS(handler)(event);
+        handler(event);
       }
     },
     [handler],
@@ -89,6 +94,8 @@ export const useAnimation = ({
    * Prepare initial animated values (before component mounts).
    */
   const init = useCallback(() => {
+    'worklet';
+
     handler('onInitStart');
     switch (animation.type) {
       case 'fade':
@@ -139,6 +146,8 @@ export const useAnimation = ({
    * Run enter animation (on mount).
    */
   const enter = useCallback(() => {
+    'worklet';
+
     handler('onEnterStart');
     switch (animation.type) {
       case 'fade':
@@ -175,6 +184,8 @@ export const useAnimation = ({
    * Run exit animation (on unmount).
    */
   const exit = useCallback(() => {
+    'worklet';
+
     if (status.value === 'exiting') return;
 
     handler('onExitStart');

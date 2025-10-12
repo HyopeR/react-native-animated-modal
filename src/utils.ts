@@ -6,6 +6,7 @@ export const SlideMovement = {
    * Offset values for enter slide animations.
    */
   get: (size: Size): Record<AnimationNs.Direction, number> => {
+    'worklet';
     const {width, height} = size;
     return {up: height, down: -height, left: width, right: -width};
   },
@@ -15,6 +16,7 @@ export const SlideMovement = {
    * Offset values for exit slide animations (reverse of get).
    */
   getReflect: (size: Size): Record<AnimationNs.Direction, number> => {
+    'worklet';
     const {width, height} = size;
     return {up: -height, down: height, left: -width, right: width};
   },

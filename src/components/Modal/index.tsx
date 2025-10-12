@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Modal as ModalNative, StyleSheet} from 'react-native';
+import {runOnUI} from 'react-native-reanimated';
 import {
   GestureDetector,
   GestureHandlerRootView,
@@ -161,20 +162,19 @@ export const Modal = (props: ModalProps) => {
   // Reset animation values when modal becomes visible.
   useEffect(() => {
     if (!visible) return;
-    init();
+    runOnUI(() => {
+      'worklet';
+    })();
   }, [init, visible]);
 
   // Control enter/exit animations when visibility changes.
   useEffect(() => {
     if (!visible && !mount.current) return;
-
-    const timeout = setTimeout(() => {
+    runOnUI(() => {
+      'worklet';
       if (visible) enter();
       else exit();
-    }, 10);
-    return () => {
-      timeout && clearTimeout(timeout);
-    };
+    })();
   }, [enter, exit, visible]);
 
   useEffect(() => {
