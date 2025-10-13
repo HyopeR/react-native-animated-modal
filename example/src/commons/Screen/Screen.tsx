@@ -26,5 +26,6 @@ export const Screen = ({style, children}: ScreenProps) => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: 'white',
   },
 });
