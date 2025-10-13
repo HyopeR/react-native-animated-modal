@@ -34,14 +34,14 @@ export const useScroll = ({
         }
       },
       onBeginDrag: e => {
-        scrollInteraction.value = true;
+        if (!scrollInteraction.value) scrollInteraction.value = true;
 
         if (onBeginDrag) {
           runOnJS(onBeginDrag)({nativeEvent: e});
         }
       },
       onEndDrag: e => {
-        scrollInteraction.value = false;
+        if (scrollInteraction.value) scrollInteraction.value = false;
 
         if (onEndDrag) {
           runOnJS(onEndDrag)({nativeEvent: e});

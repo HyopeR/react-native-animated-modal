@@ -8,18 +8,6 @@ import {ScrollableEvent} from './hooks/index.type';
  */
 export type ScrollableChildrenOptions = {
   /**
-   * Callback that is triggered when the child component is rendered.
-   */
-  onLayout: (e: LayoutChangeEvent) => void;
-  /**
-   * Callback that is triggered when the content area of the child component changes.
-   */
-  onContentSizeChange: (width: number, height: number) => void;
-  /**
-   * Callback that listens for the scroll events of the child component on the UI thread.
-   */
-  onScroll: ScrollHandlerProcessed;
-  /**
    * If true, renders items next to each other horizontally instead of stacked vertically.
    * @default false
    */
@@ -29,6 +17,11 @@ export type ScrollableChildrenOptions = {
    * @default false
    */
   inverted: boolean;
+  /**
+   * Controls how the component responds to pointer actions.
+   * @default 'auto'
+   */
+  pointerEvents: 'box-none' | 'none' | 'box-only' | 'auto';
   /**
    * Limits how often scroll events will be fired while scrolling, specified as a time interval in ms.
    * @default
@@ -51,6 +44,18 @@ export type ScrollableChildrenOptions = {
    * @default false
    */
   alwaysBounceHorizontal: boolean;
+  /**
+   * Callback that is triggered when the child component is rendered.
+   */
+  onLayout: (e: LayoutChangeEvent) => void;
+  /**
+   * Callback that is triggered when the content area of the child component changes.
+   */
+  onContentSizeChange: (width: number, height: number) => void;
+  /**
+   * Callback that listens for the scroll events of the child component on the UI thread.
+   */
+  onScroll: ScrollHandlerProcessed;
 };
 
 /**

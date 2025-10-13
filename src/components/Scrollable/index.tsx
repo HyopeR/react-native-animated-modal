@@ -1,7 +1,10 @@
-import React, {useEffect, useMemo, useRef} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {Platform} from 'react-native';
+import {runOnJS, useAnimatedReaction} from 'react-native-reanimated';
 import {GestureDetector} from 'react-native-gesture-handler';
 import {useShareContext} from '../../context';
 import {getSafeProps} from '../../utils';
+import {useEvent} from '../../hooks';
 import {useLayout, useContentSizeChange, useScroll} from './hooks';
 import {
   ScrollableChildrenOptions,
@@ -9,8 +12,6 @@ import {
   ScrollableRequiredProps,
   ScrollableStrictProps,
 } from './index.type';
-import {useEvent} from '../../hooks';
-import {Platform} from 'react-native';
 
 export type {ScrollableProps, ScrollableChildrenOptions};
 
@@ -41,10 +42,19 @@ export const Scrollable = (props: ScrollableProps) => {
     useShareContext();
 
   const scrollLayout = useRef({width: 0, height: 0});
+  const [scrollEnabled, setScrollEnabled] = useState(true);
 
   useEffect(() => {
     scrollOrientation.value = orientation;
   }, [orientation, scrollOrientation]);
+
+  useAnimatedReaction(
+    () => scrollLock.value,
+    (next, prev) => {
+      if (next !== prev) runOnJS(setScrollEnabled)(!next);
+    },
+    [],
+  );
 
   const {onLayout} = useLayout({scrollLayout});
 
@@ -73,19 +83,27 @@ export const Scrollable = (props: ScrollableProps) => {
     onMomentumEnd: onMomentumEndEvent,
   });
 
-  const options = useMemo(() => {
+  const options = useMemo<ScrollableChildrenOptions>(() => {
     return {
       horizontal: orientation === 'horizontal',
       inverted: inverted,
+      pointerEvents: scrollEnabled ? 'auto' : 'none',
       scrollEventThrottle: Platform.OS === 'android' ? 8 : 16,
       bounces: false,
       alwaysBounceVertical: false,
       alwaysBounceHorizontal: false,
-      onLayout,
-      onContentSizeChange,
+      onLayout: onLayout,
+      onContentSizeChange: onContentSizeChange,
       onScroll: onScrollHandler,
     };
-  }, [inverted, orientation, onContentSizeChange, onLayout, onScrollHandler]);
+  }, [
+    inverted,
+    orientation,
+    onContentSizeChange,
+    onLayout,
+    onScrollHandler,
+    scrollEnabled,
+  ]);
 
   return (
     <GestureDetector gesture={native}>{children(options)}</GestureDetector>
