@@ -3,6 +3,8 @@ import {LayoutChangeEvent} from 'react-native';
 import {ScrollHandlerProcessed} from 'react-native-reanimated';
 import {ScrollableEvent} from './hooks/index.type';
 
+export {ScrollableEvent};
+
 /**
  * Props values to be passed to the child component of the Scrollable component.
  */

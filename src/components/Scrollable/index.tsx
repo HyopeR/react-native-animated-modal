@@ -10,9 +10,10 @@ import {
   ScrollableProps,
   ScrollableRequiredProps,
   ScrollableStrictProps,
+  ScrollableEvent,
 } from './index.type';
 
-export type {ScrollableProps, ScrollableChildrenOptions};
+export type {ScrollableProps, ScrollableChildrenOptions, ScrollableEvent};
 
 const ScrollableDefaultProps: ScrollableRequiredProps = {
   orientation: 'vertical',
