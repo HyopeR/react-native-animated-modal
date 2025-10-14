@@ -1,5 +1,4 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Platform} from 'react-native';
 import {runOnJS, useAnimatedReaction} from 'react-native-reanimated';
 import {GestureDetector} from 'react-native-gesture-handler';
 import {useShareContext} from '../../context';
@@ -88,7 +87,7 @@ export const Scrollable = (props: ScrollableProps) => {
       horizontal: orientation === 'horizontal',
       inverted: inverted,
       pointerEvents: scrollEnabled ? 'auto' : 'none',
-      scrollEventThrottle: Platform.OS === 'android' ? 8 : 16,
+      scrollEventThrottle: 16,
       bounces: false,
       alwaysBounceVertical: false,
       alwaysBounceHorizontal: false,

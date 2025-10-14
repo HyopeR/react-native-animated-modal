@@ -24,9 +24,7 @@ export type ScrollableChildrenOptions = {
   pointerEvents: 'box-none' | 'none' | 'box-only' | 'auto';
   /**
    * Limits how often scroll events will be fired while scrolling, specified as a time interval in ms.
-   * @default
-   * Android: 8
-   * Ios: 16
+   * @default 16
    */
   scrollEventThrottle: number;
   /**
