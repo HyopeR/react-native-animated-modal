@@ -180,7 +180,7 @@ export const useGesture = ({
 
         // If there is a movement in directions not specified by the user,
         // the movement is not started.
-        if (!swipe.directions.includes(direction.value)) {
+        if (!swipe.directions.includes(directionLock.value)) {
           direction.value = null;
           directionLock.value = null;
           axis.value = null;

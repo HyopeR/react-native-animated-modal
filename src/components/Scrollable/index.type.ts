@@ -5,6 +5,8 @@ import {ScrollableEvent} from './hooks/index.type';
 
 export {ScrollableEvent};
 
+export type ScrollableOrientation = 'vertical' | 'horizontal';
+
 /**
  * Props values to be passed to the child component of the Scrollable component.
  */
@@ -66,7 +68,7 @@ export type ScrollableProps = {
   /**
    * Callback fired when the scrollable is ready.
    */
-  orientation?: 'vertical' | 'horizontal';
+  orientation?: ScrollableOrientation;
   /**
    * Reverses the direction of scroll. Uses scale transforms of -1.
    */
