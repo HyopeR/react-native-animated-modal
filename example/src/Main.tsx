@@ -1,78 +1,64 @@
-import React, {useState} from 'react';
-import {StatusBar} from 'react-native';
-import {Screen} from './commons/Screen';
-import {List, ListSection} from './List';
+import React, {useMemo, useState} from 'react';
+import {List} from './List';
+import {
+  HomePage,
+  AnimationPage,
+  BackdropPage,
+  SwipePage,
+  FlatListPage,
+  ScrollViewPage,
+  SectionListPage,
+  PageSection,
+} from './pages';
 
-import {FadeModal} from './examples/basic/Fade';
-import {ScaleModal} from './examples/basic/Scale';
-import {SlideModal} from './examples/basic/Slide';
-import {SwipeModal} from './examples/basic/Swipe';
-import {PropertyModal} from './examples/basic/Property';
-import {FlatListModal} from './examples/scrollable/FlatList';
-import {ScrollViewModal} from './examples/scrollable/ScrollView';
-import {SectionListModal} from './examples/scrollable/SectionList';
+const Pages: PageSection[] = [
+  {
+    title: 'Foundation Features',
+    data: [
+      {title: 'Animation Playground', name: 'Animation', section: 0},
+      {title: 'Backdrop Playground', name: 'Backdrop', section: 0},
+      {title: 'Swipe Playground', name: 'Swipe', section: 0},
+    ],
+  },
+  {
+    title: 'Scrollable Features',
+    data: [
+      {title: 'FlatList Playground', name: 'FlatList', section: 1},
+      {title: 'ScrollView Playground', name: 'ScrollView', section: 1},
+      {title: 'SectionList Playground', name: 'SectionList', section: 1},
+    ],
+  },
+];
 
 export const Main = () => {
-  const [showFade, setShowFade] = useState(false);
-  const [showScale, setShowScale] = useState(false);
-  const [showSlide, setShowSlide] = useState(false);
-  const [showSwipe, setShowSwipe] = useState(false);
-  const [showProperty, setShowProperty] = useState(false);
-  const [showFlatList, setShowFlatList] = useState(false);
-  const [showScrollView, setShowScrollView] = useState(false);
-  const [showSectionList, setShowSectionList] = useState(false);
+  const [name, setName] = useState('Home');
 
-  const sections: ListSection[] = [
-    {
-      title: 'Basic Usage',
-      data: [
-        {title: 'Fade Usage', onPress: setShowFade, section: 0},
-        {title: 'Scale Usage', onPress: setShowScale, section: 0},
-        {title: 'Slide Usage', onPress: setShowSlide, section: 0},
-        {title: 'Swipe Usage', onPress: setShowSwipe, section: 0},
-        {title: 'Property Usage', onPress: setShowProperty, section: 0},
-      ],
-    },
-    {
-      title: 'Scrollable Usage',
-      data: [
-        {title: 'FlatList Usage', onPress: setShowFlatList, section: 1},
-        {title: 'ScrollView Usage', onPress: setShowScrollView, section: 1},
-        {title: 'SectionList Usage', onPress: setShowSectionList, section: 1},
-      ],
-    },
-  ];
+  const Page = useMemo(() => {
+    switch (name) {
+      case 'Animation':
+        return AnimationPage;
+      case 'Backdrop':
+        return BackdropPage;
+      case 'Swipe':
+        return SwipePage;
+      case 'FlatList':
+        return FlatListPage;
+      case 'ScrollView':
+        return ScrollViewPage;
+      case 'SectionList':
+        return SectionListPage;
+      default:
+        return null;
+    }
+  }, [name]);
+
+  if (Page) {
+    return <Page back={() => setName('Home')} />;
+  }
 
   return (
-    <Screen>
-      <Screen.Header height={60}>
-        <StatusBar
-          barStyle={'dark-content'}
-          translucent={true}
-          backgroundColor={'white'}
-        />
-        <Screen.Title>React Native Animated Modal</Screen.Title>
-        <Screen.Subtitle>Examples</Screen.Subtitle>
-      </Screen.Header>
-
-      <Screen.Content>
-        <List sections={sections} />
-      </Screen.Content>
-
-      <FadeModal visible={showFade} setVisible={setShowFade} />
-      <ScaleModal visible={showScale} setVisible={setShowScale} />
-      <SlideModal visible={showSlide} setVisible={setShowSlide} />
-      <SwipeModal visible={showSwipe} setVisible={setShowSwipe} />
-      <PropertyModal visible={showProperty} setVisible={setShowProperty} />
-      <FlatListModal visible={showFlatList} setVisible={setShowFlatList} />
-      <ScrollViewModal
-        visible={showScrollView}
-        setVisible={setShowScrollView}
-      />
-      <SectionListModal
-        visible={showSectionList}
-        setVisible={setShowSectionList}
-      />
-    </Screen>
+    <HomePage>
+      <List sections={Pages} set={setName} />
+    </HomePage>
   );
 };

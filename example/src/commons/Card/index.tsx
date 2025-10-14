@@ -31,9 +31,10 @@ export const Card = ({title, titleProps, style, ...props}: CardProps) => {
 const styles = StyleSheet.create({
   root: {},
   container: {
-    flex: 1,
+    // flex: 1,
     paddingVertical: 8,
-    borderColor: '#EFEFEF',
+    backgroundColor: '#FAFAFA',
+    borderColor: '#FAFAFA',
     borderWidth: 2,
   },
   title: {

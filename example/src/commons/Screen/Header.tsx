@@ -19,7 +19,7 @@ export type HeaderProps = {
 };
 
 export const Header = ({
-  height = 50,
+  height = 60,
   left = '',
   leftProps,
   right = '',
@@ -36,7 +36,7 @@ export const Header = ({
         <TouchableOpacity
           style={StyleSheet.flatten([styles.side, styles.sideLeft, leftStyle])}
           {...omitLeftProps}>
-          <Text>{left}</Text>
+          <Text style={styles.sideText}>{left}</Text>
         </TouchableOpacity>
       )}
 
@@ -50,7 +50,7 @@ export const Header = ({
             rightStyle,
           ])}
           {...omitRightProps}>
-          <Text>{right}</Text>
+          <Text style={styles.sideText}>{right}</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -60,7 +60,7 @@ export const Header = ({
 const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
-    height: 50,
+    height: 60,
   },
   content: {
     flex: 1,
@@ -70,11 +70,13 @@ const styles = StyleSheet.create({
   side: {
     width: 60,
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  sideLeft: {
-    alignItems: 'flex-start',
-  },
-  sideRight: {
-    alignItems: 'flex-end',
+  sideLeft: {},
+  sideRight: {},
+  sideText: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: '#0077ff',
   },
 });

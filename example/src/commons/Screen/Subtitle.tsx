@@ -14,7 +14,7 @@ export const Subtitle = ({style, children, ...props}: SubtitleProps) => {
 const styles = StyleSheet.create({
   root: {
     color: 'gray',
-    textTransform: 'capitalize',
+    // textTransform: 'capitalize',
     fontSize: 15,
     fontWeight: 500,
   },
