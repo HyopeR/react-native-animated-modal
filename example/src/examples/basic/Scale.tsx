@@ -5,19 +5,18 @@ import {Button} from '../../commons/Button';
 import {styles} from '../styles';
 import {ModalExampleProps} from '../types';
 
-export const SlideSwipeModal = ({visible, setVisible}: ModalExampleProps) => {
+export const ScaleModal = ({visible, setVisible}: ModalExampleProps) => {
   return (
     <Modal
       visible={visible}
-      animation={{type: 'slide', direction: {start: 'up', end: 'down'}}}
-      swipe={{enabled: true, directions: ['up', 'down', 'left', 'right']}}
-      onHide={() => setVisible(false)}
-      onSwipeComplete={() => setVisible(false)}
-      supportedOrientations={['portrait', 'landscape']}>
+      supportedOrientations={['portrait', 'landscape']}
+      animation={{type: 'scale'}}
+      onHide={() => setVisible(false)}>
       <View style={styles.container}>
-        <Text style={styles.title}>Slide Example</Text>
+        <Text style={styles.title}>Scale Example</Text>
         <Text style={styles.description}>
-          Enter/exit animations are run with the modal slide effect.
+          This is an example of a basic modal. The scale effect is used for
+          enter and exit animations.
         </Text>
 
         <View style={styles.action}>

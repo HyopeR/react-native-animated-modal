@@ -4,6 +4,7 @@ import {
   SectionList,
   SectionListData,
   SectionListProps,
+  StyleSheet,
   Text,
   View,
 } from 'react-native';
@@ -12,6 +13,7 @@ import {Card} from './commons/Card';
 export type ListItem = {
   title: string;
   onPress: React.Dispatch<React.SetStateAction<boolean>>;
+  section: number;
 };
 export type ListSection = {
   title: string;
@@ -27,23 +29,22 @@ export const List = ({sections, ...props}: ListProps) => {
   const renderSectionHeader = useCallback<ListRenderSection>(({section}) => {
     const {title} = section;
     return (
-      <View style={{flex: 1, height: 40, backgroundColor: '#EFEFEF', alignItems: 'center', justifyContent: 'center'}}>
-        <Text>{title}</Text>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>{title}</Text>
       </View>
     );
   }, []);
 
-  const renderItem = useCallback<ListRender>(({item}) => {
+  const renderItem = useCallback<ListRender>(({item, index}) => {
     const {title, onPress} = item;
+    const text = `${index + 1}- ${title}`;
     return (
-      <View style={{flex: 1}}>
-        <Card title={title} onPress={() => onPress(true)} />
-      </View>
+      <Card title={text} onPress={() => onPress(true)} style={styles.item} />
     );
   }, []);
 
   const keyExtractor = useCallback((item: ListItem, index: number) => {
-    return `example-${index}`;
+    return `example-${item.section}-${index}`;
   }, []);
 
   return (
@@ -51,11 +52,38 @@ export const List = ({sections, ...props}: ListProps) => {
       sections={sections}
       stickySectionHeadersEnabled={false}
       renderSectionHeader={renderSectionHeader}
-      SectionSeparatorComponent={() => <View style={{height: 4}} />}
+      SectionSeparatorComponent={() => <View style={styles.separator} />}
       renderItem={renderItem}
-      ItemSeparatorComponent={() => <View style={{height: 4}} />}
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
       keyExtractor={keyExtractor}
+      contentContainerStyle={styles.container}
       {...props}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 8,
+  },
+  section: {
+    flex: 1,
+    height: 40,
+    backgroundColor: '#EFEFEF',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+    marginTop: 8,
+  },
+  sectionTitle: {
+    textTransform: 'capitalize',
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  item: {
+    flex: 1,
+    paddingHorizontal: 8,
+  },
+  separator: {
+    height: 4,
+  },
+});

@@ -9,13 +9,14 @@ export const FadeModal = ({visible, setVisible}: ModalExampleProps) => {
   return (
     <Modal
       visible={visible}
+      supportedOrientations={['portrait', 'landscape']}
       animation={{type: 'fade'}}
-      onHide={() => setVisible(false)}
-      supportedOrientations={['portrait', 'landscape']}>
+      onHide={() => setVisible(false)}>
       <View style={styles.container}>
         <Text style={styles.title}>Fade Example</Text>
         <Text style={styles.description}>
-          Enter/exit animations are run with the modal fade effect.
+          This is an example of a basic modal. The fade effect is used for enter
+          and exit animations.
         </Text>
 
         <View style={styles.action}>
