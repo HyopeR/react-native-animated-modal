@@ -60,7 +60,7 @@ export const BottomSheetPage = ({back}: PageProps) => {
           style={{
             ...ModalStyle.root,
             width: landscape ? width * 0.8 : width,
-            height: landscape ? height * 0.8 : height * 0.6,
+            height: landscape ? height * 0.9 : height * 0.6,
             borderRadius: 0,
             borderTopRightRadius: 40,
             borderTopLeftRadius: 40,

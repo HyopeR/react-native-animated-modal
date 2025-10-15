@@ -53,7 +53,7 @@ export const ConfigStyle = StyleSheet.create({
     borderColor: 'white',
   },
   itemText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '500',
   },
 });

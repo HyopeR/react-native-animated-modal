@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   input: {
+    height: 44,
+    paddingHorizontal: 8,
     backgroundColor: '#ECECEC',
   },
 });
