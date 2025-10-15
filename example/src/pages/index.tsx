@@ -11,3 +11,7 @@ export {SwipePage} from './SwipePage';
 export {FlatListPage} from './FlatListPage';
 export {ScrollViewPage} from './ScrollViewPage';
 export {SectionListPage} from './SectionListPage';
+
+// Other Usage Cases
+export {TextInputPage} from './TextInputPage';
+export {BottomSheetPage} from './BottomSheetPage';

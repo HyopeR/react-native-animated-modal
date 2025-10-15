@@ -8,6 +8,8 @@ import {
   FlatListPage,
   ScrollViewPage,
   SectionListPage,
+  TextInputPage,
+  BottomSheetPage,
   PageSection,
 } from './pages';
 
@@ -26,6 +28,13 @@ const Pages: PageSection[] = [
       {title: 'FlatList Playground', name: 'FlatList', section: 1},
       {title: 'ScrollView Playground', name: 'ScrollView', section: 1},
       {title: 'SectionList Playground', name: 'SectionList', section: 1},
+    ],
+  },
+  {
+    title: 'Other Usage Cases',
+    data: [
+      {title: 'Use with TextInput', name: 'TextInput', section: 2},
+      {title: 'Use like a BottomSheet', name: 'BottomSheet', section: 2},
     ],
   },
 ];
@@ -47,6 +56,10 @@ export const Main = () => {
         return ScrollViewPage;
       case 'SectionList':
         return SectionListPage;
+      case 'TextInput':
+        return TextInputPage;
+      case 'BottomSheet':
+        return BottomSheetPage;
       default:
         return null;
     }
