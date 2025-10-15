@@ -77,3 +77,4 @@ yarn-error.log
 # Specific to this project
 coverage/
 lib/
+docs/

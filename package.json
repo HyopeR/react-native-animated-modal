@@ -24,6 +24,8 @@
     "popup",
     "modal",
     "animated",
+    "reanimated",
+    "scrollable",
     "typescript"
   ],
   "scripts": {
@@ -32,7 +34,8 @@
     "test:lint": "eslint --ext ts,tsx src/",
     "build": "bob build",
     "clean": "del-cli lib",
-    "docs": "typedoc --out docs src/index.ts"
+    "docs": "typedoc",
+    "docs:deploy": "gh-pages -d docs -b docs"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -48,6 +51,7 @@
     "del-cli": "^7.0.0",
     "eslint": "^8.19.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "gh-pages": "^6.3.0",
     "prettier": "2.8.8",
     "react": "19.0.0",
     "react-native": "0.79.6",

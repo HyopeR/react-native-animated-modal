@@ -1,13 +1,18 @@
-import React from 'react';
-import {View, ViewProps, StyleSheet} from 'react-native';
+import React, {ComponentProps} from 'react';
+import {StyleSheet} from 'react-native';
+import Animated from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {HeaderProps} from './Header';
 
 export type ScreenProps = {
-  header?: HeaderProps;
-} & ViewProps;
+  scrollable?: boolean;
+} & ComponentProps<Animated.View>;
 
-export const Screen = ({style, children}: ScreenProps) => {
+export const Screen = ({
+  scrollable,
+  style,
+  children,
+  ...props
+}: ScreenProps) => {
   const insets = useSafeAreaInsets();
   const insetsPadding = {
     paddingTop: insets.top,
@@ -17,14 +22,24 @@ export const Screen = ({style, children}: ScreenProps) => {
   };
 
   return (
-    <View style={StyleSheet.flatten([styles.root, style, insetsPadding])}>
-      {children}
-    </View>
+    <Animated.View style={[styles.root, style, insetsPadding]} {...props}>
+      {scrollable ? (
+        <Animated.ScrollView contentContainerStyle={styles.scrollable}>
+          {children}
+        </Animated.ScrollView>
+      ) : (
+        children
+      )}
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: '#F4F4F4',
+  },
+  scrollable: {
+    flexGrow: 1,
   },
 });

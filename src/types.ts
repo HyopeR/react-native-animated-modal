@@ -1,17 +1,38 @@
 /**
  * @internal
- * Device orientation type.
- */
-export type IOrientation = 'portrait' | 'landscape';
-
-/**
- * @internal
  * Dimension type for general use.
  */
-export type ISize = {
+export type Size = {
   width: number;
   height: number;
 };
+
+/**
+ * @internal
+ * Offset type for general use.
+ */
+export type Offset = {
+  x: number;
+  y: number;
+};
+
+/**
+ * @internal
+ * Modal component status.
+ */
+export type Status = 'idle' | 'entering' | 'exiting';
+
+/**
+ * @internal
+ * Scrollable component scroll state.
+ */
+export type Scroll = 'top' | 'bottom' | 'left' | 'right' | 'middle' | 'none';
+
+/**
+ * @internal
+ * Scrollable component orientation.
+ */
+export type ScrollOrientation = 'vertical' | 'horizontal' | 'none';
 
 export namespace AnimationNs {
   /**

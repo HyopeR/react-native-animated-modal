@@ -1,20 +1,22 @@
-import {AnimationNs, ISize} from './types';
+import {AnimationNs, Size} from './types';
 
-export const Movement = {
+export const SlideMovement = {
   /**
    * @internal
-   * Offset values for enter animations.
+   * Offset values for enter slide animations.
    */
-  get: (size: ISize): Record<AnimationNs.Direction, number> => {
+  get: (size: Size): Record<AnimationNs.Direction, number> => {
+    'worklet';
     const {width, height} = size;
     return {up: height, down: -height, left: width, right: -width};
   },
 
   /**
    * @internal
-   * Offset values for exit animations (reverse of get).
+   * Offset values for exit slide animations (reverse of get).
    */
-  getReflect: (size: ISize): Record<AnimationNs.Direction, number> => {
+  getReflect: (size: Size): Record<AnimationNs.Direction, number> => {
+    'worklet';
     const {width, height} = size;
     return {up: -height, down: height, left: -width, right: width};
   },

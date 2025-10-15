@@ -1,10 +1,11 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Modal as ModalNative, StyleSheet} from 'react-native';
+import {runOnUI} from 'react-native-reanimated';
 import {
   GestureDetector,
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
-import {ModalProvider} from '../../context';
+import {ConfigProvider, ShareProvider} from '../../context';
 import {getSafeProps} from '../../utils';
 import {
   useAnimation,
@@ -33,6 +34,10 @@ const ModalDefaultProps: ModalRequiredProps = {
   onSwipeCancel: () => {},
 };
 
+/**
+ * Customizable Modal component offering Animation and Gesture Management.
+ * It is built on react-native's Modal.
+ */
 export const Modal = (props: ModalProps) => {
   // Merge user props with defaults.
   const propsSafe = getSafeProps(props, ModalDefaultProps) as ModalStrictProps;
@@ -53,21 +58,23 @@ export const Modal = (props: ModalProps) => {
     ...rest
   } = propsSafe;
 
+  const values = useAnimationValues();
+
   // Cache all configs and shared values into a single store for context usage.
-  const animationValues = useAnimationValues();
   const animationConfig = useAnimationConfig(animation);
   const swipeConfig = useSwipeConfig(swipe);
   const backdropConfig = useBackdropConfig(backdrop);
-  const store = useMemo(() => {
+  const config = useMemo(() => {
     return {
       swipe: swipeConfig,
       animation: animationConfig,
       backdrop: backdropConfig,
-      ...animationValues,
     };
-  }, [animationConfig, animationValues, backdropConfig, swipeConfig]);
+  }, [animationConfig, backdropConfig, swipeConfig]);
 
   const mount = useRef(false);
+
+  const _visibleRef = useRef(visible);
   const [_visible, _setVisible] = useState(visible);
 
   // Cache user-provided callbacks to avoid unnecessary re-renders.
@@ -79,19 +86,23 @@ export const Modal = (props: ModalProps) => {
   const onSwipeCancelEvent = useEvent(onSwipeCancel);
 
   const handleShow = useCallback(() => {
-    if (_visible) return;
+    if (_visibleRef.current) return;
     onShowEvent();
+    _visibleRef.current = true;
     _setVisible(true);
-  }, [onShowEvent, _visible]);
+  }, [onShowEvent]);
 
   const handleHide = useCallback(() => {
-    if (!_visible) return;
+    if (!_visibleRef.current) return;
     onHideEvent();
+    _visibleRef.current = false;
     _setVisible(false);
-  }, [onHideEvent, _visible]);
+  }, [onHideEvent]);
 
   const handleSwipeComplete = useCallback(() => {
+    if (!_visibleRef.current) return;
     onSwipeCompleteEvent();
+    _visibleRef.current = false;
     _setVisible(false);
   }, [onSwipeCompleteEvent]);
 
@@ -121,24 +132,54 @@ export const Modal = (props: ModalProps) => {
     };
   }, [onBackdropPressEvent]);
 
-  const {init, enter, exit} = useAnimation({...store, events: eventsAnimation});
+  const {init, enter, exit} = useAnimation({
+    animation: config.animation,
+    status: values.status,
+    size: values.size,
+    translateX: values.translateX,
+    translateY: values.translateY,
+    opacity: values.opacity,
+    scale: values.scale,
+    events: eventsAnimation,
+  });
+
+  const {native, pan} = useGesture({
+    animation: config.animation,
+    swipe: config.swipe,
+    status: values.status,
+    size: values.size,
+    translateX: values.translateX,
+    translateY: values.translateY,
+    scroll: values.scroll,
+    scrollInteraction: values.scrollInteraction,
+    scrollLock: values.scrollLock,
+    scrollOffset: values.scrollOffset,
+    scrollOrientation: values.scrollOrientation,
+    events: eventsGesture,
+  });
+
+  const share = useMemo(
+    () => ({...values, native, pan}),
+    [values, native, pan],
+  );
 
   // Reset animation values when modal becomes visible.
   useEffect(() => {
     if (!visible) return;
-    init();
+    runOnUI(() => {
+      'worklet';
+      init();
+    })();
   }, [init, visible]);
 
   // Control enter/exit animations when visibility changes.
   useEffect(() => {
     if (!visible && !mount.current) return;
-    const timeout = setTimeout(() => {
+    runOnUI(() => {
+      'worklet';
       if (visible) enter();
       else exit();
-    }, 10);
-    return () => {
-      timeout && clearTimeout(timeout);
-    };
+    })();
   }, [enter, exit, visible]);
 
   useEffect(() => {
@@ -148,15 +189,6 @@ export const Modal = (props: ModalProps) => {
     };
   }, []);
 
-  const gesture = useGesture({
-    size: store.size,
-    swipe: store.swipe,
-    animation: store.animation,
-    translateX: store.translateX,
-    translateY: store.translateY,
-    events: eventsGesture,
-  });
-
   return (
     <ModalNative
       visible={_visible}
@@ -165,12 +197,14 @@ export const Modal = (props: ModalProps) => {
       onRequestClose={onBackPressEvent}
       {...rest}>
       <GestureHandlerRootView style={styles.root}>
-        <ModalProvider value={store}>
-          <Backdrop {...eventsBackdrop} {...backdropConfig} />
-          <GestureDetector gesture={gesture}>
-            <Content style={style}>{children}</Content>
-          </GestureDetector>
-        </ModalProvider>
+        <ConfigProvider value={config}>
+          <ShareProvider value={share}>
+            <Backdrop {...eventsBackdrop} {...backdropConfig} />
+            <GestureDetector gesture={pan}>
+              <Content style={style}>{children}</Content>
+            </GestureDetector>
+          </ShareProvider>
+        </ConfigProvider>
       </GestureHandlerRootView>
     </ModalNative>
   );
