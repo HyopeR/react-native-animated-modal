@@ -6,8 +6,8 @@ import {
   WithTimingConfig,
 } from 'react-native-reanimated';
 import {EASING} from '../constants';
-import {Movement} from '../utils';
-import {AnimationNs, ISize} from '../types';
+import {SlideMovement} from '../utils';
+import {AnimationNs, Size, Status} from '../types';
 
 export type UseAnimationEvents = {
   onInitStart: () => void;
@@ -20,7 +20,8 @@ export type UseAnimationEvents = {
 
 export type UseAnimationProps = {
   animation: AnimationNs.ConfigStrict;
-  size: SharedValue<ISize>;
+  status: SharedValue<Status>;
+  size: SharedValue<Size>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
   opacity: SharedValue<number>;
@@ -35,12 +36,13 @@ export type UseAnimationProps = {
  * event callbacks.
  */
 export const useAnimation = ({
-  size,
   animation,
+  status,
+  size,
   translateX,
   translateY,
-  scale,
   opacity,
+  scale,
   events,
 }: UseAnimationProps) => {
   const config = useMemo<WithTimingConfig>(() => {
@@ -52,16 +54,37 @@ export const useAnimation = ({
 
   const handler = useCallback(
     (event: keyof UseAnimationEvents) => {
-      events?.[event]?.();
+      'worklet';
+
+      const e = events?.[event];
+      if (e) {
+        runOnJS(e)();
+      }
+
+      // Modal status updates with Animation.
+      switch (event) {
+        case 'onEnterStart':
+          status.value = 'entering';
+          break;
+        case 'onEnterEnd':
+          status.value = 'idle';
+          break;
+        case 'onExitStart':
+          status.value = 'exiting';
+          break;
+        case 'onExitEnd':
+          status.value = 'idle';
+          break;
+      }
     },
-    [events],
+    [events, status],
   );
 
   const cb = useCallback(
     (finished: boolean | undefined, event: keyof UseAnimationEvents) => {
       'worklet';
       if (finished) {
-        runOnJS(handler)(event);
+        handler(event);
       }
     },
     [handler],
@@ -71,6 +94,8 @@ export const useAnimation = ({
    * Prepare initial animated values (before component mounts).
    */
   const init = useCallback(() => {
+    'worklet';
+
     handler('onInitStart');
     switch (animation.type) {
       case 'fade':
@@ -82,7 +107,7 @@ export const useAnimation = ({
 
       case 'slide':
         const {direction} = animation;
-        const movement = Movement.get(size.value);
+        const movement = SlideMovement.get(size.value);
         const dict: Record<AnimationNs.Direction, Function> = {
           up: () => {
             translateX.value = 0;
@@ -121,6 +146,8 @@ export const useAnimation = ({
    * Run enter animation (on mount).
    */
   const enter = useCallback(() => {
+    'worklet';
+
     handler('onEnterStart');
     switch (animation.type) {
       case 'fade':
@@ -157,6 +184,10 @@ export const useAnimation = ({
    * Run exit animation (on unmount).
    */
   const exit = useCallback(() => {
+    'worklet';
+
+    if (status.value === 'exiting') return;
+
     handler('onExitStart');
     switch (animation.type) {
       case 'fade':
@@ -166,10 +197,12 @@ export const useAnimation = ({
       case 'slide':
         const {direction} = animation;
 
+        // If the animation start and end are given differently,
+        // use the movement values of the Slide animation by reversing them.
         const reflection = typeof direction !== 'string';
         const movement = reflection
-          ? Movement.getReflect(size.value)
-          : Movement.get(size.value);
+          ? SlideMovement.getReflect(size.value)
+          : SlideMovement.get(size.value);
 
         const dict: Record<AnimationNs.Direction, Function> = {
           up: () => {
@@ -209,6 +242,7 @@ export const useAnimation = ({
     opacity,
     scale,
     size,
+    status,
     translateX,
     translateY,
   ]);

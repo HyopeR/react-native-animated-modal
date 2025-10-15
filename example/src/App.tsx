@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StatusBar, StyleSheet} from 'react-native';
 import {
   SafeAreaProvider,
   initialWindowMetrics,
@@ -13,6 +13,11 @@ export const App = () => {
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <GestureHandlerRootView style={styles.root}>
         <KeyboardProvider>
+          <StatusBar
+            barStyle={'dark-content'}
+            backgroundColor={'#F4F4F4'}
+            translucent={true}
+          />
           <Main />
         </KeyboardProvider>
       </GestureHandlerRootView>

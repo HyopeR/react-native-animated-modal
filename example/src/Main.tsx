@@ -1,80 +1,77 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
+import {List} from './List';
 import {
-  FlatList,
-  StyleSheet,
-  ListRenderItem,
-  View,
-  useWindowDimensions,
-} from 'react-native';
-import {Screen} from './commons/Screen';
-import {Card} from './commons/Card';
+  HomePage,
+  AnimationPage,
+  BackdropPage,
+  SwipePage,
+  FlatListPage,
+  ScrollViewPage,
+  SectionListPage,
+  TextInputPage,
+  BottomSheetPage,
+  PageSection,
+} from './pages';
 
-// Examples
-import {BasicModal} from './examples/Basic';
-import {SwipeModal} from './examples/Swipe';
-
-type Item = {
-  title: string;
-  onPress: React.Dispatch<React.SetStateAction<boolean>>;
-};
+const Pages: PageSection[] = [
+  {
+    title: 'Foundation Features',
+    data: [
+      {title: 'Animation Playground', name: 'Animation', section: 0},
+      {title: 'Backdrop Playground', name: 'Backdrop', section: 0},
+      {title: 'Swipe Playground', name: 'Swipe', section: 0},
+    ],
+  },
+  {
+    title: 'Scrollable Features',
+    data: [
+      {title: 'FlatList Playground', name: 'FlatList', section: 1},
+      {title: 'ScrollView Playground', name: 'ScrollView', section: 1},
+      {title: 'SectionList Playground', name: 'SectionList', section: 1},
+    ],
+  },
+  {
+    title: 'Other Usage Cases',
+    data: [
+      {title: 'Use with TextInput', name: 'TextInput', section: 2},
+      {title: 'Use like a BottomSheet', name: 'BottomSheet', section: 2},
+    ],
+  },
+];
 
 export const Main = () => {
-  const {width, height} = useWindowDimensions();
-  const orientation = useMemo(() => {
-    return width < height ? 'portrait' : 'landscape';
-  }, [height, width]);
+  const [name, setName] = useState('Home');
 
-  const [visibleBasic, setVisibleBasic] = useState(false);
-  const [visibleSwipe, setVisibleSwipe] = useState(false);
+  const Page = useMemo(() => {
+    switch (name) {
+      case 'Animation':
+        return AnimationPage;
+      case 'Backdrop':
+        return BackdropPage;
+      case 'Swipe':
+        return SwipePage;
+      case 'FlatList':
+        return FlatListPage;
+      case 'ScrollView':
+        return ScrollViewPage;
+      case 'SectionList':
+        return SectionListPage;
+      case 'TextInput':
+        return TextInputPage;
+      case 'BottomSheet':
+        return BottomSheetPage;
+      default:
+        return null;
+    }
+  }, [name]);
 
-  const items: Item[] = [
-    {title: 'Basic', onPress: setVisibleBasic},
-    {title: 'Swipe', onPress: setVisibleSwipe},
-  ];
-
-  const renderItem = useCallback<ListRenderItem<Item>>(
-    ({item}) => {
-      const {title, onPress} = item;
-      const flex = orientation === 'portrait' ? 1 / 2 : 1 / 5;
-      return (
-        <View style={{flex}}>
-          <Card title={title} onPress={() => onPress(true)} />
-        </View>
-      );
-    },
-    [orientation],
-  );
-
-  const keyExtractor = useCallback((item: Item, index: number) => {
-    return `example-${index}`;
-  }, []);
+  if (Page) {
+    return <Page back={() => setName('Home')} />;
+  }
 
   return (
-    <Screen style={styles.screen}>
-      <Screen.Header title={'Examples'} titleProps={{style: styles.title}} />
-      <Screen.Content>
-        <FlatList
-          key={orientation}
-          data={items}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          numColumns={orientation === 'portrait' ? 2 : 5}
-        />
-
-        <BasicModal visible={visibleBasic} setVisible={setVisibleBasic} />
-        <SwipeModal visible={visibleSwipe} setVisible={setVisibleSwipe} />
-      </Screen.Content>
-    </Screen>
+    <HomePage>
+      <List sections={Pages} set={setName} />
+    </HomePage>
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    backgroundColor: 'white',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 700,
-    textAlign: 'center',
-  },
-});

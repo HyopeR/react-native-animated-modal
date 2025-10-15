@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import Animated, {useAnimatedStyle} from 'react-native-reanimated';
-import {useModalContext} from '../../context';
+import {useShareContext} from '../../context';
 import {
   ContentProps,
   ContentPrivateProps,
@@ -13,7 +13,7 @@ export type {ContentProps, ContentPrivateProps};
 export const Content = (props: ContentPrivateStrictProps) => {
   const {style, children} = props;
 
-  const {opacity, translateX, translateY, scale} = useModalContext();
+  const {opacity, translateX, translateY, scale} = useShareContext();
 
   const containerSx = StyleSheet.flatten([styles.root, style]);
   const containerSxAnimated = useAnimatedStyle(() => {

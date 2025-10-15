@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {
   StyleSheet,
   Text,
-  TextProps,
   TouchableOpacity,
   TouchableOpacityProps,
   View,
@@ -10,44 +9,50 @@ import {
 } from 'react-native';
 
 export type HeaderProps = {
-  title: string;
-  titleProps?: TextProps;
+  height?: number;
   left?: string;
   leftProps?: TouchableOpacityProps;
   right?: string;
   rightProps?: TouchableOpacityProps;
+  children?: ReactNode;
   style?: ViewProps;
 };
 
 export const Header = ({
-  title,
-  titleProps,
+  height = 60,
   left = '',
   leftProps,
   right = '',
   rightProps,
   style,
+  children,
 }: HeaderProps) => {
   const {style: leftStyle, ...omitLeftProps} = leftProps || {};
   const {style: rightStyle, ...omitRightProps} = rightProps || {};
 
   return (
-    <View style={StyleSheet.flatten([styles.root, style])}>
-      <TouchableOpacity
-        style={StyleSheet.flatten([styles.side, styles.sideLeft, leftStyle])}
-        {...omitLeftProps}>
-        <Text>{left}</Text>
-      </TouchableOpacity>
+    <View style={StyleSheet.flatten([styles.root, {height}, style])}>
+      {(left || right) && (
+        <TouchableOpacity
+          style={StyleSheet.flatten([styles.side, styles.sideLeft, leftStyle])}
+          {...omitLeftProps}>
+          <Text style={styles.sideText}>{left}</Text>
+        </TouchableOpacity>
+      )}
 
-      <View style={styles.content}>
-        <Text {...titleProps}>{title}</Text>
-      </View>
+      <View style={styles.content}>{children}</View>
 
-      <TouchableOpacity
-        style={StyleSheet.flatten([styles.side, styles.sideRight, rightStyle])}
-        {...omitRightProps}>
-        <Text>{right}</Text>
-      </TouchableOpacity>
+      {(left || right) && (
+        <TouchableOpacity
+          style={StyleSheet.flatten([
+            styles.side,
+            styles.sideRight,
+            rightStyle,
+          ])}
+          {...omitRightProps}>
+          <Text style={styles.sideText}>{right}</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -55,7 +60,7 @@ export const Header = ({
 const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
-    height: 50,
+    height: 60,
   },
   content: {
     flex: 1,
@@ -65,11 +70,13 @@ const styles = StyleSheet.create({
   side: {
     width: 60,
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  sideLeft: {
-    alignItems: 'flex-start',
-  },
-  sideRight: {
-    alignItems: 'flex-end',
+  sideLeft: {},
+  sideRight: {},
+  sideText: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: '#0077ff',
   },
 });
