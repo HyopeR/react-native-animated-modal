@@ -101,7 +101,17 @@ const Example = () => {
       onSwipeComplete={() => setVisible(false)}
       onHide={() => setVisible(false)}>
       <View style={styles.content}>
-        <Scrollable>
+        <Scrollable
+          // Determine the orientation of the list. (Optional)
+          orientation={'vertical'}
+          // Determine whether the list should be reversed. (Optional)
+          inverted={inverted}
+          // Listen to the list's callbacks. (Optional)
+          onScroll={() => {}}
+          onBeginDrag={() => {}}
+          onEndDrag={() => {}}
+          onMomentumBegin={() => {}}
+          onMomentumEnd={() => {}}>
           {options => {
             return (
               <ScrollableFlatList
