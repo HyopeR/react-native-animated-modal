@@ -82,7 +82,7 @@ Use Scrollable components to handle pan gestures in parallel for Modal and Scrol
 - Scrollable (Wrapper) [(Show)](https://hyoper.github.io/react-native-animated-modal/functions/Scrollable.html)
 - ScrollableFlatList (Child) [(Show)](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableFlatList.html)
 - ScrollableSectionList (Child) [(Show)](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableSectionList.html)
-- ScrollableScrollView (Child) [(Show)](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableView.html)
+- ScrollableView (Child) [(Show)](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableView.html)
 
 ```typescript jsx
 import React, {useState} from 'react';
