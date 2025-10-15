@@ -34,7 +34,7 @@
     "test:lint": "eslint --ext ts,tsx src/",
     "build": "bob build",
     "clean": "del-cli lib",
-    "docs": "typedoc --out docs src/index.ts",
+    "docs": "typedoc",
     "docs:deploy": "gh-pages -d docs -b docs"
   },
   "devDependencies": {
