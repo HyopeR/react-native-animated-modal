@@ -105,7 +105,7 @@ const Example = () => {
           // Determine the orientation of the list. (Optional)
           orientation={'vertical'}
           // Determine whether the list should be reversed. (Optional)
-          inverted={inverted}
+          inverted={false}
           // Listen to the list's callbacks. (Optional)
           onScroll={() => {}}
           onBeginDrag={() => {}}
