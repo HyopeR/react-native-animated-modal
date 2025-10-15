@@ -32,7 +32,8 @@
     "test:lint": "eslint --ext ts,tsx src/",
     "build": "bob build",
     "clean": "del-cli lib",
-    "docs": "typedoc --out docs src/index.ts"
+    "docs": "typedoc --out docs src/index.ts",
+    "docs:deploy": "gh-pages -d docs -b docs"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
