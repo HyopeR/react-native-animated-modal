@@ -119,8 +119,8 @@ const Example = () => {
                 data={Array.from({length: 20}, (_, i) => i + 1)}
                 keyExtractor={item => item.toString()}
                 renderItem={({item}) => (
-                  <View style={ListStyle.item}>
-                    <Text style={ListStyle.itemText}>Item: {item}</Text>
+                  <View style={styles.item}>
+                    <Text style={styles.itemText}>Item: {item}</Text>
                   </View>
                 )}
               />
