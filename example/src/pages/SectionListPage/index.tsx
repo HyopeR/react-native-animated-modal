@@ -3,7 +3,7 @@ import {Text, useWindowDimensions, View} from 'react-native';
 import {
   Modal,
   Scrollable,
-  ScrollableOrientation,
+  ScrollableNs,
   ScrollableSectionList,
   ScrollableSectionListNs,
   SwipeNs,
@@ -18,7 +18,7 @@ export const SectionListPage = ({back}: PageProps) => {
   const [visible, setVisible] = useState(false);
 
   const [orientation, setOrientation] =
-    useState<ScrollableOrientation>('vertical');
+    useState<ScrollableNs.Orientation>('vertical');
   const [inverted, setInverted] = useState(false);
   const [directions, setDirections] = useState<SwipeNs.Direction[]>([
     'up',

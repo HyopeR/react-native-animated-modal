@@ -5,7 +5,7 @@ import {
   Scrollable,
   ScrollableFlatList,
   ScrollableFlatListNs,
-  ScrollableOrientation,
+  ScrollableNs,
   SwipeNs,
 } from 'react-native-animated-modal';
 import {Screen} from '../../commons/Screen';
@@ -18,7 +18,7 @@ export const FlatListPage = ({back}: PageProps) => {
   const [visible, setVisible] = useState(false);
 
   const [orientation, setOrientation] =
-    useState<ScrollableOrientation>('vertical');
+    useState<ScrollableNs.Orientation>('vertical');
   const [inverted, setInverted] = useState(false);
   const [directions, setDirections] = useState<SwipeNs.Direction[]>([
     'up',

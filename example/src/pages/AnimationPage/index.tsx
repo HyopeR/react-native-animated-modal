@@ -74,7 +74,7 @@ export const AnimationPage = ({back}: PageProps) => {
           duration: duration,
           direction: direction as never,
         }}
-        // Triggered when when the Android back key is pressed.
+        // Triggered when the Android back key is pressed.
         onBackPress={() => setVisible(false)}
         // Triggered when the modal is opened.
         onShow={() => {}}

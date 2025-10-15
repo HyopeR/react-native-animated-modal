@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {ScrollableOrientation, SwipeNs} from 'react-native-animated-modal';
+import {ScrollableNs, SwipeNs} from 'react-native-animated-modal';
 import {ConfigStyle as styles} from '../styles';
 
 export type Configuration = {
-  orientation: ScrollableOrientation;
+  orientation: ScrollableNs.Orientation;
   directions: SwipeNs.Direction[];
-  onChangeOrientation: (value: ScrollableOrientation) => void;
+  onChangeOrientation: (value: ScrollableNs.Orientation) => void;
   onChangeDirection: (value: SwipeNs.Direction) => void;
 };
 

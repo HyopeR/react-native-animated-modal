@@ -3,7 +3,7 @@ import {Text, useWindowDimensions, View} from 'react-native';
 import {
   Modal,
   Scrollable,
-  ScrollableOrientation,
+  ScrollableNs,
   ScrollableView,
   ScrollableViewNs,
   SwipeNs,
@@ -18,7 +18,7 @@ export const ScrollViewPage = ({back}: PageProps) => {
   const [visible, setVisible] = useState(false);
 
   const [orientation, setOrientation] =
-    useState<ScrollableOrientation>('vertical');
+    useState<ScrollableNs.Orientation>('vertical');
   const [directions, setDirections] = useState<SwipeNs.Direction[]>([
     'up',
     'down',
