@@ -55,8 +55,7 @@ const Example = () => {
       // Triggered when the drag operation is completed. (Optional)
       onSwipeComplete={() => setVisible(false)}
       // Triggered when the drag operation is canceled. (Optional)
-      onSwipeCancel={() => {}}
-    >
+      onSwipeCancel={() => {}}>
       <View style={styles.content}>
         <Text>React Native Animated Modal</Text>
       </View>
