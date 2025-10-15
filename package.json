@@ -24,6 +24,8 @@
     "popup",
     "modal",
     "animated",
+    "reanimated",
+    "scrollable",
     "typescript"
   ],
   "scripts": {

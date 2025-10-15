@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
 import {
-  ListRenderItem,
   SectionList,
   SectionListData,
   SectionListProps,
+  SectionListRenderItem,
   StyleSheet,
   Text,
   View,
@@ -15,8 +15,7 @@ export type ListProps = {
   set: React.Dispatch<React.SetStateAction<string>>;
 } & SectionListProps<PageItem, PageSection>;
 
-type ListRender = ListRenderItem<PageItem>;
-
+type ListRender = SectionListRenderItem<PageItem, PageSection>;
 type ListRenderSection = (info: {
   section: SectionListData<PageItem, PageSection>;
 }) => React.ReactElement;

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   SectionList,
   SectionListProps,
@@ -12,5 +13,7 @@ export namespace ScrollableSectionListNs {
     ItemT,
     SectionT
   >;
-  export type Section<ItemT> = SectionListData<ItemT>;
+  export type RenderSection<ItemT, SectionT> = (info: {
+    section: SectionListData<ItemT, SectionT>;
+  }) => React.ReactElement | null;
 }

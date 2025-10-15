@@ -22,16 +22,43 @@ const Example = () => {
   const [visible, setVisible] = useState(false);
   return (
     <Modal
+      // Modal status is hidden or visible.
       visible={visible}
+      // Use Fade/Scale/Slide animations. (Optional)
+      animation={{
+        type: 'slide',
+        direction: {start: 'up', end: 'down'},
+        duration: 350,
+      }}
+      // Activate and customize the draggable modal. (Optional)
+      swipe={{
+        enabled: true,
+        directions: ['up', 'down', 'left', 'right'],
+        distance: 120,
+        velocity: 800,
+        closable: true,
+      }}
+      // Customize the backdrop component. (Optional)
+      backdrop={{
+        enabled: true,
+        backgroundColor: 'black',
+        opacity: 0.5,
+      }}
+      // Triggered when the modal is closed.
       onHide={() => setVisible(false)}
+      // Triggered when the modal is opened. (Optional)
+      onShow={() => {}}
+      // Triggered when the android back button is pressed. (Optional)
       onBackPress={() => setVisible(false)}
+      // Triggered when the backdrop is pressed. (Optional)
       onBackdropPress={() => setVisible(false)}
+      // Triggered when the drag operation is completed. (Optional)
       onSwipeComplete={() => setVisible(false)}
-      backdrop={{enabled: true, backgroundColor: 'black', opacity: 0.6}}
-      animation={{type: 'slide', direction: {start: 'up', end: 'down'}}}
-      swipe={{enabled: true, directions: ['up', 'down', 'left', 'right']}}>
+      // Triggered when the drag operation is canceled. (Optional)
+      onSwipeCancel={() => {}}
+    >
       <View style={styles.content}>
-        <Text>Example Modal</Text>
+        <Text>React Native Animated Modal</Text>
       </View>
     </Modal>
   );
@@ -39,13 +66,13 @@ const Example = () => {
 
 const styles = StyleSheet.create({
   content: {
-    width: 300,
+    width: 320,
+    height: 240,
     backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 20,
     borderRadius: 15,
-    gap: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 ```
