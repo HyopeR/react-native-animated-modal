@@ -1,16 +1,23 @@
 import {ReactNode} from 'react';
-import {LayoutChangeEvent} from 'react-native';
+import {
+  LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
 import {ScrollHandlerProcessed} from 'react-native-reanimated';
-import {ScrollableEvent} from './hooks/index.type';
 
-export {ScrollableEvent};
-
-export type ScrollableOrientation = 'vertical' | 'horizontal';
+export namespace ScrollableNs {
+  export type Orientation = 'vertical' | 'horizontal';
+  export type Event = Pick<
+    NativeSyntheticEvent<NativeScrollEvent>,
+    'nativeEvent'
+  >;
+}
 
 /**
  * Props values to be passed to the child component of the Scrollable component.
  */
-export type ScrollableChildrenOptions = {
+export type ScrollableChildrenProps = {
   /**
    * If true, renders items next to each other horizontally instead of stacked vertically.
    * @default false
@@ -68,7 +75,7 @@ export type ScrollableProps = {
   /**
    * Callback fired when the scrollable is ready.
    */
-  orientation?: ScrollableOrientation;
+  orientation?: ScrollableNs.Orientation;
   /**
    * Reverses the direction of scroll. Uses scale transforms of -1.
    */
@@ -76,27 +83,27 @@ export type ScrollableProps = {
   /**
    * Callback that is triggered when the scrollable child component is scrolled.
    */
-  onScroll?: (e: ScrollableEvent) => void;
+  onScroll?: (e: ScrollableNs.Event) => void;
   /**
    * Callback that is triggered when the scrollable child component begins scrolling.
    */
-  onBeginDrag?: (e: ScrollableEvent) => void;
+  onBeginDrag?: (e: ScrollableNs.Event) => void;
   /**
    * Callback that is triggered when the scrollable child component finishes scrolling.
    */
-  onEndDrag?: (e: ScrollableEvent) => void;
+  onEndDrag?: (e: ScrollableNs.Event) => void;
   /**
    * Callback that is triggered when the scrollable child component begins scrolling momentum.
    */
-  onMomentumBegin?: (e: ScrollableEvent) => void;
+  onMomentumBegin?: (e: ScrollableNs.Event) => void;
   /**
    * Callback that is triggered when the scrollable child component finishes scrolling momentum.
    */
-  onMomentumEnd?: (e: ScrollableEvent) => void;
+  onMomentumEnd?: (e: ScrollableNs.Event) => void;
   /**
    * Scrollable function children.
    */
-  children?: (options: ScrollableChildrenOptions) => ReactNode;
+  children?: (options: ScrollableChildrenProps) => ReactNode;
 };
 
 /**

@@ -6,20 +6,14 @@ import {getSafeProps} from '../../utils';
 import {useEvent} from '../../hooks';
 import {useLayout, useContentSizeChange, useScroll} from './hooks';
 import {
-  ScrollableChildrenOptions,
+  ScrollableChildrenProps,
   ScrollableProps,
   ScrollableRequiredProps,
   ScrollableStrictProps,
-  ScrollableEvent,
-  ScrollableOrientation,
+  ScrollableNs,
 } from './index.type';
 
-export type {
-  ScrollableProps,
-  ScrollableChildrenOptions,
-  ScrollableEvent,
-  ScrollableOrientation,
-};
+export type {ScrollableProps, ScrollableChildrenProps, ScrollableNs};
 
 const ScrollableDefaultProps: ScrollableRequiredProps = {
   orientation: 'vertical',
@@ -89,7 +83,7 @@ export const Scrollable = (props: ScrollableProps) => {
     onMomentumEnd: onMomentumEndEvent,
   });
 
-  const options = useMemo<ScrollableChildrenOptions>(() => {
+  const options = useMemo<ScrollableChildrenProps>(() => {
     return {
       horizontal: orientation === 'horizontal',
       inverted: inverted,

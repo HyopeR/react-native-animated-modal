@@ -1,12 +1,7 @@
 import {RefObject} from 'react';
-import {NativeScrollEvent, NativeSyntheticEvent} from 'react-native';
 import {SharedValue} from 'react-native-reanimated';
 import {Scroll, Size} from '../../../types';
-
-export type ScrollableEvent = Pick<
-  NativeSyntheticEvent<NativeScrollEvent>,
-  'nativeEvent'
->;
+import {ScrollableNs} from '../index.type';
 
 export type UseContentSizeChangeProps = {
   orientation: 'vertical' | 'horizontal';
@@ -25,11 +20,11 @@ export type UseScrollProps = {
   scroll: SharedValue<Scroll>;
   scrollInteraction: SharedValue<boolean>;
   scrollLock: SharedValue<boolean>;
-  onScroll?: (e: ScrollableEvent) => void;
-  onBeginDrag?: (e: ScrollableEvent) => void;
-  onEndDrag?: (e: ScrollableEvent) => void;
-  onMomentumBegin?: (e: ScrollableEvent) => void;
-  onMomentumEnd?: (e: ScrollableEvent) => void;
+  onScroll?: (e: ScrollableNs.Event) => void;
+  onBeginDrag?: (e: ScrollableNs.Event) => void;
+  onEndDrag?: (e: ScrollableNs.Event) => void;
+  onMomentumBegin?: (e: ScrollableNs.Event) => void;
+  onMomentumEnd?: (e: ScrollableNs.Event) => void;
 };
 
 export type UseScrollCommonProps = {
