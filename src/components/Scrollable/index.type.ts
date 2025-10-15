@@ -7,7 +7,13 @@ import {
 import {ScrollHandlerProcessed} from 'react-native-reanimated';
 
 export namespace ScrollableNs {
+  /**
+   * Scrollable and Scrollable children orientation.
+   */
   export type Orientation = 'vertical' | 'horizontal';
+  /**
+   * Scrollable scroll events type.
+   */
   export type Event = Pick<
     NativeSyntheticEvent<NativeScrollEvent>,
     'nativeEvent'
@@ -74,10 +80,12 @@ export type ScrollableChildrenProps = {
 export type ScrollableProps = {
   /**
    * Callback fired when the scrollable is ready.
+   * @default true
    */
   orientation?: ScrollableNs.Orientation;
   /**
    * Reverses the direction of scroll. Uses scale transforms of -1.
+   * @default false
    */
   inverted?: boolean;
   /**

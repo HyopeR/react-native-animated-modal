@@ -7,6 +7,9 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 export type {ScrollableFlatListNs};
 
+/**
+ * FlatList component in react-native wrapped with reanimated.
+ */
 export const ScrollableFlatList = React.forwardRef(
   <ItemT,>(props: FlatListProps<ItemT>, ref: React.Ref<FlatList<ItemT>>) => {
     // @ts-ignore

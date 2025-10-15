@@ -34,6 +34,10 @@ const ModalDefaultProps: ModalRequiredProps = {
   onSwipeCancel: () => {},
 };
 
+/**
+ * Customizable Modal component offering Animation and Gesture Management.
+ * It is built on react-native's Modal.
+ */
 export const Modal = (props: ModalProps) => {
   // Merge user props with defaults.
   const propsSafe = getSafeProps(props, ModalDefaultProps) as ModalStrictProps;

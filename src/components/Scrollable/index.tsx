@@ -21,6 +21,10 @@ const ScrollableDefaultProps: ScrollableRequiredProps = {
   children: () => <></>,
 };
 
+/**
+ * A wrapper component for managing scrollable children's events.
+ * It is designed for use only inside a Modal.
+ */
 export const Scrollable = (props: ScrollableProps) => {
   const safeProps = getSafeProps(
     props,

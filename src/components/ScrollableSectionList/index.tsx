@@ -7,6 +7,9 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
 export type {ScrollableSectionListNs};
 
+/**
+ * SectionList component in react-native wrapped with reanimated.
+ */
 export const ScrollableSectionList = React.forwardRef(
   <ItemT, SectionT>(
     props: SectionListProps<ItemT, SectionT>,

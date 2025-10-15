@@ -7,6 +7,9 @@ const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 
 export type {ScrollableViewNs};
 
+/**
+ * ScrollView component in react-native wrapped with reanimated.
+ */
 export const ScrollableView = React.forwardRef(
   (props: ScrollViewProps, ref: React.Ref<ScrollView>) => {
     // @ts-ignore
