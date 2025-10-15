@@ -77,49 +77,71 @@ const styles = StyleSheet.create({
 });
 ```
 
-## Props
-The following table lists all props available for the Modal component. They allow you to customize the modal's appearance, behavior, and gesture interactions.
+## Scrollables
+Use Scrollable components to handle pan gestures in parallel for Modal and Scrollable child components.
 
-| Prop                     | Type                   | Default | Description                                                 |
-| ------------------------ |------------------------|---------| ----------------------------------------------------------- |
-| visible                  | boolean                | false   | Determines whether the modal is visible.                    |
-| onShow                   | Function               | —       | Callback fired when the modal is shown.                     |
-| onHide                   | Function               | —       | Callback fired when the modal is hidden.                    |
-| onBackdropPress          | Function               | —       | Callback fired when the backdrop is pressed.                |
-| onBackPress              | Function               | —       | Callback fired when the back button is pressed.             |
-| onSwipeComplete          | Function               | —       | Callback fired when a swipe gesture completes successfully. |
-| onSwipeCancel            | Function               | —       | Callback fired when a swipe gesture is canceled.            |
-| animation                | `AnimationNs.Config`   | —       | Animation configuration for the modal.                      |
-| swipe                    | `SwipeNs.Config`       | —       | Swipe gesture configuration.                                |
-| backdrop                 | `BackdropNs.Config`    | —       | Backdrop configuration.                                     |
-| style                    | `StyleProp<ViewStyle>` | —       | Style for the modal content container.                      |
-| children                 | `ReactNode`            | —       | Modal children.                                             |
-| hardwareAccelerated      | boolean                | —       | Forces hardware acceleration for the modal on Android.      |
-| statusBarTranslucent     | boolean                | true    | Determines if the status bar is translucent on Android.     |
-| navigationBarTranslucent | boolean                | true    | Determines if the navigation bar is translucent on Android. |
-| supportedOrientations    | Array                  | —       | Supported orientations on iOS.                              |
-| onOrientationChange      | Function               | —       | Callback when orientation changes on iOS.                   |
+| Component             | Usage   | Api                                                                                               |
+|-----------------------|---------|---------------------------------------------------------------------------------------------------|
+| Scrollable            | Wrapper | [Show](https://hyoper.github.io/react-native-animated-modal/functions/Scrollable.html)            |
+| ScrollableFlatList    | Child   | [Show](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableFlatList.html)    |
+| ScrollableSectionList | Child   | [Show](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableSectionList.html) |
+| ScrollableScrollView  | Child   | [Show](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableView.html)        |
 
-### AnimationNs.Config
-| Field     | Type                                            | Default   | Description                                          |
-| --------- |-------------------------------------------------|-----------| ---------------------------------------------------- |
-| type      | 'fade' \| 'slide' \| 'scale'                    | 'fade'    | Type of animation.                                   |
-| duration  | number                                          | 350       | Duration of the animation in milliseconds.           |
-| direction | `Direction` \| `DirectionExtend`                | 'up'      | Only for slide animations. Defines motion direction. |
+```typescript jsx
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {Modal, Scrollable, ScrollableFlatList} from 'react-native-animated-modal';
 
-### SwipeNs.Config
-| Field      | Type          | Default | Description                          |
-| ---------- | ------------- | ------- | ------------------------------------ |
-| enabled    | boolean       | false   | Whether swipe gestures are enabled.  |
-| directions | `Direction[]` | []      | Allowed swipe directions.            |
-| distance   | number        | 120     | Distance threshold to trigger swipe. |
-| velocity   | number        | 800     | Velocity threshold to trigger swipe. |
-| closable   | boolean       | false   | Whether swipe can close the modal.   |
+const Example = () => {
+  const [visible, setVisible] = useState(false);
+  return (
+    <Modal
+      visible={visible}
+      swipe={{enabled: true, directions: ['up', 'down', 'left', 'right']}}
+      onSwipeComplete={() => setVisible(false)}
+      onHide={() => setVisible(false)}>
+      <View style={styles.content}>
+        <Scrollable>
+          {options => {
+            return (
+              <ScrollableFlatList
+                {...options}
+                data={Array.from({length: 20}, (_, i) => i + 1)}
+                keyExtractor={item => item.toString()}
+                renderItem={({item}) => (
+                  <View style={ListStyle.item}>
+                    <Text style={ListStyle.itemText}>Item: {item}</Text>
+                  </View>
+                )}
+              />
+            );
+          }}
+        </Scrollable>
+      </View>
+    </Modal>
+  );
+};
 
-### BackdropNs.Config
-| Field           | Type    | Default | Description                       |
-| --------------- | ------- | ------- | --------------------------------- |
-| enabled         | boolean | true    | Whether the backdrop is enabled.  |
-| backgroundColor | string  | 'black' | Background color of the backdrop. |
-| opacity         | number  | 0.6     | Opacity of the backdrop.          |
+const styles = StyleSheet.create({
+  content: {
+    width: 320,
+    height: 240,
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  item: {
+    backgroundColor: '#F4F4F4',
+    padding: 10,
+    marginBottom: 8,
+    marginHorizontal: 4,
+  },
+  itemText: {
+    fontSize: 16,
+    color: '#333',
+  },
+});
+```
 
