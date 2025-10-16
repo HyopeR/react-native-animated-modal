@@ -1,7 +1,5 @@
 # React Native Animated Modal
 
----
-
 <img src="./preview.gif" alt="Preview" width="80%" />
 
 A **highly customizable** React Native modal component. Perfect for mobile applications, this modal enhances user experience by combining fluid animations with gesture-friendly controls.
@@ -26,8 +24,6 @@ npm install @hyoper/rn-animated-modal
 yarn add @hyoper/rn-animated-modal
 ````
 
----
-
 ## ⚙️ Requirements
 This package relies on specific versions of its **peer dependencies** to function correctly. Make sure your project meets the following requirements:
 
@@ -43,7 +39,7 @@ This package relies on specific versions of its **peer dependencies** to functio
 ## 🧩 Example
 A simple example of the component's usage is provided below. You can easily **customize it** to fit your project needs.
 
-For more complete examples and real-world use cases, check out the [📂 EXAMPLE FOLDER](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
+For more complete examples and real-world use cases, check out the [📂 EXAMPLE](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
 
 ```typescript jsx
 import React, {useState} from 'react';
