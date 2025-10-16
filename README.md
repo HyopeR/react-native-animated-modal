@@ -1,3 +1,5 @@
+<img src="./preview.gif" alt="Preview" width="50%" />
+
 A **highly customizable** React Native modal component. Perfect for mobile applications, this modal enhances user experience by combining fluid animations with gesture-friendly controls.
 
 For full API documentation and usage examples, check out the [📖 ONLINE DOCS](https://hyoper.github.io/react-native-animated-modal/).
