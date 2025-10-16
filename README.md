@@ -1,4 +1,4 @@
-<img src="./preview.gif" alt="Preview" width="50%" />
+<img src="./preview.gif" alt="Preview" width="70%" />
 
 A **highly customizable** React Native modal component. Perfect for mobile applications, this modal enhances user experience by combining fluid animations with gesture-friendly controls.
 
