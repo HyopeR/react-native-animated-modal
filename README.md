@@ -1,17 +1,45 @@
-A highly customizable React Native modal component supporting animations, swipe gestures, and backdrop interactions. Designed for mobile applications to enhance modal interactions with smooth animations and user-friendly gestures.
-For full API documentation and examples, see the [online docs](https://hyoper.github.io/react-native-animated-modal/).
+<img src="./preview.gif" alt="Preview" width="70%" />
+
+A **highly customizable** React Native modal component. Perfect for mobile applications, this modal enhances user experience by combining fluid animations with gesture-friendly controls.
+
+For full API documentation and usage examples, check out the [📖 ONLINE DOCS](https://hyoper.github.io/react-native-animated-modal/).
+
+## ✨ Features
+- **Smooth animations** are provided with [Reanimated](https://docs.swmansion.com/react-native-reanimated/).
+- **Smooth gestures** are provided with [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/).
+- Interactive and customizable **backdrop**.
+- Synchronous pan gestures for **scrollable child** components.
 
 ---
 
-## Requirements
-This package relies on specific versions of its peer dependencies to function correctly. Make sure your project meets the following requirements.
- - "react": ">=18.2.0",
- - "react-native": ">=0.78.0",
- - "react-native-gesture-handler": ">=2.26.0",
- - "react-native-reanimated": ">=3.19.0"
+## 🛠️️ Installation
+Install the package in your React Native project.
 
-## Example
-A simple example of the component's usage is provided below. You can customize it according to your needs. For more complete examples and real-world use cases, see the [example folder](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
+```bash
+npm install react-native-animated-modal
+```
+```bash
+yarn add react-native-animated-modal
+````
+
+---
+
+## ⚙️ Requirements
+This package relies on specific versions of its **peer dependencies** to function correctly. Make sure your project meets the following requirements:
+
+```json
+{
+  "react": ">=18.2.0",
+  "react-native": ">=0.78.0",
+  "react-native-gesture-handler": ">=2.26.0",
+  "react-native-reanimated": ">=3.19.0"
+}
+```
+
+## 🧩 Example
+A simple example of the component's usage is provided below. You can easily **customize it** to fit your project needs.
+
+For more complete examples and real-world use cases, check out the [📂 EXAMPLE FOLDER](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
 
 ```typescript jsx
 import React, {useState} from 'react';
@@ -76,13 +104,13 @@ const styles = StyleSheet.create({
 });
 ```
 
-## Scrollables
-Use Scrollable components to handle pan gestures in parallel for Modal and Scrollable child components.
+## 📜 Scrollables
+Use **Scrollable components** to handle pan gestures **in parallel** for the Modal and its child components.
 
-- Scrollable (Wrapper) [(Show)](https://hyoper.github.io/react-native-animated-modal/functions/Scrollable.html)
-- ScrollableFlatList (Child) [(Show)](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableFlatList.html)
-- ScrollableSectionList (Child) [(Show)](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableSectionList.html)
-- ScrollableView (Child) [(Show)](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableView.html)
+- **Scrollable (Wrapper)** – [Show](https://hyoper.github.io/react-native-animated-modal/functions/Scrollable.html)
+- **ScrollableFlatList (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableFlatList.html)
+- **ScrollableSectionList (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableSectionList.html)
+- **ScrollableView (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableView.html)
 
 ```typescript jsx
 import React, {useState} from 'react';
@@ -151,4 +179,3 @@ const styles = StyleSheet.create({
   },
 });
 ```
-

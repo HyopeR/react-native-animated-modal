@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib",
     "paths": {
       "react-native-animated-modal": ["./src/index"]
     },
