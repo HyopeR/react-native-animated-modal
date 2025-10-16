@@ -7,7 +7,7 @@ import {
   ScrollableSectionList,
   ScrollableSectionListNs,
   SwipeNs,
-} from 'react-native-animated-modal';
+} from '@hyoper/rn-animated-modal';
 import {Screen} from '../../commons/Screen';
 import {Button} from '../../commons/Button';
 import {ModalStyle, PageStyle, ListStyle} from '../styles';

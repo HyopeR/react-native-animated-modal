@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {AnimationNs} from 'react-native-animated-modal';
+import {AnimationNs} from '@hyoper/rn-animated-modal';
 import {ConfigStyle as styles} from '../styles';
 
 export type Configuration = {

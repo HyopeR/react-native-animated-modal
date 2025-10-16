@@ -1,5 +1,5 @@
 {
-  "name": "react-native-animated-modal",
+  "name": "@hyoper/rn-animated-modal",
   "version": "1.0.0",
   "description": "Flexible React Native Modal with animated gestures and scrollable integration.",
   "author": "hyoper <tolcelik11@gmail.com> (https://github.com/hyoper)",
