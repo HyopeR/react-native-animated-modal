@@ -12,6 +12,18 @@ For full API documentation and usage examples, check out the [📖 ONLINE DOCS](
 
 ---
 
+## 🛠️️ Installation
+Install the package in your React Native project.
+
+```bash
+npm install react-native-animated-modal
+```
+```bash
+yarn add react-native-animated-modal
+````
+
+---
+
 ## ⚙️ Requirements
 This package relies on specific versions of its **peer dependencies** to function correctly. Make sure your project meets the following requirements:
 
