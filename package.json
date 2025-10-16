@@ -9,9 +9,11 @@
     "url": "https://github.com/hyoper/react-native-animated-modal"
   },
   "license": "MIT",
-  "main": "lib/commonjs/index.js",
+  "main": "lib/module/index.js",
+  "module": "lib/module/index.js",
   "types": "lib/typescript/index.d.ts",
   "source": "src/index",
+  "react-native": "src/index",
   "files": [
     "src",
     "lib"
@@ -33,8 +35,9 @@
     "test:ts": "tsc --noEmit",
     "test:lint": "eslint --ext ts,tsx src/",
     "build": "bob build",
-    "clean": "del-cli lib",
+    "build:clean": "del-cli lib",
     "docs": "typedoc",
+    "docs:clean": "del-cli docs",
     "docs:deploy": "gh-pages -d docs -b docs"
   },
   "devDependencies": {
@@ -71,13 +74,8 @@
     "source": "src",
     "output": "lib",
     "targets": [
-      "commonjs",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
+      "module",
+      "typescript"
     ]
   }
 }
