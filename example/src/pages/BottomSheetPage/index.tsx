@@ -10,7 +10,7 @@ import {
   Modal,
   Scrollable,
   ScrollableFlatList,
-} from 'react-native-animated-modal';
+} from '@hyoper/rn-animated-modal';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Screen} from '../../commons/Screen';
 import {Button} from '../../commons/Button';

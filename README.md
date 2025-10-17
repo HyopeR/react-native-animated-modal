@@ -1,8 +1,10 @@
-<img src="./preview.gif" alt="Preview" width="70%" />
+# React Native Animated Modal
+
+<img src="./preview.gif" alt="Preview" width="80%" />
 
 A **highly customizable** React Native modal component. Perfect for mobile applications, this modal enhances user experience by combining fluid animations with gesture-friendly controls.
 
-For full API documentation and usage examples, check out the [📖 ONLINE DOCS](https://hyoper.github.io/react-native-animated-modal/).
+For full API documentation and usage examples, check out the [📖 DOCS](https://hyoper.github.io/react-native-animated-modal/).
 
 ## ✨ Features
 - **Smooth animations** are provided with [Reanimated](https://docs.swmansion.com/react-native-reanimated/).
@@ -16,13 +18,11 @@ For full API documentation and usage examples, check out the [📖 ONLINE DOCS](
 Install the package in your React Native project.
 
 ```bash
-npm install react-native-animated-modal
+npm install @hyoper/rn-animated-modal
 ```
 ```bash
-yarn add react-native-animated-modal
+yarn add @hyoper/rn-animated-modal
 ````
-
----
 
 ## ⚙️ Requirements
 This package relies on specific versions of its **peer dependencies** to function correctly. Make sure your project meets the following requirements:
@@ -39,12 +39,12 @@ This package relies on specific versions of its **peer dependencies** to functio
 ## 🧩 Example
 A simple example of the component's usage is provided below. You can easily **customize it** to fit your project needs.
 
-For more complete examples and real-world use cases, check out the [📂 EXAMPLE FOLDER](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
+For more complete examples and real-world use cases, check out the [📂 EXAMPLE](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
 
 ```typescript jsx
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Modal} from 'react-native-animated-modal';
+import {Modal} from '@hyoper/rn-animated-modal';
 
 const Example = () => {
   const [visible, setVisible] = useState(false);
@@ -115,7 +115,7 @@ Use **Scrollable components** to handle pan gestures **in parallel** for the Mod
 ```typescript jsx
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Modal, Scrollable, ScrollableFlatList} from 'react-native-animated-modal';
+import {Modal, Scrollable, ScrollableFlatList} from '@hyoper/rn-animated-modal';
 
 const Example = () => {
   const [visible, setVisible] = useState(false);

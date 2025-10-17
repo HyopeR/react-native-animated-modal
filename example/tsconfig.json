@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "react-native-animated-modal": ["../src/index"]
+      "@hyoper/rn-animated-modal": ["../src/index"]
     },
     "jsx": "react",
     "types": ["node"],

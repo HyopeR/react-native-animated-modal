@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {KeyboardAvoidingView} from 'react-native-keyboard-controller';
-import {Modal} from 'react-native-animated-modal';
+import {Modal} from '@hyoper/rn-animated-modal';
 import {Screen} from '../../commons/Screen';
 import {Button} from '../../commons/Button';
 import {ModalStyle, PageStyle} from '../styles';

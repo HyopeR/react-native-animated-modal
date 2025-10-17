@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Text, View} from 'react-native';
-import {AnimationNs, Modal} from 'react-native-animated-modal';
+import {AnimationNs, Modal} from '@hyoper/rn-animated-modal';
 import {Screen} from '../../commons/Screen';
 import {Button} from '../../commons/Button';
 import {ModalStyle, PageStyle} from '../styles';
