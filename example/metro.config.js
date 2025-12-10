@@ -35,6 +35,8 @@ const config = {
   projectRoot: projectRoot,
   watchFolders: [libraryRoot],
   resolver: {
+    disableHierarchicalLookup: false,
+    nodeModulesPaths: [path.resolve(projectRoot, 'node_modules')],
     blacklistRE: exclusionList(modulesBlackList),
     extraNodeModules: modules,
   },
