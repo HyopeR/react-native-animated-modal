@@ -4,7 +4,7 @@ import {BACKDROP_BASE_CONFIG} from '../constants';
 import {BackdropNs} from '../types';
 
 /**
- * @internal
+ * @hidden
  * Returns a cached backdrop config.
  * Merges user config with defaults and prevents re-renders if unchanged.
  */

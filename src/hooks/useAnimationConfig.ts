@@ -15,7 +15,7 @@ const DICT = {
 };
 
 /**
- * @internal
+ * @hidden
  * Returns a cached animation config.
  * Merges user config with defaults and prevents re-renders if unchanged.
  */

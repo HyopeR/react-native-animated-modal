@@ -129,6 +129,6 @@ export type ScrollablePartialProps = Pick<
   'onScroll' | 'onBeginDrag' | 'onEndDrag' | 'onMomentumBegin' | 'onMomentumEnd'
 >;
 
-/** @internal */
+/** @hidden */
 export type ScrollableStrictProps = ScrollableRequiredProps &
   ScrollablePartialProps;

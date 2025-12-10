@@ -1,5 +1,5 @@
 /**
- * @internal
+ * @hidden
  * Dimension type for general use.
  */
 export type Size = {
@@ -8,7 +8,7 @@ export type Size = {
 };
 
 /**
- * @internal
+ * @hidden
  * Offset type for general use.
  */
 export type Offset = {
@@ -17,19 +17,19 @@ export type Offset = {
 };
 
 /**
- * @internal
+ * @hidden
  * Modal component status.
  */
 export type Status = 'idle' | 'entering' | 'exiting';
 
 /**
- * @internal
+ * @hidden
  * Scrollable component scroll state.
  */
 export type Scroll = 'top' | 'bottom' | 'left' | 'right' | 'middle' | 'none';
 
 /**
- * @internal
+ * @hidden
  * Scrollable component orientation.
  */
 export type ScrollOrientation = 'vertical' | 'horizontal' | 'none';

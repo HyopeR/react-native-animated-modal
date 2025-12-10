@@ -130,5 +130,5 @@ export type ModalPartialProps = Pick<
   | 'children'
 >;
 
-/** @internal */
+/** @hidden */
 export type ModalStrictProps = ModalRequiredProps & ModalPartialProps;

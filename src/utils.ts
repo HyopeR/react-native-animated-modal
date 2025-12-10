@@ -2,7 +2,7 @@ import {AnimationNs, Size} from './types';
 
 export const SlideMovement = {
   /**
-   * @internal
+   * @hidden
    * Offset values for enter slide animations.
    */
   get: (size: Size): Record<AnimationNs.Direction, number> => {
@@ -12,7 +12,7 @@ export const SlideMovement = {
   },
 
   /**
-   * @internal
+   * @hidden
    * Offset values for exit slide animations (reverse of get).
    */
   getReflect: (size: Size): Record<AnimationNs.Direction, number> => {
@@ -23,7 +23,7 @@ export const SlideMovement = {
 };
 
 /**
- * @internal
+ * @hidden
  * Merge user props with defaults.
  * Keeps provided values, fills missing with default ones.
  */
@@ -44,7 +44,7 @@ export const getSafeProps = <Input extends object>(
 };
 
 /**
- * @internal
+ * @hidden
  * Shallow equality check using JSON stringify.
  * Used to compare props/objects for memoization.
  */

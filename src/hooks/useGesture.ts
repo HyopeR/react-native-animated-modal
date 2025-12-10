@@ -38,7 +38,7 @@ export type UseGestureProps = {
 };
 
 /**
- * @internal
+ * @hidden
  * Hook to handle swipe gestures for dismissing or moving the view.
  *
  * Updates translation shared values (X/Y) based on gesture input.

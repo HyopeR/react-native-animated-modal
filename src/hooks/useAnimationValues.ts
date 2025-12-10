@@ -5,7 +5,7 @@ import {SIZE} from '../constants';
 import {Size, Offset, ScrollOrientation, Scroll, Status} from '../types';
 
 /**
- * @internal
+ * @hidden
  * Initializes and provides shared animation values.
  */
 export const useAnimationValues = () => {

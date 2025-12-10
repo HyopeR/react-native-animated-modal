@@ -30,7 +30,7 @@ export type UseAnimationProps = {
 };
 
 /**
- * @internal
+ * @hidden
  * Hook that maps animation config to fade, slide or scale animations.
  * Provides `init`, `enter`, and `exit` methods with optional lifecycle
  * event callbacks.
