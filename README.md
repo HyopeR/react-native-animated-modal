@@ -15,7 +15,7 @@ A **highly customizable** React Native modal component. Perfect for mobile appli
 ---
 
 ## 🛠️️ Installation
-Install the package in your React Native project. [🔗 NPM](https://www.npmjs.com/package/@hyoper/rn-animated-modal)
+1- Install the package in your React Native project. [🔗 NPM](https://www.npmjs.com/package/@hyoper/rn-animated-modal)
 
 ```bash
 npm install @hyoper/rn-animated-modal
@@ -23,6 +23,8 @@ npm install @hyoper/rn-animated-modal
 ```bash
 yarn add @hyoper/rn-animated-modal
 ````
+
+2- You must have completed the installation steps for the [Reanimated](https://docs.swmansion.com/react-native-reanimated/) and [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) packages.
 
 ## ⚙️ Requirements
 This package relies on specific versions of its **peer dependencies** to function correctly. Make sure your project meets the following requirements:
