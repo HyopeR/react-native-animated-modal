@@ -1,7 +1,7 @@
 {
   "name": "@hyoper/rn-animated-modal",
   "version": "1.0.0",
-  "description": "Flexible React Native Modal with animated gestures and scrollable integration.",
+  "description": "Flexible react-native modal with animated gestures and scrollable integration.",
   "author": "hyoper <tolcelik11@gmail.com> (https://github.com/hyoper)",
   "homepage": "https://github.com/hyoper/react-native-animated-modal",
   "repository": {
