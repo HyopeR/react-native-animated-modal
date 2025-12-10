@@ -80,7 +80,7 @@ export type ScrollableChildrenProps = {
 export type ScrollableProps = {
   /**
    * Callback fired when the scrollable is ready.
-   * @default true
+   * @default 'vertical'
    */
   orientation?: ScrollableNs.Orientation;
   /**
