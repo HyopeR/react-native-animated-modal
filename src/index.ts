@@ -1,3 +1,7 @@
+/**
+ * @module Package
+ * @category Package
+ */
 export * from './components/Modal';
 export * from './components/Scrollable';
 export * from './components/ScrollableFlatList';
