@@ -1,10 +1,10 @@
 # React Native Animated Modal
 
-<img src="./preview.gif" alt="Preview" width="80%" />
+<img src="./preview.gif" alt="Preview" width="100%" />
 
-A **highly customizable** React Native modal component. Perfect for mobile applications, this modal enhances user experience by combining fluid animations with gesture-friendly controls.
+## 🖼️ About - @hyoper/rn-animated-modal
 
-For full API documentation and usage examples, check out the [📖 DOCS](https://hyoper.github.io/react-native-animated-modal/).
+A **highly customizable** React Native modal component. Perfect for mobile applications, this modal enhances user experience by combining fluid animations with gesture-friendly controls. For full API documentation and usage examples, check out the [📖 API](https://hyoper.github.io/react-native-animated-modal/).
 
 ## ✨ Features
 - **Smooth animations** are provided with [Reanimated](https://docs.swmansion.com/react-native-reanimated/).
@@ -15,7 +15,7 @@ For full API documentation and usage examples, check out the [📖 DOCS](https:/
 ---
 
 ## 🛠️️ Installation
-Install the package in your React Native project.
+Install the package in your React Native project. [🔗 NPM](https://www.npmjs.com/package/@hyoper/rn-animated-modal)
 
 ```bash
 npm install @hyoper/rn-animated-modal
