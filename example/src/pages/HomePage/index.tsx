@@ -9,6 +9,7 @@ export const HomePage = ({children}: PageProps) => {
     <Screen>
       <Screen.Header>
         <Screen.Title>React Native Animated Modal</Screen.Title>
+        <Screen.Subtitle>@hyoper/rn-animated-modal</Screen.Subtitle>
       </Screen.Header>
 
       <Screen.Content style={PageStyle.root}>
