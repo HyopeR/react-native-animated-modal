@@ -39,9 +39,7 @@ This package relies on specific versions of its **peer dependencies** to functio
 ```
 
 ## 🧩 Example
-A simple example of the component's usage is provided below. You can easily **customize it** to fit your project needs.
-
-For more complete examples and real-world use cases, check out the [📂 EXAMPLE](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
+A simple example of the component's usage is provided below. You can easily **customize it** to fit your project needs. For more complete examples and real-world use cases, check out the [📂 EXAMPLE](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
 
 ```typescript jsx
 import React, {useState} from 'react';
