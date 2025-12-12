@@ -9,14 +9,17 @@ import type {LegendListRenderItemProps} from '@legendapp/list';
 export namespace ScrollableLegendListNs {
   /**
    * LegendList reference type.
+   * @see https://github.com/LegendApp/legend-list
    */
   export type Ref = LegendListRef;
   /**
    * LegendList props type.
+   * @see https://github.com/LegendApp/legend-list
    */
   export type Props<ItemT> = LegendListProps<ItemT>;
   /**
    * LegendList RenderItem type.
+   * @see https://github.com/LegendApp/legend-list
    */
   export type RenderItem<
     ItemT,
