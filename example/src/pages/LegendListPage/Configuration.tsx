@@ -5,19 +5,15 @@ import {ConfigStyle as styles} from '../styles';
 
 export type Configuration = {
   orientation: ScrollableNs.Orientation;
-  inverted: boolean;
   directions: SwipeNs.Direction[];
   onChangeOrientation: (value: ScrollableNs.Orientation) => void;
-  onChangeInverted: (value: boolean) => void;
   onChangeDirection: (value: SwipeNs.Direction) => void;
 };
 
 export const Configuration = ({
   orientation,
-  inverted,
   directions,
   onChangeOrientation,
-  onChangeInverted,
   onChangeDirection,
 }: Configuration) => {
   const state = {
@@ -50,26 +46,6 @@ export const Configuration = ({
             style={[styles.item, state.horizontal && styles.itemActive]}
             onPress={() => onChangeOrientation('horizontal')}>
             <Text style={styles.itemText}>Horizontal</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.row}>
-        <View style={styles.column}>
-          <Text style={styles.labelText}>Inverted</Text>
-        </View>
-
-        <View style={styles.columnRow}>
-          <TouchableOpacity
-            style={[styles.item, inverted && styles.itemActive]}
-            onPress={() => onChangeInverted(true)}>
-            <Text style={styles.itemText}>Yes</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.item, !inverted && styles.itemActive]}
-            onPress={() => onChangeInverted(false)}>
-            <Text style={styles.itemText}>No</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -19,7 +19,6 @@ export const LegendListPage = ({back}: PageProps) => {
 
   const [orientation, setOrientation] =
     useState<ScrollableNs.Orientation>('vertical');
-  const [inverted, setInverted] = useState(false);
   const [directions, setDirections] = useState<SwipeNs.Direction[]>([
     'up',
     'down',
@@ -56,10 +55,8 @@ export const LegendListPage = ({back}: PageProps) => {
 
           <Configuration
             orientation={orientation}
-            inverted={inverted}
             directions={directions}
             onChangeOrientation={setOrientation}
-            onChangeInverted={setInverted}
             onChangeDirection={changeDirection}
           />
         </View>
@@ -90,8 +87,6 @@ export const LegendListPage = ({back}: PageProps) => {
             <Scrollable
               // Determine the orientation of the list.
               orientation={orientation}
-              // Determine whether the list should be reversed.
-              inverted={inverted}
               // Listen to the list's callbacks.
               onScroll={() => {}}
               onBeginDrag={() => {}}
@@ -103,6 +98,8 @@ export const LegendListPage = ({back}: PageProps) => {
                   <ScrollableLegendList
                     ref={ref}
                     {...options}
+                    style={{flex: 1}}
+                    contentContainerStyle={{flexGrow: 1}}
                     // // If you need onLayout you can use it like this.
                     // onLayout={e => {
                     //   options.onLayout(e);
