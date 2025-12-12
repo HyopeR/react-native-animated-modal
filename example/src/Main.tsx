@@ -5,7 +5,6 @@ import {
   AnimationPage,
   BackdropPage,
   SwipePage,
-  FlashListPage,
   FlatListPage,
   ScrollViewPage,
   SectionListPage,
@@ -29,7 +28,6 @@ const Pages: PageSection[] = [
       {title: 'FlatList Playground', name: 'FlatList', section: 1},
       {title: 'ScrollView Playground', name: 'ScrollView', section: 1},
       {title: 'SectionList Playground', name: 'SectionList', section: 1},
-      {title: 'FlashList Playground', name: 'FlashList', section: 1},
     ],
   },
   {
@@ -58,8 +56,6 @@ export const Main = () => {
         return ScrollViewPage;
       case 'SectionList':
         return SectionListPage;
-      case 'FlashList':
-        return FlashListPage;
       case 'TextInput':
         return TextInputPage;
       case 'BottomSheet':
