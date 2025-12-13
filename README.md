@@ -43,7 +43,7 @@ The dependencies listed here are optional. You can use [**FlashList**](https://g
 ```json
 {
   "@legendapp/list": ">=2.0.0",
-  "@shopify/flash-list": ">=2.0.0"
+  "@shopify/flash-list": ">=2.0.1"
 }
 ```
 
