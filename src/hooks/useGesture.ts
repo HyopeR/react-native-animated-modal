@@ -72,6 +72,7 @@ export const useGesture = ({
 
   const direction = useSharedValue<AnimationNs.Direction | null>(null);
   const directionLock = useSharedValue<AnimationNs.Direction | null>(null);
+  const directionBreak = useSharedValue<boolean>(false);
   const axis = useSharedValue<AnimationNs.Axis | null>(null);
   const axisLock = useSharedValue<AnimationNs.Axis | null>(null);
 
@@ -85,6 +86,7 @@ export const useGesture = ({
 
         direction.value = null;
         directionLock.value = null;
+        directionBreak.value = false;
         axis.value = null;
         axisLock.value = null;
 
@@ -96,6 +98,7 @@ export const useGesture = ({
       axis,
       axisLock,
       direction,
+      directionBreak,
       directionLock,
       events,
       scrollLock,
@@ -136,6 +139,7 @@ export const useGesture = ({
 
         direction.value = null;
         directionLock.value = null;
+        directionBreak.value = false;
         axis.value = null;
         axisLock.value = null;
 
@@ -181,10 +185,7 @@ export const useGesture = ({
         // If there is a movement in directions not specified by the user,
         // the movement is not started.
         if (!swipe.directions.includes(directionLock.value)) {
-          direction.value = null;
-          directionLock.value = null;
-          axis.value = null;
-          axisLock.value = null;
+          directionBreak.value = true;
           return;
         }
 
@@ -260,20 +261,17 @@ export const useGesture = ({
             break;
         }
       })
-      .onEnd(e => {
+      .onEnd(() => {
         'worklet';
         if (status.value !== 'idle') return;
         if (!axisLock.value || !directionLock.value) return;
-
-        const translationX = e.translationX - scrollOffset.value.x;
-        const translationY = e.translationY - scrollOffset.value.y;
 
         if (
           (scrollOrientation.value === 'vertical' && axisLock.value === 'y') ||
           (scrollOrientation.value === 'horizontal' && axisLock.value === 'x')
         ) {
-          const absX = Math.abs(translationX);
-          const absY = Math.abs(translationY);
+          const absX = Math.abs(translateX.value);
+          const absY = Math.abs(translateY.value);
           if (absX < SWIPE_LOCK_THRESHOLD && absY < SWIPE_LOCK_THRESHOLD) {
             return;
           }
@@ -284,20 +282,20 @@ export const useGesture = ({
         let toY = 0;
 
         if (directionLock.value === 'up') {
-          dismiss = translationY < -swipe.distance;
+          dismiss = translateY.value < -swipe.distance;
           toY = dismiss ? -size.value.height : 0;
         } else if (directionLock.value === 'down') {
-          dismiss = translationY > swipe.distance;
+          dismiss = translateY.value > swipe.distance;
           toY = dismiss ? size.value.height : 0;
         } else if (directionLock.value === 'left') {
-          dismiss = translationX < -swipe.distance;
+          dismiss = translateX.value < -swipe.distance;
           toX = dismiss ? -size.value.width : 0;
         } else if (directionLock.value === 'right') {
-          dismiss = translationX > swipe.distance;
+          dismiss = translateX.value > swipe.distance;
           toX = dismiss ? size.value.width : 0;
         }
 
-        if (dismiss && swipe.closable) {
+        if (dismiss && swipe.closable && !directionBreak.value) {
           // Modal closing change modal state.
           status.value = 'exiting';
           translateX.value = withTiming(toX, config, f => {
@@ -326,6 +324,7 @@ export const useGesture = ({
     cb,
     config,
     direction,
+    directionBreak,
     directionLock,
     enabled,
     scroll,
