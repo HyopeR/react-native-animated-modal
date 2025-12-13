@@ -100,14 +100,6 @@ export const FlashListPage = ({back}: PageProps) => {
                     {...options}
                     style={{flex: 1}}
                     contentContainerStyle={{flexGrow: 1}}
-                    // // If you need onLayout you can use it like this.
-                    // onLayout={e => {
-                    //   options.onLayout(e);
-                    // }}
-                    // // If you need onContentSizeChange you can use it like this.
-                    // onContentSizeChange={(w, h) => {
-                    //   options.onContentSizeChange(w, h);
-                    // }}
                     data={Array.from({length: 20}, (_, i) => i + 1)}
                     // @ts-ignore
                     keyExtractor={item => item.toString()}
