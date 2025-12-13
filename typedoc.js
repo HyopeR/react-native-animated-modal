@@ -1,12 +1,31 @@
-/** @type {Partial<import("typedoc").TypeDocOptions>} */
+/**
+ * @type {Partial<import("typedoc").TypeDocOptions>}
+ */
 module.exports = {
-  name: "React Native Animated Modal",
-  entryPoints: ["./src/index.ts"],
-  out: "docs",
-  tsconfig: "./tsconfig.json",
+  name: 'React Native Animated Modal',
+  out: 'docs',
+  tsconfig: 'tsconfig.json',
   githubPages: true,
-  navigationLinks: {
-    Github: "https://github.com/hyoper/react-native-animated-modal"
+  favicon: 'preview.ico',
+
+  defaultCategory: 'Package',
+  entryPoints: ['src/index.ts'],
+  plugin: ['./typedoc-front-matter.mjs'],
+  projectDocuments: ['README.md'],
+  projectDetails: {
+    README: {
+      title: 'Home',
+      group: 'Documents',
+      category: 'Instructions',
+    },
   },
-  customCss: ['./typedoc.css']
+
+  navigationLinks: {
+    Github: 'https://github.com/hyoper/react-native-animated-modal',
+    Npm: 'https://www.npmjs.com/package/@hyoper/rn-animated-modal',
+  },
+
+  highlightLanguages: ['bash', 'typescript', 'json', 'json5'],
+  customCss: ['typedoc-custom.css'],
+  customJs: ['typedoc-custom.js'],
 };

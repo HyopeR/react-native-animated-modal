@@ -1,6 +1,12 @@
+/**
+ * @module Package
+ * @category Package
+ */
 export * from './components/Modal';
 export * from './components/Scrollable';
 export * from './components/ScrollableFlatList';
 export * from './components/ScrollableView';
 export * from './components/ScrollableSectionList';
+export * from './components/ScrollableFlashList';
+export * from './components/ScrollableLegendList';
 export {AnimationNs, SwipeNs, BackdropNs} from './types';

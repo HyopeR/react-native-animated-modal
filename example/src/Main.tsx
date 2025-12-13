@@ -8,6 +8,8 @@ import {
   FlatListPage,
   ScrollViewPage,
   SectionListPage,
+  FlashListPage,
+  LegendListPage,
   TextInputPage,
   BottomSheetPage,
   PageSection,
@@ -28,6 +30,8 @@ const Pages: PageSection[] = [
       {title: 'FlatList Playground', name: 'FlatList', section: 1},
       {title: 'ScrollView Playground', name: 'ScrollView', section: 1},
       {title: 'SectionList Playground', name: 'SectionList', section: 1},
+      {title: 'FlashList Playground', name: 'FlashList', section: 1},
+      {title: 'LegendList Playground', name: 'LegendList', section: 1},
     ],
   },
   {
@@ -56,6 +60,10 @@ export const Main = () => {
         return ScrollViewPage;
       case 'SectionList':
         return SectionListPage;
+      case 'FlashList':
+        return FlashListPage;
+      case 'LegendList':
+        return LegendListPage;
       case 'TextInput':
         return TextInputPage;
       case 'BottomSheet':

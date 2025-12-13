@@ -80,7 +80,7 @@ export type ScrollableChildrenProps = {
 export type ScrollableProps = {
   /**
    * Callback fired when the scrollable is ready.
-   * @default true
+   * @default 'vertical'
    */
   orientation?: ScrollableNs.Orientation;
   /**
@@ -129,6 +129,6 @@ export type ScrollablePartialProps = Pick<
   'onScroll' | 'onBeginDrag' | 'onEndDrag' | 'onMomentumBegin' | 'onMomentumEnd'
 >;
 
-/** @internal */
+/** @hidden */
 export type ScrollableStrictProps = ScrollableRequiredProps &
   ScrollablePartialProps;

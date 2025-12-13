@@ -4,7 +4,7 @@ import {SWIPE_ENABLED_CONFIG, SWIPE_DISABLED_CONFIG} from '../constants';
 import {SwipeNs} from '../types';
 
 /**
- * @internal
+ * @hidden
  * Returns a cached swipe config.
  * Applies enabled/disabled defaults and prevents re-renders if unchanged.
  */

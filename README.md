@@ -1,21 +1,22 @@
 # React Native Animated Modal
 
-<img src="./preview.gif" alt="Preview" width="80%" />
+<img src="./preview.gif" alt="Preview" width="100%" />
 
-A **highly customizable** React Native modal component. Perfect for mobile applications, this modal enhances user experience by combining fluid animations with gesture-friendly controls.
+## 🖼️ About - @hyoper/rn-animated-modal
 
-For full API documentation and usage examples, check out the [📖 DOCS](https://hyoper.github.io/react-native-animated-modal/).
+A **highly customizable** React Native modal component. Perfect for mobile applications, this modal enhances user experience by combining fluid animations with gesture-friendly controls. For full API documentation and usage examples, check out the [📖 API](https://hyoper.github.io/react-native-animated-modal/).
 
 ## ✨ Features
 - **Smooth animations** are provided with [Reanimated](https://docs.swmansion.com/react-native-reanimated/).
 - **Smooth gestures** are provided with [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/).
 - Interactive and customizable **backdrop**.
 - Synchronous pan gestures for **scrollable child** components.
+- Support for [**FlashList**](https://github.com/Shopify/flash-list) and [**LegendList**](https://github.com/LegendApp/legend-list) components.
 
 ---
 
 ## 🛠️️ Installation
-Install the package in your React Native project.
+1- Install the package in your React Native project. [🔗 NPM](https://www.npmjs.com/package/@hyoper/rn-animated-modal)
 
 ```bash
 npm install @hyoper/rn-animated-modal
@@ -23,6 +24,8 @@ npm install @hyoper/rn-animated-modal
 ```bash
 yarn add @hyoper/rn-animated-modal
 ````
+
+2- You must have completed the installation steps for the [Reanimated](https://docs.swmansion.com/react-native-reanimated/) and [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) packages.
 
 ## ⚙️ Requirements
 This package relies on specific versions of its **peer dependencies** to function correctly. Make sure your project meets the following requirements:
@@ -36,10 +39,16 @@ This package relies on specific versions of its **peer dependencies** to functio
 }
 ```
 
-## 🧩 Example
-A simple example of the component's usage is provided below. You can easily **customize it** to fit your project needs.
+The dependencies listed here are optional. You can use [**FlashList**](https://github.com/Shopify/flash-list) (ScrollableFlashList) or [**LegendList**](https://github.com/LegendApp/legend-list) (ScrollableLegendList) within the modal. Supported versions are as follows.
+```json
+{
+  "@legendapp/list": ">=2.0.0",
+  "@shopify/flash-list": ">=2.0.0"
+}
+```
 
-For more complete examples and real-world use cases, check out the [📂 EXAMPLE](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
+## 🧩 Example
+A simple example of the component's usage is provided below. You can easily **customize it** to fit your project needs. For more complete examples and real-world use cases, check out the [📂 EXAMPLE](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
 
 ```typescript jsx
 import React, {useState} from 'react';
@@ -107,10 +116,12 @@ const styles = StyleSheet.create({
 ## 📜 Scrollables
 Use **Scrollable components** to handle pan gestures **in parallel** for the Modal and its child components.
 
-- **Scrollable (Wrapper)** – [Show](https://hyoper.github.io/react-native-animated-modal/functions/Scrollable.html)
-- **ScrollableFlatList (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableFlatList.html)
-- **ScrollableSectionList (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableSectionList.html)
-- **ScrollableView (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/ScrollableView.html)
+- **Scrollable (Wrapper)** – [Show](https://hyoper.github.io/react-native-animated-modal/functions/Package.Scrollable.html)
+- **ScrollableFlatList (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/Package.ScrollableFlatList.html)
+- **ScrollableSectionList (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/Package.ScrollableSectionList.html)
+- **ScrollableView (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/Package.ScrollableView.html)
+- **ScrollableFlashList (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/Package.ScrollableFlashList.html)
+- **ScrollableLegendList (Child)** – [Show](https://hyoper.github.io/react-native-animated-modal/variables/Package.ScrollableLegendList.html)
 
 ```typescript jsx
 import React, {useState} from 'react';

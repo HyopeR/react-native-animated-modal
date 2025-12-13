@@ -1,7 +1,7 @@
 import {useCallback, useLayoutEffect, useRef} from 'react';
 
 /**
- * @internal
+ * @hidden
  * Returns a stable callback reference for inline functions.
  *
  * Prevents unnecessary re-renders by caching the function reference,
