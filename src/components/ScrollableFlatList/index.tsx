@@ -5,12 +5,10 @@ import {ScrollableFlatListNs} from './index.type';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-export type {ScrollableFlatListNs};
-
 /**
  * FlatList component in react-native wrapped with reanimated.
  */
-export const ScrollableFlatList = React.forwardRef(
+const ScrollableFlatList = React.forwardRef(
   <ItemT,>(props: FlatListProps<ItemT>, ref: React.Ref<FlatList<ItemT>>) => {
     // @ts-ignore
     return <AnimatedFlatList ref={ref} {...props} />;
@@ -18,3 +16,8 @@ export const ScrollableFlatList = React.forwardRef(
 ) as <ItemT>(
   props: FlatListProps<ItemT> & {ref?: React.Ref<FlatList<unknown>>},
 ) => React.ReactElement;
+
+// @ts-ignore
+ScrollableFlatList.gestureType = 'FlatList';
+export {ScrollableFlatList};
+export type {ScrollableFlatListNs};

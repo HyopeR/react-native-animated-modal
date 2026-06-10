@@ -1,5 +1,5 @@
 import React, {useMemo, useRef, useState} from 'react';
-import {Text, useWindowDimensions, View} from 'react-native';
+import {Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 import {
   Modal,
   Scrollable,
@@ -119,9 +119,11 @@ export const SectionListPage = ({back}: PageProps) => {
                     stickySectionHeadersEnabled={false}
                     keyExtractor={item => item.toString()}
                     renderItem={({item}) => (
-                      <View style={ListStyle.item}>
-                        <Text style={ListStyle.itemText}>Item: {item}</Text>
-                      </View>
+                      <TouchableOpacity onPress={() => console.log(item)}>
+                        <View style={ListStyle.item}>
+                          <Text style={ListStyle.itemText}>Item: {item}</Text>
+                        </View>
+                      </TouchableOpacity>
                     )}
                     renderSectionHeader={({section: {title}}) => (
                       <View style={ListStyle.section}>

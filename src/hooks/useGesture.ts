@@ -119,7 +119,7 @@ export const useGesture = ({
 
   return useMemo(() => {
     const gestureNative = Gesture.Native()
-      .shouldActivateOnStart(true)
+      .shouldActivateOnStart(false)
       .shouldCancelWhenOutside(false)
       .onTouchesDown(() => {
         'worklet';

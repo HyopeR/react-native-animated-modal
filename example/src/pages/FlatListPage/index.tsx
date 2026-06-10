@@ -1,5 +1,5 @@
 import React, {useMemo, useRef, useState} from 'react';
-import {Text, useWindowDimensions, View} from 'react-native';
+import {Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 import {
   Modal,
   Scrollable,
@@ -114,9 +114,11 @@ export const FlatListPage = ({back}: PageProps) => {
                     data={Array.from({length: 20}, (_, i) => i + 1)}
                     keyExtractor={item => item.toString()}
                     renderItem={({item}) => (
-                      <View style={ListStyle.item}>
-                        <Text style={ListStyle.itemText}>Item: {item}</Text>
-                      </View>
+                      <TouchableOpacity onPress={() => console.log(item)}>
+                        <View style={ListStyle.item}>
+                          <Text style={ListStyle.itemText}>Item: {item}</Text>
+                        </View>
+                      </TouchableOpacity>
                     )}
                   />
                 );

@@ -5,12 +5,10 @@ import {ScrollableSectionListNs} from './index.type';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
-export type {ScrollableSectionListNs};
-
 /**
  * SectionList component in react-native wrapped with reanimated.
  */
-export const ScrollableSectionList = React.forwardRef(
+const ScrollableSectionList = React.forwardRef(
   <ItemT, SectionT>(
     props: SectionListProps<ItemT, SectionT>,
     ref: React.Ref<SectionList<ItemT, SectionT>>,
@@ -23,3 +21,8 @@ export const ScrollableSectionList = React.forwardRef(
     ref?: React.Ref<SectionList<unknown, unknown>>;
   },
 ) => React.ReactElement;
+
+// @ts-ignore
+ScrollableSectionList.gestureType = 'SectionList';
+export {ScrollableSectionList};
+export type {ScrollableSectionListNs};
