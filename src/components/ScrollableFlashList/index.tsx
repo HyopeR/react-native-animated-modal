@@ -29,8 +29,11 @@ function ScrollableFlashListComponent<ItemT>(
   return <AnimatedFlashList ref={ref} {...props} />;
 }
 
-export const ScrollableFlashList = React.forwardRef(
+const ScrollableFlashList = React.forwardRef(
   ScrollableFlashListComponent,
 ) as typeof ScrollableFlashListComponent;
 
+// @ts-ignore
+ScrollableFlashList.gestureType = 'FlashList';
+export {ScrollableFlashList};
 export type {ScrollableFlashListNs};

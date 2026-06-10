@@ -1,5 +1,5 @@
 import React, {useMemo, useRef, useState} from 'react';
-import {Text, useWindowDimensions, View} from 'react-native';
+import {Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 import {
   Modal,
   Scrollable,
@@ -105,9 +105,11 @@ export const LegendListPage = ({back}: PageProps) => {
                     keyExtractor={item => item.toString()}
                     // @ts-ignore
                     renderItem={({item}) => (
-                      <View style={ListStyle.item}>
-                        <Text style={ListStyle.itemText}>Item: {item}</Text>
-                      </View>
+                      <TouchableOpacity onPress={() => console.log(item)}>
+                        <View style={ListStyle.item}>
+                          <Text style={ListStyle.itemText}>Item: {item}</Text>
+                        </View>
+                      </TouchableOpacity>
                     )}
                   />
                 );

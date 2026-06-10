@@ -125,7 +125,7 @@ Use **Scrollable components** to handle pan gestures **in parallel** for the Mod
 
 ```typescript jsx
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Modal, Scrollable, ScrollableFlatList} from '@hyoper/rn-animated-modal';
 
 const Example = () => {
@@ -155,9 +155,11 @@ const Example = () => {
                 data={Array.from({length: 20}, (_, i) => i + 1)}
                 keyExtractor={item => item.toString()}
                 renderItem={({item}) => (
-                  <View style={styles.item}>
-                    <Text style={styles.itemText}>Item: {item}</Text>
-                  </View>
+                  <TouchableOpacity onPress={() => console.log(item)}>
+                    <View style={styles.item}>
+                      <Text style={styles.itemText}>Item: {item}</Text>
+                    </View>
+                  </TouchableOpacity>
                 )}
               />
             );

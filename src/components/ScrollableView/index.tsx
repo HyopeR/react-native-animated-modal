@@ -5,12 +5,10 @@ import {ScrollableViewNs} from './index.type';
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 
-export type {ScrollableViewNs};
-
 /**
  * ScrollView component in react-native wrapped with reanimated.
  */
-export const ScrollableView = React.forwardRef(
+const ScrollableView = React.forwardRef(
   (props: ScrollViewProps, ref: React.Ref<ScrollView>) => {
     // @ts-ignore
     return <AnimatedScrollView ref={ref} {...props} />;
@@ -18,3 +16,8 @@ export const ScrollableView = React.forwardRef(
 ) as (
   props: ScrollViewProps & {ref?: React.Ref<ScrollView>},
 ) => React.ReactElement;
+
+// @ts-ignore
+ScrollableView.gestureType = 'ScrollView';
+export {ScrollableView};
+export type {ScrollableViewNs};

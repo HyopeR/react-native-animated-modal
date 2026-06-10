@@ -9,4 +9,4 @@ export * from './components/ScrollableView';
 export * from './components/ScrollableSectionList';
 export * from './components/ScrollableFlashList';
 export * from './components/ScrollableLegendList';
-export {AnimationNs, SwipeNs, BackdropNs} from './types';
+export type {AnimationNs, SwipeNs, BackdropNs} from './types';

@@ -28,8 +28,11 @@ function ScrollableLegendListComponent<ItemT>(
   return <AnimatedLegendList ref={ref} {...props} />;
 }
 
-export const ScrollableLegendList = React.forwardRef(
+const ScrollableLegendList = React.forwardRef(
   ScrollableLegendListComponent,
 ) as typeof ScrollableLegendListComponent;
 
+// @ts-ignore
+ScrollableLegendList.gestureType = 'LegendList';
+export {ScrollableLegendList};
 export type {ScrollableLegendListNs};

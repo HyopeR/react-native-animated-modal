@@ -109,7 +109,13 @@ export const Scrollable = (props: ScrollableProps) => {
     scrollEnabled,
   ]);
 
-  return (
-    <GestureDetector gesture={native}>{children(options)}</GestureDetector>
-  );
+  const node = children(options);
+  const nodeGestureType = (node as any)?.type?.gestureType;
+  const gesture = useMemo(() => {
+    const shouldActiveOnStart = nodeGestureType === 'FlashList';
+    native.shouldActivateOnStart(shouldActiveOnStart);
+    return native;
+  }, [native, nodeGestureType]);
+
+  return <GestureDetector gesture={gesture}>{node}</GestureDetector>;
 };
