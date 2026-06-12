@@ -1,7 +1,7 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Platform} from 'react-native';
 import {runOnJS, useAnimatedReaction} from 'react-native-reanimated';
-import {GestureDetector} from 'react-native-gesture-handler';
+import {GestureDetector, ScrollView} from 'react-native-gesture-handler';
 import {useShareContext} from '../../context';
 import {getSafeProps} from '../../utils';
 import {useEvent} from '../../hooks';
@@ -43,8 +43,14 @@ export const Scrollable = (props: ScrollableProps) => {
     onMomentumEnd,
   } = safeProps;
 
-  const {native, scroll, scrollInteraction, scrollLock, scrollOrientation} =
-    useShareContext();
+  const {
+    native,
+    panRef,
+    scroll,
+    scrollInteraction,
+    scrollLock,
+    scrollOrientation,
+  } = useShareContext();
 
   const scrollLayout = useRef({width: 0, height: 0});
   const [scrollEnabled, setScrollEnabled] = useState(true);
@@ -88,6 +94,15 @@ export const Scrollable = (props: ScrollableProps) => {
     onMomentumEnd: onMomentumEndEvent,
   });
 
+  const renderScrollComponent = useCallback<
+    ScrollableChildrenProps['renderScrollComponent']
+  >(
+    rest => {
+      return <ScrollView {...rest} simultaneousHandlers={panRef} />;
+    },
+    [panRef],
+  );
+
   const options = useMemo<ScrollableChildrenProps>(() => {
     return {
       horizontal: orientation === 'horizontal',
@@ -100,6 +115,7 @@ export const Scrollable = (props: ScrollableProps) => {
       onLayout: onLayout,
       onContentSizeChange: onContentSizeChange,
       onScroll: onScrollHandler,
+      renderScrollComponent: renderScrollComponent,
     };
   }, [
     inverted,
@@ -108,6 +124,7 @@ export const Scrollable = (props: ScrollableProps) => {
     onLayout,
     onScrollHandler,
     scrollEnabled,
+    renderScrollComponent,
   ]);
 
   const node = children(options);

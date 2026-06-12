@@ -143,7 +143,7 @@ export const Modal = (props: ModalProps) => {
     events: eventsAnimation,
   });
 
-  const {native, pan} = useGesture({
+  const {nativeRef, panRef, native, pan} = useGesture({
     animation: config.animation,
     swipe: config.swipe,
     status: values.status,
@@ -159,8 +159,8 @@ export const Modal = (props: ModalProps) => {
   });
 
   const share = useMemo(
-    () => ({...values, native, pan}),
-    [values, native, pan],
+    () => ({...values, nativeRef, panRef, native, pan}),
+    [values, nativeRef, panRef, native, pan],
   );
 
   // Reset animation values when modal becomes visible.

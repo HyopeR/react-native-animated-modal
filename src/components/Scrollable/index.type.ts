@@ -1,8 +1,9 @@
-import {ReactNode} from 'react';
+import React from 'react';
 import {
   LayoutChangeEvent,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  ScrollViewProps,
 } from 'react-native';
 import {ScrollHandlerProcessed} from 'react-native-reanimated';
 
@@ -71,6 +72,13 @@ export type ScrollableChildrenProps = {
    * Callback that listens for the scroll events of the child component on the UI thread.
    */
   onScroll: ScrollHandlerProcessed;
+  /**
+   * Scroll control management with GestureHandler.
+   */
+  renderScrollComponent:
+    | React.ComponentType<ScrollViewProps>
+    | React.ExoticComponent<ScrollViewProps>
+    | React.FC<ScrollViewProps>;
 };
 
 /**
@@ -111,7 +119,7 @@ export type ScrollableProps = {
   /**
    * Scrollable function children.
    */
-  children?: (options: ScrollableChildrenProps) => ReactNode;
+  children?: (options: ScrollableChildrenProps) => React.ReactNode;
 };
 
 /**
