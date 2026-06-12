@@ -75,10 +75,7 @@ export type ScrollableChildrenProps = {
   /**
    * Scroll control management with GestureHandler.
    */
-  renderScrollComponent:
-    | React.ComponentType<ScrollViewProps>
-    | React.ExoticComponent<ScrollViewProps>
-    | React.FC<ScrollViewProps>;
+  renderScrollComponent: (props: ScrollViewProps) => React.JSX.Element;
 };
 
 /**

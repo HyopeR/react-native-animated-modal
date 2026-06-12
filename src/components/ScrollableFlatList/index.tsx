@@ -17,7 +17,5 @@ const ScrollableFlatList = React.forwardRef(
   props: FlatListProps<ItemT> & {ref?: React.Ref<FlatList<unknown>>},
 ) => React.ReactElement;
 
-// @ts-ignore
-ScrollableFlatList.gestureType = 'FlatList';
 export {ScrollableFlatList};
 export type {ScrollableFlatListNs};

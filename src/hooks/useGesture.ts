@@ -127,7 +127,6 @@ export const useGesture = ({
 
     const gestureNative = Gesture.Native()
       .withRef(gestureNativeRef)
-      .shouldActivateOnStart(false)
       .shouldCancelWhenOutside(false)
       .onTouchesDown(() => {
         'worklet';

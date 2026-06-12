@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {Platform} from 'react-native';
 import {runOnJS, useAnimatedReaction} from 'react-native-reanimated';
 import {GestureDetector, ScrollView} from 'react-native-gesture-handler';
 import {useShareContext} from '../../context';
@@ -127,16 +126,7 @@ export const Scrollable = (props: ScrollableProps) => {
     renderScrollComponent,
   ]);
 
-  const node = children(options);
-  const nodeGestureType = (node as any)?.type?.gestureType;
-  const gesture = useMemo(() => {
-    if (Platform.OS === 'android') {
-      const shouldActiveOnStart = nodeGestureType === 'FlashList';
-      native.shouldActivateOnStart(shouldActiveOnStart);
-      return native;
-    }
-    return native;
-  }, [native, nodeGestureType]);
-
-  return <GestureDetector gesture={gesture}>{node}</GestureDetector>;
+  return (
+    <GestureDetector gesture={native}>{children(options)}</GestureDetector>
+  );
 };
