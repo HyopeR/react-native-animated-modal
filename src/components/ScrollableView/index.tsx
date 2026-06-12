@@ -17,7 +17,5 @@ const ScrollableView = React.forwardRef(
   props: ScrollViewProps & {ref?: React.Ref<ScrollView>},
 ) => React.ReactElement;
 
-// @ts-ignore
-ScrollableView.gestureType = 'ScrollView';
 export {ScrollableView};
 export type {ScrollableViewNs};

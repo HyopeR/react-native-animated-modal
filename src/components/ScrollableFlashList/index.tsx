@@ -33,7 +33,5 @@ const ScrollableFlashList = React.forwardRef(
   ScrollableFlashListComponent,
 ) as typeof ScrollableFlashListComponent;
 
-// @ts-ignore
-ScrollableFlashList.gestureType = 'FlashList';
 export {ScrollableFlashList};
 export type {ScrollableFlashListNs};

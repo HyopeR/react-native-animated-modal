@@ -96,6 +96,12 @@ export const ScrollViewPage = ({back}: PageProps) => {
               {options => {
                 return (
                   <ScrollableView ref={ref} {...options}>
+                    <Text
+                      style={{marginBottom: 10, color: 'blue'}}
+                      onPress={() => console.log('1')}>
+                      Click Me (1)
+                    </Text>
+
                     <Text style={{marginBottom: 10}}>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                       Donec non placerat velit. Proin feugiat luctus tellus,
@@ -106,6 +112,12 @@ export const ScrollViewPage = ({back}: PageProps) => {
                       Nulla vehicula risus sem, finibus mollis diam laoreet et.
                     </Text>
 
+                    <Text
+                      style={{marginBottom: 10, color: 'blue'}}
+                      onPress={() => console.log('2')}>
+                      Click Me (2)
+                    </Text>
+
                     <Text style={{marginBottom: 10}}>
                       Donec tincidunt augue enim, id consequat ligula mattis eu.
                       Donec ut tortor et lacus condimentum blandit. Curabitur
@@ -113,6 +125,12 @@ export const ScrollViewPage = ({back}: PageProps) => {
                       pulvinar. Praesent non quam sit amet orci condimentum
                       aliquam et nec ligula. Cras at est tortor. In cursus
                       varius nulla sit amet dictum.
+                    </Text>
+
+                    <Text
+                      style={{marginBottom: 10, color: 'blue'}}
+                      onPress={() => console.log('3')}>
+                      Click Me (3)
                     </Text>
 
                     <Text style={{marginBottom: 10}}>

@@ -22,7 +22,5 @@ const ScrollableSectionList = React.forwardRef(
   },
 ) => React.ReactElement;
 
-// @ts-ignore
-ScrollableSectionList.gestureType = 'SectionList';
 export {ScrollableSectionList};
 export type {ScrollableSectionListNs};
