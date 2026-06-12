@@ -3,14 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useWindowDimensions,
   View,
 } from 'react-native';
-import {
-  Modal,
-  Scrollable,
-  ScrollableFlatList,
-} from '@hyoper/rn-animated-modal';
+import {Modal, Scrollable, ScrollableFlatList} from '@hyoper/rn-animated-modal';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Screen} from '../../commons/Screen';
 import {Button} from '../../commons/Button';
@@ -80,9 +77,11 @@ export const BottomSheetPage = ({back}: PageProps) => {
                     data={Array.from({length: 20}, (_, i) => i + 1)}
                     keyExtractor={item => item.toString()}
                     renderItem={({item}) => (
-                      <View style={ListStyle.item}>
-                        <Text style={ListStyle.itemText}>Item: {item}</Text>
-                      </View>
+                      <TouchableOpacity onPress={() => console.log(item)}>
+                        <View style={ListStyle.item}>
+                          <Text style={ListStyle.itemText}>Item: {item}</Text>
+                        </View>
+                      </TouchableOpacity>
                     )}
                   />
                 );
