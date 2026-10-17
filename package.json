@@ -33,7 +33,7 @@
   "scripts": {
     "prepare": "bob build",
     "test:ts": "tsc --noEmit",
-    "test:lint": "eslint .",
+    "test:lint": "eslint --ext ts,tsx src/",
     "build": "bob build",
     "build:clean": "del-cli lib",
     "docs": "typedoc",
