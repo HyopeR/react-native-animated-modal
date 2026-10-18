@@ -30,14 +30,13 @@ yarn add @hyoper/rn-animated-modal
 ## ⚙️ Requirements
 This package relies on specific versions of its **peer dependencies** to function correctly. Make sure your project meets the following requirements:
 
-```json
-{
-  "react": ">=18.2.0",
-  "react-native": ">=0.78.0",
-  "react-native-gesture-handler": ">=2.26.0",
-  "react-native-reanimated": ">=3.19.0"
-}
-```
+| Package | Supported version |
+|---|---|
+| `react` | `>=18.2.0` |
+| `react-native` | `>=0.78.0` |
+| `react-native-reanimated` | `>=3.19.0 <4.0.0` |
+| `react-native-gesture-handler` | `>=2.26.0 <3.0.0` |
+| `react-native-worklets` | ❌ Must **not** be installed (Reanimated 3 does not work with it) |
 
 The dependencies listed here are optional. You can use [**FlashList**](https://github.com/Shopify/flash-list) (ScrollableFlashList) or [**LegendList**](https://github.com/LegendApp/legend-list) (ScrollableLegendList) within the modal. Supported versions are as follows.
 ```json
