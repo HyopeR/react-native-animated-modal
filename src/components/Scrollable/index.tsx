@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {runOnJS, useAnimatedReaction} from 'react-native-reanimated';
-import {GestureDetector, ScrollView} from 'react-native-gesture-handler';
 import {useShareContext} from '../../context';
 import {getSafeProps} from '../../utils';
 import {useEvent} from '../../hooks';
 import {useLayout, useContentSizeChange, useScroll} from './hooks';
+import {ScrollComponent} from './ScrollComponent';
 import {
   ScrollableChildrenProps,
   ScrollableProps,
@@ -42,14 +42,8 @@ export const Scrollable = (props: ScrollableProps) => {
     onMomentumEnd,
   } = safeProps;
 
-  const {
-    native,
-    panRef,
-    scroll,
-    scrollInteraction,
-    scrollLock,
-    scrollOrientation,
-  } = useShareContext();
+  const {native, scroll, scrollInteraction, scrollLock, scrollOrientation} =
+    useShareContext();
 
   const scrollLayout = useRef({width: 0, height: 0});
   const [scrollEnabled, setScrollEnabled] = useState(true);
@@ -97,9 +91,9 @@ export const Scrollable = (props: ScrollableProps) => {
     ScrollableChildrenProps['renderScrollComponent']
   >(
     rest => {
-      return <ScrollView {...rest} simultaneousHandlers={panRef} />;
+      return <ScrollComponent {...rest} gesture={native} />;
     },
-    [panRef],
+    [native],
   );
 
   const options = useMemo<ScrollableChildrenProps>(() => {
@@ -126,7 +120,5 @@ export const Scrollable = (props: ScrollableProps) => {
     renderScrollComponent,
   ]);
 
-  return (
-    <GestureDetector gesture={native}>{children(options)}</GestureDetector>
-  );
+  return <>{children(options)}</>;
 };
