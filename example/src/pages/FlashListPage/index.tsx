@@ -8,8 +8,8 @@ import {
   ScrollableNs,
   SwipeNs,
 } from '@hyoper/rn-animated-modal';
-import {Screen} from '../../commons/Screen';
-import {Button} from '../../commons/Button';
+import {Button, Screen} from '../../components/commons';
+import {RefAction} from '../../components/specifics';
 import {ModalStyle, PageStyle, ListStyle} from '../styles';
 import {PageProps} from '../types';
 import {Configuration} from './Configuration';
@@ -73,7 +73,7 @@ export const FlashListPage = ({back}: PageProps) => {
         <View
           style={{
             ...ModalStyle.root,
-            height: landscape ? height * 0.9 : height * 0.55,
+            height: landscape ? height * 0.9 : height * 0.65,
           }}>
           <View style={ModalStyle.body}>
             <Text style={ModalStyle.title}>FlashList Example</Text>
@@ -83,6 +83,16 @@ export const FlashListPage = ({back}: PageProps) => {
                 of the modal.
               </Text>
             )}
+
+            {/* Reference test buttons. */}
+            <RefAction
+              target={ref}
+              actions={[
+                {title: 'Start', run: r => r.scrollToIndex({index: 0})},
+                {title: 'Index 10', run: r => r.scrollToIndex({index: 9})},
+                {title: 'End', run: r => r.scrollToEnd()},
+              ]}
+            />
 
             <Scrollable
               // Determine the orientation of the list.

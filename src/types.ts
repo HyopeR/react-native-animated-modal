@@ -146,7 +146,9 @@ export namespace SwipeNs {
      */
     distance: number;
     /**
-     * Velocity threshold to trigger swipe.
+     * Velocity threshold (px/s) to trigger swipe.
+     * A fast fling in an allowed direction triggers the swipe
+     * even if the distance threshold has not been reached.
      * @default 800
      */
     velocity: number;

@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Card} from './commons/Card';
+import {Card} from './components/commons';
 import {PageItem, PageSection} from './pages';
 
 export type ListProps = {
