@@ -1,11 +1,11 @@
-import React, {useCallback, useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import {
   runOnJS,
   SharedValue,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {Gesture, GestureType} from 'react-native-gesture-handler';
+import {Gesture} from 'react-native-gesture-handler';
 import {SWIPE_LOCK_THRESHOLD} from '../constants';
 import {
   AnimationNs,
@@ -118,15 +118,7 @@ export const useGesture = ({
   );
 
   return useMemo(() => {
-    const gestureNativeRef = React.createRef() as React.RefObject<
-      GestureType | undefined
-    >;
-    const gesturePanRef = React.createRef() as React.RefObject<
-      GestureType | undefined
-    >;
-
     const gestureNative = Gesture.Native()
-      .withRef(gestureNativeRef)
       .shouldCancelWhenOutside(false)
       .onTouchesDown(() => {
         'worklet';
@@ -139,7 +131,6 @@ export const useGesture = ({
 
     const gesturePan = Gesture.Pan()
       .enabled(enabled)
-      .withRef(gesturePanRef)
       .simultaneousWithExternalGesture(gestureNative)
       .shouldCancelWhenOutside(false)
       .onStart(() => {
@@ -334,8 +325,6 @@ export const useGesture = ({
       });
 
     return {
-      nativeRef: gestureNativeRef,
-      panRef: gesturePanRef,
       native: gestureNative,
       pan: gesturePan,
     };

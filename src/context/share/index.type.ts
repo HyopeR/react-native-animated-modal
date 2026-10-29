@@ -1,10 +1,6 @@
 import React from 'react';
 import {SharedValue} from 'react-native-reanimated';
-import {
-  GestureType,
-  NativeGesture,
-  PanGesture,
-} from 'react-native-gesture-handler';
+import {NativeGesture, PanGesture} from 'react-native-gesture-handler';
 import {Offset, Scroll, ScrollOrientation, Size, Status} from '../../types';
 
 export type ShareContextState = {
@@ -24,8 +20,6 @@ export type ShareContextState = {
   scrollOrientation: SharedValue<ScrollOrientation>;
 
   // Children management gestures.
-  nativeRef: React.RefObject<GestureType | undefined>;
-  panRef: React.RefObject<GestureType | undefined>;
   native: NativeGesture;
   pan: PanGesture;
 };
