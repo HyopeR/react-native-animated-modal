@@ -270,7 +270,7 @@ export const useGesture = ({
             break;
         }
       })
-      .onEnd(() => {
+      .onEnd(e => {
         'worklet';
         if (status.value !== 'idle') return;
         if (!axisLock.value || !directionLock.value) return;
@@ -290,17 +290,27 @@ export const useGesture = ({
         let toX = 0;
         let toY = 0;
 
+        // Dismiss when the distance threshold is exceeded, or when the modal has
+        // moved in the swipe direction and was released with enough velocity.
         if (directionLock.value === 'up') {
-          dismiss = translateY.value < -swipe.distance;
+          dismiss =
+            translateY.value < -swipe.distance ||
+            (translateY.value < 0 && e.velocityY < -swipe.velocity);
           toY = dismiss ? -size.value.height : 0;
         } else if (directionLock.value === 'down') {
-          dismiss = translateY.value > swipe.distance;
+          dismiss =
+            translateY.value > swipe.distance ||
+            (translateY.value > 0 && e.velocityY > swipe.velocity);
           toY = dismiss ? size.value.height : 0;
         } else if (directionLock.value === 'left') {
-          dismiss = translateX.value < -swipe.distance;
+          dismiss =
+            translateX.value < -swipe.distance ||
+            (translateX.value < 0 && e.velocityX < -swipe.velocity);
           toX = dismiss ? -size.value.width : 0;
         } else if (directionLock.value === 'right') {
-          dismiss = translateX.value > swipe.distance;
+          dismiss =
+            translateX.value > swipe.distance ||
+            (translateX.value > 0 && e.velocityX > swipe.velocity);
           toX = dismiss ? size.value.width : 0;
         }
 
@@ -348,6 +358,7 @@ export const useGesture = ({
     swipe.closable,
     swipe.directions,
     swipe.distance,
+    swipe.velocity,
     translateX,
     translateY,
   ]);
