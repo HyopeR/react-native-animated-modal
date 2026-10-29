@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View} from 'react-native';
 import {Modal, SwipeNs} from '@hyoper/rn-animated-modal';
-import {Screen} from '../../commons/Screen';
-import {Button} from '../../commons/Button';
+import {Button, Screen} from '../../components/commons';
 import {ModalStyle, PageStyle} from '../styles';
 import {PageProps} from '../types';
 import {Configuration} from './Configuration';

@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 import {Modal, Scrollable, ScrollableFlatList} from '@hyoper/rn-animated-modal';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Screen} from '../../commons/Screen';
-import {Button} from '../../commons/Button';
+import {Button, Screen} from '../../components/commons';
 import {ListStyle, ModalStyle, PageStyle} from '../styles';
 import {PageProps} from '../types';
 
