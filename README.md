@@ -30,22 +30,20 @@ yarn add @hyoper/rn-animated-modal
 ## ⚙️ Requirements
 This package relies on specific versions of its **peer dependencies** to function correctly. Make sure your project meets the following requirements:
 
-```json
-{
-  "react": ">=18.2.0",
-  "react-native": ">=0.78.0",
-  "react-native-gesture-handler": ">=2.26.0",
-  "react-native-reanimated": ">=3.19.0"
-}
-```
+| Package | Supported version |
+|---|---|
+| `react` | `>=18.2.0` |
+| `react-native` | `>=0.78.0` |
+| `react-native-reanimated` | `^3.19.0` |
+| `react-native-gesture-handler` | `^2.26.0` |
+| `react-native-worklets` | Not to be used. |
 
 The dependencies listed here are optional. You can use [**FlashList**](https://github.com/Shopify/flash-list) (ScrollableFlashList) or [**LegendList**](https://github.com/LegendApp/legend-list) (ScrollableLegendList) within the modal. Supported versions are as follows.
-```json
-{
-  "@legendapp/list": ">=2.0.0",
-  "@shopify/flash-list": ">=2.0.1"
-}
-```
+
+| Package | Supported version |
+|---|---|
+| `@legendapp/list` | `>=2.0.0` |
+| `@shopify/flash-list` | `>=2.0.1` |
 
 ## 🧩 Example
 A simple example of the component's usage is provided below. You can easily **customize it** to fit your project needs. For more complete examples and real-world use cases, check out the [📂 EXAMPLE](https://github.com/HyopeR/react-native-animated-modal/tree/master/example).
