@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {Screen} from '../../commons/Screen';
+import {Screen} from '../../components/commons';
 import {PageStyle} from '../styles';
 import {PageProps} from '../types';
 

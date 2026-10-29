@@ -8,8 +8,8 @@ import {
   ScrollableViewNs,
   SwipeNs,
 } from '@hyoper/rn-animated-modal';
-import {Screen} from '../../commons/Screen';
-import {Button} from '../../commons/Button';
+import {Button, Screen} from '../../components/commons';
+import {RefAction} from '../../components/specifics';
 import {ModalStyle, PageStyle} from '../styles';
 import {PageProps} from '../types';
 import {Configuration} from './Configuration';
@@ -73,7 +73,7 @@ export const ScrollViewPage = ({back}: PageProps) => {
         <View
           style={{
             ...ModalStyle.root,
-            height: landscape ? height * 0.9 : height * 0.55,
+            height: landscape ? height * 0.9 : height * 0.65,
           }}>
           <View style={ModalStyle.body}>
             <Text style={ModalStyle.title}>ScrollView Example</Text>
@@ -83,6 +83,15 @@ export const ScrollViewPage = ({back}: PageProps) => {
                 of the modal.
               </Text>
             )}
+
+            {/* Reference test buttons. */}
+            <RefAction
+              target={ref}
+              actions={[
+                {title: 'Start', run: r => r.scrollTo({x: 0, y: 0})},
+                {title: 'End', run: r => r.scrollToEnd()},
+              ]}
+            />
 
             <Scrollable
               // Determine the orientation of the list.
