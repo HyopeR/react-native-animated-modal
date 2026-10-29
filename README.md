@@ -34,8 +34,8 @@ This package relies on specific versions of its **peer dependencies** to functio
 |---|---|
 | `react` | `>=18.2.0` |
 | `react-native` | `>=0.78.0` |
-| `react-native-reanimated` | `^3.19.0` |
-| `react-native-gesture-handler` | `^2.26.0` |
+| `react-native-reanimated` | `>=3.19.0` |
+| `react-native-gesture-handler` | `>=2.26.0` |
 | `react-native-worklets` | Not to be used. |
 
 The dependencies listed here are optional. You can use [**FlashList**](https://github.com/Shopify/flash-list) (ScrollableFlashList) or [**LegendList**](https://github.com/LegendApp/legend-list) (ScrollableLegendList) within the modal. Supported versions are as follows.
