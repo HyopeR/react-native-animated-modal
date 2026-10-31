@@ -1,12 +1,7 @@
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser',
-  extends: [
-    '@react-native',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-  ],
-  plugins: ['prettier', '@typescript-eslint'],
+  extends: ['@react-native', 'plugin:prettier/recommended'],
+  plugins: ['prettier'],
   ignorePatterns: ['lib', 'docs'],
   rules: {
     curly: ['error', 'multi-line'],
