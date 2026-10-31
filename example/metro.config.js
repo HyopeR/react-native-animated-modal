@@ -1,25 +1,22 @@
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
-const {
-  wrapWithReanimatedMetroConfig,
-} = require('react-native-reanimated/metro-config');
 
 const path = require('path');
 const pack = require('../package.json');
 const escape = require('escape-string-regexp');
-const exclusionList = require('metro-config/src/defaults/exclusionList');
 
-const projectRoot = __dirname;
+const exampleRoot = __dirname;
+const exampleNodeModules = path.join(exampleRoot, 'node_modules');
+
 const libraryRoot = path.resolve(__dirname, '..');
+const libraryNodeModules = path.join(libraryRoot, 'node_modules');
 
 const modulesPeer = Object.keys({...pack.peerDependencies});
 const modulesBlackList = modulesPeer.map(m => {
-  return new RegExp(
-    `^${escape(path.join(libraryRoot, 'node_modules', m))}\\/.*$`,
-  );
+  return new RegExp(`^${escape(path.join(libraryNodeModules, m))}[\\\\/]`);
 });
 const modules = modulesPeer.reduce(
   (prev, current) => {
-    prev[current] = path.join(__dirname, 'node_modules', current);
+    prev[current] = path.join(exampleNodeModules, current);
     return prev;
   },
   {[pack.name]: libraryRoot},
@@ -31,17 +28,14 @@ const modules = modulesPeer.reduce(
  *
  * @type {import('@react-native/metro-config').MetroConfig}
  */
+const configDefault = getDefaultConfig(exampleRoot);
 const config = {
-  projectRoot: projectRoot,
+  projectRoot: exampleRoot,
   watchFolders: [libraryRoot],
   resolver: {
-    disableHierarchicalLookup: false,
-    nodeModulesPaths: [path.resolve(projectRoot, 'node_modules')],
-    blacklistRE: exclusionList(modulesBlackList),
+    blockList: modulesBlackList,
     extraNodeModules: modules,
   },
 };
-const configDefault = getDefaultConfig(__dirname);
-const configMerge = mergeConfig(configDefault, config);
 
-module.exports = wrapWithReanimatedMetroConfig(configMerge);
+module.exports = mergeConfig(configDefault, config);
