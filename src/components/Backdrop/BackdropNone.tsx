@@ -8,5 +8,11 @@ export const BackdropNone = (props: BackdropPrivateStrictProps) => {
 };
 
 const styles = StyleSheet.create({
-  absolute: StyleSheet.absoluteFillObject,
+  absolute: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
 });
